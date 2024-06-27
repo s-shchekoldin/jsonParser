@@ -1,0 +1,84 @@
+===Test1 - full request:===
+pushDepth(1): 
+gotKV: squadName->Super hero squad
+gotKV: homeTown->Metro City
+gotKV: formed->2016
+gotKV: secretBase->Super tower
+gotKV: active->true
+pushDepth(2): members
+pushDepth(3): 
+gotKV: name->Molecule Man
+gotKV: age->29
+gotKV: secretIdentity->Dan Jukes
+pushDepth(4): powers
+gotVal(4): Radiation resistance
+gotVal(4): Turning tiny
+gotVal(4): Radiation blast
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV: name->Madame Uppercut
+gotKV: age->39
+gotKV: secretIdentity->Jane Wilson
+pushDepth(4): powers
+gotVal(4): Million tonne punch
+gotVal(4): Damage resistance
+gotVal(4): Superhuman reflexes
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV: name->Eternal Flame
+gotKV: age->1000000
+gotKV: secretIdentity->Unknown
+pushDepth(4): powers
+gotVal(4): Immortality
+gotVal(4): Heat Immunity
+gotVal(4): Inferno
+gotVal(4): Teleportation
+gotVal(4): Interdimensional travel
+popDepth(3)
+popDepth(2)
+popDepth(1)
+popDepth(0)
+===Test2 - data fragmentation 1 byte===
+pushDepth(1): 
+gotKV: squadName->Super hero squad
+gotKV: homeTown->Metro City
+gotKV: formed->2016
+gotKV: secretBase->Super tower
+gotKV: active->true
+pushDepth(2): members
+pushDepth(3): 
+gotKV: name->Molecule Man
+gotKV: age->29
+gotKV: secretIdentity->Dan Jukes
+pushDepth(4): powers
+gotVal(4): Radiation resistance
+gotVal(4): Turning tiny
+gotVal(4): Radiation blast
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV: name->Madame Uppercut
+gotKV: age->39
+gotKV: secretIdentity->Jane Wilson
+pushDepth(4): powers
+gotVal(4): Million tonne punch
+gotVal(4): Damage resistance
+gotVal(4): Superhuman reflexes
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV: name->Eternal Flame
+gotKV: age->1000000
+gotKV: secretIdentity->Unknown
+pushDepth(4): powers
+gotVal(4): Immortality
+gotVal(4): Heat Immunity
+gotVal(4): Inferno
+gotVal(4): Teleportation
+gotVal(4): Interdimensional travel
+popDepth(3)
+popDepth(2)
+popDepth(1)
+popDepth(0)
