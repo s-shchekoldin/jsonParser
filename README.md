@@ -3,3 +3,5 @@ The code (json.h and json.cc) was automatically generated using vProto at https:
 The application demonstrates the operation of both: full string and any byte-level data fragmentation.
 
 The application uses input test data from 'input.txt' and outputs the result to the file 'output.txt'.
+
+![](json.png)
