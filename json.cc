@@ -198,13 +198,13 @@ inline bool json::range_2_0(state_t & state)
             continue;
         }
         state.data += exitCount;
-        state.eatSymCount += unsigned(state.data - beginData);
-        state.node = (state.eatSymCount >= 1) ? node_t::LOOP_1_1 : node_t::NO_STATE;
+        state.consumed += unsigned(state.data - beginData);
+        state.node = (state.consumed >= 1) ? node_t::LOOP_1_1 : node_t::NO_STATE;
         bool ret = (state.node == node_t::LOOP_1_1);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     state.node = node_t::RANGE_2_0;
     return true;
 }
@@ -235,10 +235,10 @@ inline bool json::range_3_0(state_t & state)
             if (exitSym[uint8_t(state.data[i])])
             {
                 state.data += i;
-                state.eatSymCount += i;
-                state.node = (state.eatSymCount >= 1) ? node_t::FUNC_3_1 : node_t::NO_STATE;
+                state.consumed += i;
+                state.node = (state.consumed >= 1) ? node_t::FUNC_3_1 : node_t::NO_STATE;
                 bool ret = (state.node == node_t::FUNC_3_1);
-                state.eatSymCount = 0;
+                state.consumed = 0;
                 return ret;
             }
         state.data += stateDataCount;
@@ -306,10 +306,10 @@ inline bool json::range_4_0(state_t & state)
             if (exitSym[uint8_t(state.data[i])])
             {
                 state.data += i;
-                state.eatSymCount += i;
-                state.node = (state.eatSymCount >= 1) ? node_t::FUNC_4_1 : node_t::NO_STATE;
+                state.consumed += i;
+                state.node = (state.consumed >= 1) ? node_t::FUNC_4_1 : node_t::NO_STATE;
                 bool ret = (state.node == node_t::FUNC_4_1);
-                state.eatSymCount = 0;
+                state.consumed = 0;
                 return ret;
             }
         state.data += stateDataCount;
@@ -345,15 +345,15 @@ inline bool json::text_5_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::GOTO_5_1;
             return true;
         }
@@ -432,7 +432,7 @@ inline bool json::string_8_0(state_t & state)
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}; // ^[0x22]
-    bool isFirstData = !state.eatSymCount;
+    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end)
     {
@@ -468,13 +468,13 @@ inline bool json::string_8_0(state_t & state)
         }
         state.data += exitCount;
         _string_8_0(beginData, unsigned(state.data - beginData), isFirstData);
-        state.eatSymCount += unsigned(state.data - beginData);
-        state.node = (state.eatSymCount >= 1) ? node_t::RANGE_8_1 : node_t::NO_STATE;
+        state.consumed += unsigned(state.data - beginData);
+        state.node = (state.consumed >= 1) ? node_t::RANGE_8_1 : node_t::NO_STATE;
         bool ret = (state.node == node_t::RANGE_8_1);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
         _string_8_0(beginData, unsigned(state.data - beginData), isFirstData);
     state.node = node_t::STRING_8_0;
@@ -507,10 +507,10 @@ inline bool json::range_8_1(state_t & state)
             if (exitSym[uint8_t(state.data[i])])
             {
                 state.data += i;
-                state.eatSymCount += i;
-                state.node = (state.eatSymCount >= 1) ? node_t::RANGE_8_2 : node_t::NO_STATE;
+                state.consumed += i;
+                state.node = (state.consumed >= 1) ? node_t::RANGE_8_2 : node_t::NO_STATE;
                 bool ret = (state.node == node_t::RANGE_8_2);
-                state.eatSymCount = 0;
+                state.consumed = 0;
                 return ret;
             }
         state.data += stateDataCount;
@@ -576,10 +576,10 @@ inline bool json::range_8_2(state_t & state)
         state.data += exitCount;
         state.node = node_t::CASES_8_3;
         bool ret = (state.node == node_t::CASES_8_3);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     state.node = node_t::RANGE_8_2;
     return true;
 }
@@ -605,15 +605,15 @@ inline bool json::text_9_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::FUNC_17_0;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::RANGE_9_1;
             return true;
         }
@@ -677,10 +677,10 @@ inline bool json::range_9_1(state_t & state)
         state.data += exitCount;
         state.node = node_t::CASES_9_2;
         bool ret = (state.node == node_t::CASES_9_2);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     state.node = node_t::RANGE_9_1;
     return true;
 }
@@ -715,15 +715,15 @@ inline bool json::text_10_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::FUNC_15_0;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::GOTO_10_1;
             return true;
         }
@@ -767,17 +767,17 @@ inline bool json::text_11_0(state_t & state, bool isCaseCall)
         uint8_t sym = (uint8_t)state.data[0];
         if (sym >= 'A' && sym <= 'Z')
             sym |= 0x20;
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::FUNC_15_0;
-            bool ret = isCaseCall && state.eatSymCount > 1;
-            state.eatSymCount = 0;
+            bool ret = isCaseCall && state.consumed > 1;
+            state.consumed = 0;
             return ret;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_11_1;
             return true;
         }
@@ -819,17 +819,17 @@ inline bool json::text_12_0(state_t & state, bool isCaseCall)
         uint8_t sym = (uint8_t)state.data[0];
         if (sym >= 'A' && sym <= 'Z')
             sym |= 0x20;
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::FUNC_15_0;
-            bool ret = isCaseCall && state.eatSymCount > 1;
-            state.eatSymCount = 0;
+            bool ret = isCaseCall && state.consumed > 1;
+            state.consumed = 0;
             return ret;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_12_1;
             return true;
         }
@@ -871,17 +871,17 @@ inline bool json::text_13_0(state_t & state, bool isCaseCall)
         uint8_t sym = (uint8_t)state.data[0];
         if (sym >= 'A' && sym <= 'Z')
             sym |= 0x20;
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::FUNC_15_0;
-            bool ret = isCaseCall && state.eatSymCount > 1;
-            state.eatSymCount = 0;
+            bool ret = isCaseCall && state.consumed > 1;
+            state.consumed = 0;
             return ret;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_13_1;
             return true;
         }
@@ -943,7 +943,7 @@ inline bool json::string_14_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x2d-0x2e][0-9]
-    bool isFirstData = !state.eatSymCount;
+    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end)
     {
@@ -979,13 +979,13 @@ inline bool json::string_14_0(state_t & state)
         }
         state.data += exitCount;
         _string_14_0(beginData, unsigned(state.data - beginData), isFirstData);
-        state.eatSymCount += unsigned(state.data - beginData);
-        state.node = (state.eatSymCount >= 1) ? node_t::NOTIFY_14_1 : node_t::FUNC_15_0;
+        state.consumed += unsigned(state.data - beginData);
+        state.node = (state.consumed >= 1) ? node_t::NOTIFY_14_1 : node_t::FUNC_15_0;
         bool ret = (state.node == node_t::NOTIFY_14_1);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
         _string_14_0(beginData, unsigned(state.data - beginData), isFirstData);
     state.node = node_t::STRING_14_0;
@@ -1029,15 +1029,15 @@ inline bool json::text_16_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::FUNC_17_0;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_16_1;
             return true;
         }
@@ -1165,7 +1165,7 @@ inline bool json::string_20_0(state_t & state)
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}; // ^[0x22][0x5c]
-    bool isFirstData = !state.eatSymCount;
+    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end)
     {
@@ -1201,13 +1201,13 @@ inline bool json::string_20_0(state_t & state)
         }
         state.data += exitCount;
         _string_20_0(beginData, unsigned(state.data - beginData), isFirstData);
-        state.eatSymCount += unsigned(state.data - beginData);
-        state.node = (state.eatSymCount >= 1) ? node_t::FUNC_20_1 : node_t::NO_STATE;
+        state.consumed += unsigned(state.data - beginData);
+        state.node = (state.consumed >= 1) ? node_t::FUNC_20_1 : node_t::NO_STATE;
         bool ret = (state.node == node_t::FUNC_20_1);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
         _string_20_0(beginData, unsigned(state.data - beginData), isFirstData);
     state.node = node_t::STRING_20_0;
@@ -1232,15 +1232,15 @@ inline bool json::text_21_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::RET_21_1;
             return true;
         }
@@ -1261,15 +1261,15 @@ inline bool json::text_22_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::CASES_22_1;
             return true;
         }
@@ -1308,15 +1308,15 @@ inline bool json::text_23_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_23_1;
             return true;
         }
@@ -1343,15 +1343,15 @@ inline bool json::text_24_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_24_1;
             return true;
         }
@@ -1378,15 +1378,15 @@ inline bool json::text_25_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_25_1;
             return true;
         }
@@ -1413,15 +1413,15 @@ inline bool json::text_26_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_26_1;
             return true;
         }
@@ -1448,15 +1448,15 @@ inline bool json::text_27_0(state_t & state)
     for(; state.data < state.end; state.data++)
     {
         uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.eatSymCount++] != sym)
+        if (text[state.consumed++] != sym)
         {
             state.node = node_t::NO_STATE;
             return false;
         }
-        else if (state.eatSymCount >= sizeof(text))
+        else if (state.consumed >= sizeof(text))
         {
             state.data++;
-            state.eatSymCount = 0;
+            state.consumed = 0;
             state.node = node_t::FUNC_27_1;
             return true;
         }
@@ -1509,7 +1509,7 @@ inline bool json::uint_29_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0-9]
-    bool isFirstData = !state.eatSymCount;
+    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end)
     {
@@ -1545,13 +1545,13 @@ inline bool json::uint_29_0(state_t & state)
         }
         state.data += exitCount;
         _uint_29_0(beginData, unsigned(state.data - beginData), isFirstData);
-        state.eatSymCount += unsigned(state.data - beginData);
-        state.node = (state.eatSymCount >= 1) ? node_t::STRING_29_1 : node_t::NO_STATE;
+        state.consumed += unsigned(state.data - beginData);
+        state.node = (state.consumed >= 1) ? node_t::STRING_29_1 : node_t::NO_STATE;
         bool ret = (state.node == node_t::STRING_29_1);
-        state.eatSymCount = 0;
+        state.consumed = 0;
         return ret;
     }
-    state.eatSymCount += unsigned(state.data - beginData);
+    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
         _uint_29_0(beginData, unsigned(state.data - beginData), isFirstData);
     state.node = node_t::UINT_29_0;
@@ -1569,13 +1569,13 @@ inline void json::_string_29_1(const char * data, unsigned len, bool isFirst)
 
 inline bool json::string_29_1(state_t & state)
 {
-    bool isFirstData = !state.eatSymCount;
+    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
-    if (!state.eatSymCount)
+    if (!state.consumed)
         state.node = node_t::STRING_29_1;
     if (state.data == state.end)
         return true;
-    state.eatSymCount += state.remainDataLen();
+    state.consumed += state.remainDataLen();
     state.data = state.end;
     _string_29_1(beginData, unsigned(state.data - beginData), isFirstData);
     return true;
