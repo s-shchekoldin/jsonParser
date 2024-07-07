@@ -347,8 +347,8 @@ inline bool json::text_5_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -608,8 +608,8 @@ inline bool json::text_9_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::FUNC_17_0;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -719,8 +719,8 @@ inline bool json::text_10_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::FUNC_15_0;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -772,7 +772,6 @@ inline bool json::text_11_0(state_t & state, bool isCaseCall)
             sym |= 0x20;
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::FUNC_15_0;
             bool ret = isCaseCall && state.consumed > 1;
             state.consumed = 0;
@@ -825,7 +824,6 @@ inline bool json::text_12_0(state_t & state, bool isCaseCall)
             sym |= 0x20;
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::FUNC_15_0;
             bool ret = isCaseCall && state.consumed > 1;
             state.consumed = 0;
@@ -878,7 +876,6 @@ inline bool json::text_13_0(state_t & state, bool isCaseCall)
             sym |= 0x20;
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::FUNC_15_0;
             bool ret = isCaseCall && state.consumed > 1;
             state.consumed = 0;
@@ -1037,8 +1034,8 @@ inline bool json::text_16_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::FUNC_17_0;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1241,8 +1238,8 @@ inline bool json::text_21_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1271,8 +1268,8 @@ inline bool json::text_22_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1319,8 +1316,8 @@ inline bool json::text_23_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1355,8 +1352,8 @@ inline bool json::text_24_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1391,8 +1388,8 @@ inline bool json::text_25_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1427,8 +1424,8 @@ inline bool json::text_26_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
@@ -1463,8 +1460,8 @@ inline bool json::text_27_0(state_t & state)
         uint8_t sym = (uint8_t)state.data[0];
         if (text[state.consumed++] != sym)
         {
-            state.consumed = 0;
             state.node = node_t::NO_STATE;
+            state.consumed = 0;
             return false;
         }
         else if (state.consumed >= sizeof(text))
