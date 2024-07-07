@@ -17,7 +17,8 @@ struct jsonResult
     std::string nameDepth;
     std::string tmpValue;
     std::string value;
-    uint64_t depth = 0;
+    uint32_t depth = 0;
+
     // Don't forget to declare:
     void gotKV();
     void gotVal();

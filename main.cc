@@ -7,15 +7,15 @@ void jsonResult::gotKV()
 }
 void jsonResult::gotVal()
 {
-    printf("gotVal(%lu): %s\n", depth, value.c_str());
+    printf("gotVal(%u): %s\n", depth, value.c_str());
 }
 void jsonResult::pushDepth()
 {
-    printf("pushDepth(%lu): %s\n", depth, nameDepth.c_str());
+    printf("pushDepth(%u): %s\n", depth, nameDepth.c_str());
 }
 void jsonResult::popDepth()
 {
-    printf("popDepth(%lu)\n", depth);
+    printf("popDepth(%u)\n", depth);
 }
 
 int main()
