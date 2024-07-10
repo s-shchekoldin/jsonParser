@@ -167,25 +167,24 @@ inline bool json::range_2_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -197,7 +196,6 @@ inline bool json::range_2_0(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::LOOP_1_1 : node_t::NO_STATE;
         bool ret = (state.node == node_t::LOOP_1_1);
@@ -341,17 +339,16 @@ inline bool json::notify_4_2(state_t & state)
 
 inline bool json::text_5_0(state_t & state)
 {
-    static uint8_t text[] = { 0x22 }; // "
+    const static uint8_t text[] = { 0x22}; // "
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -437,25 +434,24 @@ inline bool json::string_8_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -467,7 +463,6 @@ inline bool json::string_8_0(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         _string_8_0(beginData, unsigned(state.data - beginData), isFirstData);
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::RANGE_8_1 : node_t::NO_STATE;
@@ -544,25 +539,24 @@ inline bool json::range_8_2(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -574,7 +568,6 @@ inline bool json::range_8_2(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         state.node = node_t::CASES_8_3;
         bool ret = (state.node == node_t::CASES_8_3);
         state.consumed = 0;
@@ -602,17 +595,16 @@ inline bool json::cases_8_3(state_t & state)
 
 inline bool json::text_9_0(state_t & state)
 {
-    static uint8_t text[] = { 0x3a }; // :
+    const static uint8_t text[] = { 0x3a}; // :
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::FUNC_17_0;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -646,25 +638,24 @@ inline bool json::range_9_1(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -676,7 +667,6 @@ inline bool json::range_9_1(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         state.node = node_t::CASES_9_2;
         bool ret = (state.node == node_t::CASES_9_2);
         state.consumed = 0;
@@ -713,17 +703,16 @@ inline bool json::cases_9_2(state_t & state)
 
 inline bool json::text_10_0(state_t & state)
 {
-    static uint8_t text[] = { 0x22 }; // "
+    const static uint8_t text[] = { 0x22}; // "
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::FUNC_15_0;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -764,20 +753,18 @@ inline bool json::ret_10_3(state_t & state)
 
 inline bool json::text_11_0(state_t & state, bool isCaseCall)
 {
-    static uint8_t text[] = { 0x74, 0x72, 0x75, 0x65 }; // true
+    const static uint8_t text[] = { 0x74, 0x72, 0x75, 0x65}; // true
+    const static uint8_t text2[] = { 0x54, 0x52, 0x55, 0x45}; // TRUE
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (sym >= 'A' && sym <= 'Z')
-            sym |= 0x20;
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]) && text2[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::FUNC_15_0;
-            bool ret = isCaseCall && state.consumed > 1;
+            bool ret = isCaseCall && state.consumed;
             state.consumed = 0;
             return ret;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -816,20 +803,18 @@ inline bool json::ret_11_3(state_t & state)
 
 inline bool json::text_12_0(state_t & state, bool isCaseCall)
 {
-    static uint8_t text[] = { 0x66, 0x61, 0x6c, 0x73, 0x65 }; // false
+    const static uint8_t text[] = { 0x66, 0x61, 0x6c, 0x73, 0x65}; // false
+    const static uint8_t text2[] = { 0x46, 0x41, 0x4c, 0x53, 0x45}; // FALSE
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (sym >= 'A' && sym <= 'Z')
-            sym |= 0x20;
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]) && text2[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::FUNC_15_0;
-            bool ret = isCaseCall && state.consumed > 1;
+            bool ret = isCaseCall && state.consumed;
             state.consumed = 0;
             return ret;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -868,20 +853,18 @@ inline bool json::ret_12_3(state_t & state)
 
 inline bool json::text_13_0(state_t & state, bool isCaseCall)
 {
-    static uint8_t text[] = { 0x6e, 0x75, 0x6c, 0x6c }; // null
+    const static uint8_t text[] = { 0x6e, 0x75, 0x6c, 0x6c}; // null
+    const static uint8_t text2[] = { 0x4e, 0x55, 0x4c, 0x4c}; // NULL
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (sym >= 'A' && sym <= 'Z')
-            sym |= 0x20;
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]) && text2[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::FUNC_15_0;
-            bool ret = isCaseCall && state.consumed > 1;
+            bool ret = isCaseCall && state.consumed;
             state.consumed = 0;
             return ret;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -950,25 +933,24 @@ inline bool json::string_14_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -980,7 +962,6 @@ inline bool json::string_14_0(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         _string_14_0(beginData, unsigned(state.data - beginData), isFirstData);
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::NOTIFY_14_1 : node_t::FUNC_15_0;
@@ -1028,17 +1009,16 @@ inline bool json::ret_15_1(state_t & state)
 
 inline bool json::text_16_0(state_t & state)
 {
-    static uint8_t text[] = { 0x2c }; // ,
+    const static uint8_t text[] = { 0x2c}; // ,
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::FUNC_17_0;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1173,25 +1153,24 @@ inline bool json::string_20_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -1203,7 +1182,6 @@ inline bool json::string_20_0(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         _string_20_0(beginData, unsigned(state.data - beginData), isFirstData);
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::FUNC_20_1 : node_t::NO_STATE;
@@ -1232,17 +1210,16 @@ inline bool json::func_20_1(state_t & state)
 
 inline bool json::text_21_0(state_t & state)
 {
-    static uint8_t text[] = { 0x22 }; // "
+    const static uint8_t text[] = { 0x22}; // "
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1262,17 +1239,16 @@ inline bool json::ret_21_1(state_t & state)
 
 inline bool json::text_22_0(state_t & state)
 {
-    static uint8_t text[] = { 0x5c }; // \x5c
+    const static uint8_t text[] = { 0x5c}; // \x5c
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1310,17 +1286,16 @@ inline bool json::cases_22_1(state_t & state)
 
 inline bool json::text_23_0(state_t & state)
 {
-    static uint8_t text[] = { 0x6e }; // n
+    const static uint8_t text[] = { 0x6e}; // n
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1346,17 +1321,16 @@ inline bool json::func_23_1(state_t & state)
 
 inline bool json::text_24_0(state_t & state)
 {
-    static uint8_t text[] = { 0x72 }; // r
+    const static uint8_t text[] = { 0x72}; // r
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1382,17 +1356,16 @@ inline bool json::func_24_1(state_t & state)
 
 inline bool json::text_25_0(state_t & state)
 {
-    static uint8_t text[] = { 0x74 }; // t
+    const static uint8_t text[] = { 0x74}; // t
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1418,17 +1391,16 @@ inline bool json::func_25_1(state_t & state)
 
 inline bool json::text_26_0(state_t & state)
 {
-    static uint8_t text[] = { 0x22 }; // "
+    const static uint8_t text[] = { 0x22}; // "
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1454,17 +1426,16 @@ inline bool json::func_26_1(state_t & state)
 
 inline bool json::text_27_0(state_t & state)
 {
-    static uint8_t text[] = { 0x2f }; // /
+    const static uint8_t text[] = { 0x2f}; // /
     for(; state.data < state.end; state.data++)
     {
-        uint8_t sym = (uint8_t)state.data[0];
-        if (text[state.consumed++] != sym)
+        if (text[state.consumed] != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             state.consumed = 0;
             return false;
         }
-        else if (state.consumed >= sizeof(text))
+        else if (++state.consumed >= sizeof(text))
         {
             state.data++;
             state.consumed = 0;
@@ -1524,25 +1495,24 @@ inline bool json::uint_29_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned exitCount = 0;
         if(&state.data[8] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])])
-                exitCount = 0;
+                state.data += 0;
             else if (exitSym[uint8_t(state.data[1])])
-                exitCount = 1;
+                state.data += 1;
             else if (exitSym[uint8_t(state.data[2])])
-                exitCount = 2;
+                state.data += 2;
             else if (exitSym[uint8_t(state.data[3])])
-                exitCount = 3;
+                state.data += 3;
             else if (exitSym[uint8_t(state.data[4])])
-                exitCount = 4;
+                state.data += 4;
             else if (exitSym[uint8_t(state.data[5])])
-                exitCount = 5;
+                state.data += 5;
             else if (exitSym[uint8_t(state.data[6])])
-                exitCount = 6;
+                state.data += 6;
             else if (exitSym[uint8_t(state.data[7])])
-                exitCount = 7;
+                state.data += 7;
             else
             {
                 state.data += 8;
@@ -1554,7 +1524,6 @@ inline bool json::uint_29_0(state_t & state)
             state.data++;
             continue;
         }
-        state.data += exitCount;
         _uint_29_0(beginData, unsigned(state.data - beginData), isFirstData);
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::STRING_29_1 : node_t::NO_STATE;
