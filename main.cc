@@ -1,17 +1,17 @@
 #include "json.h"
 #include <fstream>
 
-void jsonResult::gotKV()
+void jsonResult::value(__attribute__((unused)) const char * data, __attribute__((unused)) unsigned len, __attribute__((unused)) bool isFirst, __attribute__((unused)) bool isLast)
 {
-    printf("gotKV: %s->%s\n", key.c_str(), value.c_str());
+    printf("gotVal(%u)[%u:%u]: %s\n", depth, isFirst, isLast, std::string(data, len).c_str());
 }
-void jsonResult::gotVal()
+void jsonResult::keyValue(__attribute__((unused)) const char * data, __attribute__((unused)) unsigned len, __attribute__((unused)) bool isFirst, __attribute__((unused)) bool isLast)
 {
-    printf("gotVal(%u): %s\n", depth, value.c_str());
+    printf("gotKV(%u)[%u:%u]: %s->%s\n", depth, isFirst, isLast, key.c_str(), std::string(data, len).c_str());
 }
 void jsonResult::pushDepth()
 {
-    printf("pushDepth(%u): %s\n", depth, nameDepth.c_str());
+    printf("pushDepth(%u): %s\n", depth, key.c_str());
 }
 void jsonResult::popDepth()
 {

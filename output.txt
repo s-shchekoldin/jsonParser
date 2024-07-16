@@ -1,83 +1,206 @@
 ===Test1 - full request:===
 pushDepth(1): 
-gotKV: squadName->Super hero squad
-gotKV: homeTown->Metro City
-gotKV: formed->2016
-gotKV: secretBase->Super tower
-gotKV: active->true
+gotKV(1)[1:1]: squadName->Super hero squad
+gotKV(1)[1:1]: homeTown->Metro City
+gotKV(1)[1:1]: formed->2016
+gotKV(1)[1:1]: secretBase->Super tower
+gotKV(1)[1:1]: active->true
 pushDepth(2): members
 pushDepth(3): 
-gotKV: name->Molecule Man
-gotKV: age->29
-gotKV: secretIdentity->Dan Jukes
+gotKV(3)[1:1]: name->Molecule Man
+gotKV(3)[1:1]: age->29
+gotKV(3)[1:1]: secretIdentity->Dan Jukes
 pushDepth(4): powers
-gotVal(4): Radiation resistance
-gotVal(4): Turning tiny
-gotVal(4): Radiation blast
+gotVal(4)[1:1]: Radiation resistance
+gotVal(4)[1:1]: Turning tiny
+gotVal(4)[1:1]: Radiation blast
 popDepth(3)
 popDepth(2)
 pushDepth(3): 
-gotKV: name->Madame Uppercut
-gotKV: age->39
-gotKV: secretIdentity->Jane Wilson
+gotKV(3)[1:1]: name->Madame Uppercut
+gotKV(3)[1:1]: age->39
+gotKV(3)[1:1]: secretIdentity->Jane Wilson
 pushDepth(4): powers
-gotVal(4): Million tonne punch
-gotVal(4): Damage resistance
-gotVal(4): Superhuman reflexes
+gotVal(4)[1:1]: Million tonne punch
+gotVal(4)[1:1]: Damage resistance
+gotVal(4)[1:1]: Superhuman reflexes
 popDepth(3)
 popDepth(2)
 pushDepth(3): 
-gotKV: name->Eternal Flame
-gotKV: age->1000000
-gotKV: secretIdentity->Unknown
+gotKV(3)[1:1]: name->Eternal Flame
+gotKV(3)[1:1]: age->1000000
+gotKV(3)[1:1]: secretIdentity->Unknown
 pushDepth(4): powers
-gotVal(4): Immortality
-gotVal(4): Heat Immunity
-gotVal(4): Inferno
-gotVal(4): Teleportation
-gotVal(4): Interdimensional travel
+gotVal(4)[1:1]: Immortality
+gotVal(4)[1:1]: Heat Immunity
+gotVal(4)[1:1]: Inferno
+gotVal(4)[1:1]: Teleportation
+gotVal(4)[1:1]: Interdimensional travel
 popDepth(3)
 popDepth(2)
 popDepth(1)
 popDepth(0)
 ===Test2 - data fragmentation 1 byte===
 pushDepth(1): 
-gotKV: squadName->Super hero squad
-gotKV: homeTown->Metro City
-gotKV: formed->2016
-gotKV: secretBase->Super tower
-gotKV: active->true
+gotKV(1)[1:0]: squadName->S
+gotKV(1)[0:0]: squadName->u
+gotKV(1)[0:0]: squadName->p
+gotKV(1)[0:0]: squadName->e
+gotKV(1)[0:0]: squadName->r
+gotKV(1)[0:0]: squadName-> 
+gotKV(1)[0:0]: squadName->h
+gotKV(1)[0:0]: squadName->e
+gotKV(1)[0:0]: squadName->r
+gotKV(1)[0:0]: squadName->o
+gotKV(1)[0:0]: squadName-> 
+gotKV(1)[0:0]: squadName->s
+gotKV(1)[0:0]: squadName->q
+gotKV(1)[0:0]: squadName->u
+gotKV(1)[0:0]: squadName->a
+gotKV(1)[0:0]: squadName->d
+gotKV(1)[0:1]: squadName->
+gotKV(1)[1:0]: homeTown->M
+gotKV(1)[0:0]: homeTown->e
+gotKV(1)[0:0]: homeTown->t
+gotKV(1)[0:0]: homeTown->r
+gotKV(1)[0:0]: homeTown->o
+gotKV(1)[0:0]: homeTown-> 
+gotKV(1)[0:0]: homeTown->C
+gotKV(1)[0:0]: homeTown->i
+gotKV(1)[0:0]: homeTown->t
+gotKV(1)[0:0]: homeTown->y
+gotKV(1)[0:1]: homeTown->
+gotKV(1)[1:0]: formed->2
+gotKV(1)[0:0]: formed->0
+gotKV(1)[0:0]: formed->1
+gotKV(1)[0:0]: formed->6
+gotKV(1)[0:1]: formed->
+gotKV(1)[1:0]: secretBase->S
+gotKV(1)[0:0]: secretBase->u
+gotKV(1)[0:0]: secretBase->p
+gotKV(1)[0:0]: secretBase->e
+gotKV(1)[0:0]: secretBase->r
+gotKV(1)[0:0]: secretBase-> 
+gotKV(1)[0:0]: secretBase->t
+gotKV(1)[0:0]: secretBase->o
+gotKV(1)[0:0]: secretBase->w
+gotKV(1)[0:0]: secretBase->e
+gotKV(1)[0:0]: secretBase->r
+gotKV(1)[0:1]: secretBase->
+gotKV(1)[1:0]: active->t
+gotKV(1)[0:0]: active->r
+gotKV(1)[0:0]: active->u
+gotKV(1)[0:0]: active->e
+gotKV(1)[0:1]: active->
 pushDepth(2): members
 pushDepth(3): 
-gotKV: name->Molecule Man
-gotKV: age->29
-gotKV: secretIdentity->Dan Jukes
+gotKV(3)[1:0]: name->M
+gotKV(3)[0:0]: name->o
+gotKV(3)[0:0]: name->l
+gotKV(3)[0:0]: name->e
+gotKV(3)[0:0]: name->c
+gotKV(3)[0:0]: name->u
+gotKV(3)[0:0]: name->l
+gotKV(3)[0:0]: name->e
+gotKV(3)[0:0]: name-> 
+gotKV(3)[0:0]: name->M
+gotKV(3)[0:0]: name->a
+gotKV(3)[0:0]: name->n
+gotKV(3)[0:1]: name->
+gotKV(3)[1:0]: age->2
+gotKV(3)[0:0]: age->9
+gotKV(3)[0:1]: age->
+gotKV(3)[1:0]: secretIdentity->D
+gotKV(3)[0:0]: secretIdentity->a
+gotKV(3)[0:0]: secretIdentity->n
+gotKV(3)[0:0]: secretIdentity-> 
+gotKV(3)[0:0]: secretIdentity->J
+gotKV(3)[0:0]: secretIdentity->u
+gotKV(3)[0:0]: secretIdentity->k
+gotKV(3)[0:0]: secretIdentity->e
+gotKV(3)[0:0]: secretIdentity->s
+gotKV(3)[0:1]: secretIdentity->
 pushDepth(4): powers
-gotVal(4): Radiation resistance
-gotVal(4): Turning tiny
-gotVal(4): Radiation blast
+gotVal(4)[1:1]: Radiation resistance
+gotVal(4)[1:1]: Turning tiny
+gotVal(4)[1:1]: Radiation blast
 popDepth(3)
 popDepth(2)
 pushDepth(3): 
-gotKV: name->Madame Uppercut
-gotKV: age->39
-gotKV: secretIdentity->Jane Wilson
+gotKV(3)[1:0]: name->M
+gotKV(3)[0:0]: name->a
+gotKV(3)[0:0]: name->d
+gotKV(3)[0:0]: name->a
+gotKV(3)[0:0]: name->m
+gotKV(3)[0:0]: name->e
+gotKV(3)[0:0]: name-> 
+gotKV(3)[0:0]: name->U
+gotKV(3)[0:0]: name->p
+gotKV(3)[0:0]: name->p
+gotKV(3)[0:0]: name->e
+gotKV(3)[0:0]: name->r
+gotKV(3)[0:0]: name->c
+gotKV(3)[0:0]: name->u
+gotKV(3)[0:0]: name->t
+gotKV(3)[0:1]: name->
+gotKV(3)[1:0]: age->3
+gotKV(3)[0:0]: age->9
+gotKV(3)[0:1]: age->
+gotKV(3)[1:0]: secretIdentity->J
+gotKV(3)[0:0]: secretIdentity->a
+gotKV(3)[0:0]: secretIdentity->n
+gotKV(3)[0:0]: secretIdentity->e
+gotKV(3)[0:0]: secretIdentity-> 
+gotKV(3)[0:0]: secretIdentity->W
+gotKV(3)[0:0]: secretIdentity->i
+gotKV(3)[0:0]: secretIdentity->l
+gotKV(3)[0:0]: secretIdentity->s
+gotKV(3)[0:0]: secretIdentity->o
+gotKV(3)[0:0]: secretIdentity->n
+gotKV(3)[0:1]: secretIdentity->
 pushDepth(4): powers
-gotVal(4): Million tonne punch
-gotVal(4): Damage resistance
-gotVal(4): Superhuman reflexes
+gotVal(4)[1:1]: Million tonne punch
+gotVal(4)[1:1]: Damage resistance
+gotVal(4)[1:1]: Superhuman reflexes
 popDepth(3)
 popDepth(2)
 pushDepth(3): 
-gotKV: name->Eternal Flame
-gotKV: age->1000000
-gotKV: secretIdentity->Unknown
+gotKV(3)[1:0]: name->E
+gotKV(3)[0:0]: name->t
+gotKV(3)[0:0]: name->e
+gotKV(3)[0:0]: name->r
+gotKV(3)[0:0]: name->n
+gotKV(3)[0:0]: name->a
+gotKV(3)[0:0]: name->l
+gotKV(3)[0:0]: name-> 
+gotKV(3)[0:0]: name->F
+gotKV(3)[0:0]: name->l
+gotKV(3)[0:0]: name->a
+gotKV(3)[0:0]: name->m
+gotKV(3)[0:0]: name->e
+gotKV(3)[0:1]: name->
+gotKV(3)[1:0]: age->1
+gotKV(3)[0:0]: age->0
+gotKV(3)[0:0]: age->0
+gotKV(3)[0:0]: age->0
+gotKV(3)[0:0]: age->0
+gotKV(3)[0:0]: age->0
+gotKV(3)[0:0]: age->0
+gotKV(3)[0:1]: age->
+gotKV(3)[1:0]: secretIdentity->U
+gotKV(3)[0:0]: secretIdentity->n
+gotKV(3)[0:0]: secretIdentity->k
+gotKV(3)[0:0]: secretIdentity->n
+gotKV(3)[0:0]: secretIdentity->o
+gotKV(3)[0:0]: secretIdentity->w
+gotKV(3)[0:0]: secretIdentity->n
+gotKV(3)[0:1]: secretIdentity->
 pushDepth(4): powers
-gotVal(4): Immortality
-gotVal(4): Heat Immunity
-gotVal(4): Inferno
-gotVal(4): Teleportation
-gotVal(4): Interdimensional travel
+gotVal(4)[1:1]: Immortality
+gotVal(4)[1:1]: Heat Immunity
+gotVal(4)[1:1]: Inferno
+gotVal(4)[1:1]: Teleportation
+gotVal(4)[1:1]: Interdimensional travel
 popDepth(3)
 popDepth(2)
 popDepth(1)
