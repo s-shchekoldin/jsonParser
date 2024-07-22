@@ -1,0 +1,84 @@
+===Test1 - full request:===
+pushDepth(1): 
+gotKV(1): squadName->Super hero squad
+gotKV(1): homeTown->Metro City
+gotKV(1): formed->2016
+gotKV(1): secretBase->Super tower
+gotKV(1): active->true
+pushDepth(2): members
+pushDepth(3): 
+gotKV(3): name->Molecule Man
+gotKV(3): age->29
+gotKV(3): secretIdentity->Dan Jukes
+pushDepth(4): powers
+gotVal(4): Radiation resistance
+gotVal(4): Turning tiny
+gotVal(4): Radiation blast
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV(3): name->Madame Uppercut
+gotKV(3): age->39
+gotKV(3): secretIdentity->Jane Wilson
+pushDepth(4): powers
+gotVal(4): Million tonne punch
+gotVal(4): Damage resistance
+gotVal(4): Superhuman reflexes
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV(3): name->Eternal Flame
+gotKV(3): age->1000000
+gotKV(3): secretIdentity->Unknown
+pushDepth(4): powers
+gotVal(4): Immortality
+gotVal(4): Heat Immunity
+gotVal(4): Inferno
+gotVal(4): Teleportation
+gotVal(4): Interdimensional travel
+popDepth(3)
+popDepth(2)
+popDepth(1)
+popDepth(0)
+===Test2 - data fragmentation 1 byte===
+pushDepth(1): 
+gotKV(1): squadName->Super hero squad
+gotKV(1): homeTown->Metro City
+gotKV(1): formed->2016
+gotKV(1): secretBase->Super tower
+gotKV(1): active->true
+pushDepth(2): members
+pushDepth(3): 
+gotKV(3): name->Molecule Man
+gotKV(3): age->29
+gotKV(3): secretIdentity->Dan Jukes
+pushDepth(4): powers
+gotVal(4): Radiation resistance
+gotVal(4): Turning tiny
+gotVal(4): Radiation blast
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV(3): name->Madame Uppercut
+gotKV(3): age->39
+gotKV(3): secretIdentity->Jane Wilson
+pushDepth(4): powers
+gotVal(4): Million tonne punch
+gotVal(4): Damage resistance
+gotVal(4): Superhuman reflexes
+popDepth(3)
+popDepth(2)
+pushDepth(3): 
+gotKV(3): name->Eternal Flame
+gotKV(3): age->1000000
+gotKV(3): secretIdentity->Unknown
+pushDepth(4): powers
+gotVal(4): Immortality
+gotVal(4): Heat Immunity
+gotVal(4): Inferno
+gotVal(4): Teleportation
+gotVal(4): Interdimensional travel
+popDepth(3)
+popDepth(2)
+popDepth(1)
+popDepth(0)

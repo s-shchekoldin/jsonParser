@@ -1,0 +1,43 @@
+        Valgrind Native Code:
+== I   refs:      15,029,882,344
+== I1  misses:             2,185
+== LLi misses:             2,068
+== I1  miss rate:           0.00%
+== LLi miss rate:           0.00%
+==
+== D   refs:       4,981,646,444  (3,032,483,590 rd   + 1,949,162,854 wr)
+== D1  misses:            15,832  (       13,567 rd   +         2,265 wr)
+== LLd misses:             8,810  (        7,392 rd   +         1,418 wr)
+== D1  miss rate:            0.0% (          0.0%     +           0.0%  )
+== LLd miss rate:            0.0% (          0.0%     +           0.0%  )
+==
+== LL refs:               18,017  (       15,752 rd   +         2,265 wr)
+== LL misses:             10,878  (        9,460 rd   +         1,418 wr)
+== LL miss rate:             0.0% (          0.0%     +           0.0%  )
+==
+== Branches:       3,167,294,483  (3,151,288,846 cond +    16,005,637 ind)
+== Mispredicts:      114,014,899  (  105,013,481 cond +     9,001,418 ind)
+== Mispred rate:             3.6% (          3.3%     +          56.2%   )
+
+
+        Valgrind Profile Code:
+== I   refs:      15,202,921,169
+== I1  misses:             2,219
+== LLi misses:             2,115
+== I1  miss rate:           0.00%
+== LLi miss rate:           0.00%
+==
+== D   refs:       5,510,668,348  (3,407,499,160 rd   + 2,103,169,188 wr)
+== D1  misses:            15,827  (       13,555 rd   +         2,272 wr)
+== LLd misses:             8,805  (        7,386 rd   +         1,419 wr)
+== D1  miss rate:            0.0% (          0.0%     +           0.0%  )
+== LLd miss rate:            0.0% (          0.0%     +           0.0%  )
+==
+== LL refs:               18,046  (       15,774 rd   +         2,272 wr)
+== LL misses:             10,920  (        9,501 rd   +         1,419 wr)
+== LL miss rate:             0.0% (          0.0%     +           0.0%  )
+==
+== Branches:       3,090,301,610  (3,074,295,968 cond +    16,005,642 ind)
+== Mispredicts:       98,014,810  (   90,013,389 cond +     8,001,421 ind)
+== Mispred rate:             3.2% (          2.9%     +          50.0%   )
+

@@ -3,11 +3,11 @@
 
 void jsonResult::value(__attribute__((unused)) const char * data, __attribute__((unused)) unsigned len, __attribute__((unused)) bool isFirst, __attribute__((unused)) bool isLast)
 {
-    printf("gotVal(%u)[%u:%u]: %s\n", depth, isFirst, isLast, std::string(data, len).c_str());
+    printf("gotVal(%u): %s\n", depth, std::string(data, len).c_str());
 }
 void jsonResult::keyValue(__attribute__((unused)) const char * data, __attribute__((unused)) unsigned len, __attribute__((unused)) bool isFirst, __attribute__((unused)) bool isLast)
 {
-    printf("gotKV(%u)[%u:%u]: %s->%s\n", depth, isFirst, isLast, key.c_str(), std::string(data, len).c_str());
+    printf("gotKV(%u): %s->%s\n", depth, key.c_str(), std::string(data, len).c_str());
 }
 void jsonResult::pushDepth()
 {
@@ -20,7 +20,7 @@ void jsonResult::popDepth()
 
 int main()
 {
-    std::ifstream f("input.txt");
+    std::ifstream f("../input.txt");
     std::string input((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
 
     json state;

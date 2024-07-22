@@ -33,27 +33,33 @@ inline void json::parse(state_t & state)
             case node_t::RANGE_4_0: if (!range_4_0(state) || state.node != node_t::FUNC_4_1) break; __attribute__ ((fallthrough));
             case node_t::FUNC_4_1: if (!func_4_1(state) || state.node != node_t::NOTIFY_4_2) break; __attribute__ ((fallthrough));
             case node_t::NOTIFY_4_2: notify_4_2(state); break;
-            case node_t::TEXT_5_0: if (!text_5_0(state) || state.node != node_t::STRING_5_1) break; __attribute__ ((fallthrough));
-            case node_t::STRING_5_1: if (!string_5_1(state) || state.node != node_t::TEXT_5_2) break; __attribute__ ((fallthrough));
+            case node_t::TEXT_5_0: if (!text_5_0(state) || state.node != node_t::STR_VIEW_5_1) break; __attribute__ ((fallthrough));
+            case node_t::STR_VIEW_5_1: if (!str_view_5_1(state) || state.node != node_t::TEXT_5_2) break; __attribute__ ((fallthrough));
             case node_t::TEXT_5_2: if (!text_5_2(state) || state.node != node_t::RANGE_5_3) break; __attribute__ ((fallthrough));
             case node_t::RANGE_5_3: if (!range_5_3(state) || state.node != node_t::CASES_5_4) break; __attribute__ ((fallthrough));
             case node_t::CASES_5_4: cases_5_4(state); break;
             case node_t::TEXT_6_0: if (!text_6_0(state) || state.node != node_t::RANGE_6_1) break; __attribute__ ((fallthrough));
             case node_t::RANGE_6_1: if (!range_6_1(state) || state.node != node_t::CASES_6_2) break; __attribute__ ((fallthrough));
             case node_t::CASES_6_2: cases_6_2(state); break;
-            case node_t::TEXT_7_0: if (!text_7_0(state) || state.node != node_t::RANGE_7_1) break; __attribute__ ((fallthrough));
-            case node_t::RANGE_7_1: if (!range_7_1(state) || state.node != node_t::TEXT_7_2) break; __attribute__ ((fallthrough));
-            case node_t::TEXT_7_2: text_7_2(state); break;
-            case node_t::RANGE_8_0: if (!range_8_0(state) || state.node != node_t::FUNC_8_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_8_1: if (!func_8_1(state) || state.node != node_t::NOTIFY_8_2) break; __attribute__ ((fallthrough));
-            case node_t::NOTIFY_8_2: notify_8_2(state); break;
-            case node_t::RANGE_9_0: range_9_0(state); break;
+            case node_t::TEXT_7_0: if (!text_7_0(state) || state.node != node_t::STR_VIEW_7_1) break; __attribute__ ((fallthrough));
+            case node_t::STR_VIEW_7_1: if (!str_view_7_1(state) || state.node != node_t::TEXT_7_2) break; __attribute__ ((fallthrough));
+            case node_t::TEXT_7_2: if (!text_7_2(state) || state.node != node_t::NOTIFY_7_3) break; __attribute__ ((fallthrough));
+            case node_t::NOTIFY_7_3: notify_7_3(state); break;
+            case node_t::STR_VIEW_8_0: if (!str_view_8_0(state) || state.node != node_t::NOTIFY_8_1) break; __attribute__ ((fallthrough));
+            case node_t::NOTIFY_8_1: notify_8_1(state); break;
+            case node_t::RANGE_9_0: if (!range_9_0(state) || state.node != node_t::FUNC_9_1) break; __attribute__ ((fallthrough));
+            case node_t::FUNC_9_1: if (!func_9_1(state) || state.node != node_t::NOTIFY_9_2) break; __attribute__ ((fallthrough));
+            case node_t::NOTIFY_9_2: notify_9_2(state); break;
             case node_t::TEXT_10_0: if (!text_10_0(state) || state.node != node_t::FUNC_10_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_10_1: func_10_1(state); break;
+            case node_t::FUNC_10_1: if (!func_10_1(state) || state.node != node_t::NOTIFY_10_2) break; __attribute__ ((fallthrough));
+            case node_t::NOTIFY_10_2: notify_10_2(state); break;
             case node_t::RANGE_11_0: if (!range_11_0(state) || state.node != node_t::FUNC_11_1) break; __attribute__ ((fallthrough));
             case node_t::FUNC_11_1: if (!func_11_1(state) || state.node != node_t::NOTIFY_11_2) break; __attribute__ ((fallthrough));
-            case node_t::NOTIFY_11_2: notify_11_2(state); break;
-            case node_t::RANGE_12_0: range_12_0(state); break;
+            case node_t::NOTIFY_11_2: if (!notify_11_2(state) || state.node != node_t::FUNC_11_3) break; __attribute__ ((fallthrough));
+            case node_t::FUNC_11_3: if (!func_11_3(state) || state.node != node_t::NOTIFY_11_4) break; __attribute__ ((fallthrough));
+            case node_t::NOTIFY_11_4: notify_11_4(state); break;
+            case node_t::STR_VIEW_12_0: if (!str_view_12_0(state) || state.node != node_t::NOTIFY_12_1) break; __attribute__ ((fallthrough));
+            case node_t::NOTIFY_12_1: notify_12_1(state); break;
             case node_t::LOOP_14_0: loop_14_0(state); break;
             case node_t::UINT_14_0: uint_14_0(state); break;
             case node_t::NO_STATE:
@@ -100,7 +106,7 @@ inline bool json::loop_1_1(state_t & state)
     if (text_5_0(state)) // case_4
         return true;
     state = startState;
-    if (range_12_0(state)) // case_5
+    if (str_view_12_0(state)) // case_5
         return true;
     state = startState;
     state.node = node_t::NO_STATE;
@@ -204,20 +210,18 @@ inline bool json::range_3_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x5b][0x7b]
+    const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned stateDataCount = 1;
-        for(unsigned i = 0; i < stateDataCount; i++)
-            if (exitSym[uint8_t(state.data[i])]) [[unlikely]]
-            {
-                state.data += i;
-                state.consumed += i;
-                state.node = (state.consumed >= 1) ? node_t::FUNC_3_1 : node_t::NO_STATE;
-                bool ret = (state.node == node_t::FUNC_3_1);
-                state.consumed = 0;
-                return ret;
-            }
-        state.data += stateDataCount;
+        if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        {
+            state.consumed += unsigned(state.data - beginData);
+            state.node = (state.consumed >= 1) ? node_t::FUNC_3_1 : node_t::NO_STATE;
+            bool ret = (state.node == node_t::FUNC_3_1);
+            state.consumed = 0;
+            return ret;
+        }
+        state.data++;
         state.node = node_t::FUNC_3_1;
         return true;
     }
@@ -239,7 +243,7 @@ inline bool json::func_3_1(state_t & state)
 
 inline bool json::_func_3_2()
 {
-     key.clear(); 
+     key = std::string_view(); 
     return true;
 }
 inline bool json::func_3_2(state_t & state)
@@ -275,20 +279,18 @@ inline bool json::range_4_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x5d][0x7d]
+    const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned stateDataCount = 1;
-        for(unsigned i = 0; i < stateDataCount; i++)
-            if (exitSym[uint8_t(state.data[i])]) [[unlikely]]
-            {
-                state.data += i;
-                state.consumed += i;
-                state.node = (state.consumed >= 1) ? node_t::FUNC_4_1 : node_t::NO_STATE;
-                bool ret = (state.node == node_t::FUNC_4_1);
-                state.consumed = 0;
-                return ret;
-            }
-        state.data += stateDataCount;
+        if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        {
+            state.consumed += unsigned(state.data - beginData);
+            state.node = (state.consumed >= 1) ? node_t::FUNC_4_1 : node_t::NO_STATE;
+            bool ret = (state.node == node_t::FUNC_4_1);
+            state.consumed = 0;
+            return ret;
+        }
+        state.data++;
         state.node = node_t::FUNC_4_1;
         return true;
     }
@@ -319,13 +321,13 @@ inline bool json::text_5_0(state_t & state)
 {
     if(state.data < state.end)
     {
-        if (uint8_t(0X22) != uint8_t(state.data[0]))
+        if (uint8_t(0x22) != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             return false;
         } else {
             state.data++;
-            state.node = node_t::STRING_5_1;
+            state.node = node_t::STR_VIEW_5_1;
             return true;
         }
     }
@@ -333,16 +335,14 @@ inline bool json::text_5_0(state_t & state)
     return true;
 }
 
-inline void json::_string_5_1(const char * data, unsigned len, bool isFirst)
+inline void json::_str_view_5_1(const char * data, unsigned len, uint64_t consumed)
 {
-    if (isFirst)
-        jsonResult::key.clear();
-    else if ((jsonResult::key.length() + len) > 256)
-        len = 256 - jsonResult::key.length();
-    jsonResult::key.append(data, len);
+    if (!consumed)
+        jsonResult::key = std::string_view();
+    jsonResult::key = std::string_view(data, len);
 }
 
-inline bool json::string_5_1(state_t & state)
+inline bool json::str_view_5_1(state_t & state)
 {
     const static bool exitSym[256] = {
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
@@ -361,7 +361,6 @@ inline bool json::string_5_1(state_t & state)
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}; // ^[0x22]
-    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
@@ -410,17 +409,17 @@ inline bool json::string_5_1(state_t & state)
             state.data++;
             continue;
         }
-        _string_5_1(beginData, unsigned(state.data - beginData), isFirstData);
+        _str_view_5_1(beginData, unsigned(state.data - beginData), state.consumed);
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::TEXT_5_2 : node_t::NO_STATE;
         bool ret = (state.node == node_t::TEXT_5_2);
         state.consumed = 0;
         return ret;
     }
-    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
-        _string_5_1(beginData, unsigned(state.data - beginData), isFirstData);
-    state.node = node_t::STRING_5_1;
+        _str_view_5_1(beginData, unsigned(state.data - beginData), state.consumed);
+    state.consumed += unsigned(state.data - beginData);
+    state.node = node_t::STR_VIEW_5_1;
     return true;
 }
 
@@ -428,7 +427,7 @@ inline bool json::text_5_2(state_t & state)
 {
     if(state.data < state.end)
     {
-        if (uint8_t(0X22) != uint8_t(state.data[0]))
+        if (uint8_t(0x22) != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             return false;
@@ -541,7 +540,7 @@ inline bool json::text_6_0(state_t & state)
 {
     if(state.data < state.end)
     {
-        if (uint8_t(0X3A) != uint8_t(state.data[0]))
+        if (uint8_t(0x3A) != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             return false;
@@ -640,7 +639,7 @@ inline bool json::cases_6_2(state_t & state)
     if (text_7_0(state)) // case_1
         return true;
     state = startState;
-    if (range_8_0(state)) // case_2
+    if (str_view_8_0(state)) // case_2
         return true;
     state = startState;
     if (range_9_0(state)) // case_3
@@ -654,13 +653,13 @@ inline bool json::text_7_0(state_t & state)
 {
     if(state.data < state.end)
     {
-        if (uint8_t(0X22) != uint8_t(state.data[0]))
+        if (uint8_t(0x22) != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             return false;
         } else {
             state.data++;
-            state.node = node_t::RANGE_7_1;
+            state.node = node_t::STR_VIEW_7_1;
             return true;
         }
     }
@@ -668,7 +667,14 @@ inline bool json::text_7_0(state_t & state)
     return true;
 }
 
-inline bool json::range_7_1(state_t & state)
+inline void json::_str_view_7_1(const char * data, unsigned len, uint64_t consumed)
+{
+    if (!consumed)
+        jsonResult::value = std::string_view();
+    jsonResult::value = std::string_view(data, len);
+}
+
+inline bool json::str_view_7_1(state_t & state)
 {
     const static bool exitSym[256] = {
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
@@ -687,7 +693,6 @@ inline bool json::range_7_1(state_t & state)
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
         false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}; // ^[0x22]
-    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
@@ -736,16 +741,16 @@ inline bool json::range_7_1(state_t & state)
             state.data++;
             continue;
         }
-        jsonResult::keyValue(beginData, unsigned(state.data - beginData), isFirstData, true);
+        _str_view_7_1(beginData, unsigned(state.data - beginData), state.consumed);
         state.node = node_t::TEXT_7_2;
         bool ret = (state.node == node_t::TEXT_7_2);
         state.consumed = 0;
         return ret;
     }
-    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
-        jsonResult::keyValue(beginData, unsigned(state.data - beginData), isFirstData, false);
-    state.node = node_t::RANGE_7_1;
+        _str_view_7_1(beginData, unsigned(state.data - beginData), state.consumed);
+    state.consumed += unsigned(state.data - beginData);
+    state.node = node_t::STR_VIEW_7_1;
     return true;
 }
 
@@ -753,13 +758,13 @@ inline bool json::text_7_2(state_t & state)
 {
     if(state.data < state.end)
     {
-        if (uint8_t(0X22) != uint8_t(state.data[0]))
+        if (uint8_t(0x22) != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             return false;
         } else {
             state.data++;
-            state.node = node_t::LOOP_1_1;
+            state.node = node_t::NOTIFY_7_3;
             return true;
         }
     }
@@ -767,66 +772,21 @@ inline bool json::text_7_2(state_t & state)
     return true;
 }
 
-inline bool json::range_8_0(state_t & state)
+inline bool json::notify_7_3(state_t & state)
 {
-    const static bool exitSym[256] = {
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x5b][0x7b]
-    while(state.data < state.end)
-    {
-        unsigned stateDataCount = 1;
-        for(unsigned i = 0; i < stateDataCount; i++)
-            if (exitSym[uint8_t(state.data[i])]) [[unlikely]]
-            {
-                state.data += i;
-                state.consumed += i;
-                state.node = (state.consumed >= 1) ? node_t::FUNC_8_1 : node_t::NO_STATE;
-                bool ret = (state.node == node_t::FUNC_8_1);
-                state.consumed = 0;
-                return ret;
-            }
-        state.data += stateDataCount;
-        state.node = node_t::FUNC_8_1;
-        return true;
-    }
-    state.node = node_t::RANGE_8_0;
-    return true;
-}
-
-inline bool json::_func_8_1()
-{
-     depth++; 
-    return true;
-}
-inline bool json::func_8_1(state_t & state)
-{
-    bool ret = _func_8_1();
-    state.node = ret ? node_t::NOTIFY_8_2 : node_t::NO_STATE;
-    return ret;
-}
-
-inline bool json::notify_8_2(state_t & state)
-{
-    pushDepth();
+    gotKV();
     state.node = node_t::LOOP_1_1;
     return true;
 }
 
-inline bool json::range_9_0(state_t & state)
+inline void json::_str_view_8_0(const char * data, unsigned len, uint64_t consumed)
+{
+    if (!consumed)
+        jsonResult::value = std::string_view();
+    jsonResult::value = std::string_view(data, len);
+}
+
+inline bool json::str_view_8_0(state_t & state)
 {
     const static bool exitSym[256] = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -845,7 +805,6 @@ inline bool json::range_9_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x2d-0x2e][0-9][A-Z][a-z]
-    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
@@ -894,17 +853,81 @@ inline bool json::range_9_0(state_t & state)
             state.data++;
             continue;
         }
-        jsonResult::keyValue(beginData, unsigned(state.data - beginData), isFirstData, true);
+        _str_view_8_0(beginData, unsigned(state.data - beginData), state.consumed);
         state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::LOOP_1_1 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::LOOP_1_1);
+        state.node = (state.consumed >= 1) ? node_t::NOTIFY_8_1 : node_t::NO_STATE;
+        bool ret = (state.node == node_t::NOTIFY_8_1);
         state.consumed = 0;
         return ret;
     }
-    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
-        jsonResult::keyValue(beginData, unsigned(state.data - beginData), isFirstData, false);
+        _str_view_8_0(beginData, unsigned(state.data - beginData), state.consumed);
+    state.consumed += unsigned(state.data - beginData);
+    state.node = node_t::STR_VIEW_8_0;
+    return true;
+}
+
+inline bool json::notify_8_1(state_t & state)
+{
+    gotKV();
+    state.node = node_t::LOOP_1_1;
+    return true;
+}
+
+inline bool json::range_9_0(state_t & state)
+{
+    const static bool exitSym[256] = {
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x5b][0x7b]
+    const char * beginData = state.data;
+    while(state.data < state.end)
+    {
+        if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        {
+            state.consumed += unsigned(state.data - beginData);
+            state.node = (state.consumed >= 1) ? node_t::FUNC_9_1 : node_t::NO_STATE;
+            bool ret = (state.node == node_t::FUNC_9_1);
+            state.consumed = 0;
+            return ret;
+        }
+        state.data++;
+        state.node = node_t::FUNC_9_1;
+        return true;
+    }
     state.node = node_t::RANGE_9_0;
+    return true;
+}
+
+inline bool json::_func_9_1()
+{
+     depth++; 
+    return true;
+}
+inline bool json::func_9_1(state_t & state)
+{
+    bool ret = _func_9_1();
+    state.node = ret ? node_t::NOTIFY_9_2 : node_t::NO_STATE;
+    return ret;
+}
+
+inline bool json::notify_9_2(state_t & state)
+{
+    pushDepth();
+    state.node = node_t::LOOP_1_1;
     return true;
 }
 
@@ -912,7 +935,7 @@ inline bool json::text_10_0(state_t & state)
 {
     if(state.data < state.end)
     {
-        if (uint8_t(0X2C) != uint8_t(state.data[0]))
+        if (uint8_t(0x2C) != uint8_t(state.data[0]))
         {
             state.node = node_t::NO_STATE;
             return false;
@@ -928,14 +951,21 @@ inline bool json::text_10_0(state_t & state)
 
 inline bool json::_func_10_1()
 {
-     value(key.c_str(), key.length(), true, true); 
+     value = std::move(key); 
     return true;
 }
 inline bool json::func_10_1(state_t & state)
 {
     bool ret = _func_10_1();
-    state.node = ret ? node_t::LOOP_1_1 : node_t::NO_STATE;
+    state.node = ret ? node_t::NOTIFY_10_2 : node_t::NO_STATE;
     return ret;
+}
+
+inline bool json::notify_10_2(state_t & state)
+{
+    gotVal();
+    state.node = node_t::LOOP_1_1;
+    return true;
 }
 
 inline bool json::range_11_0(state_t & state)
@@ -957,20 +987,18 @@ inline bool json::range_11_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x5d][0x7d]
+    const char * beginData = state.data;
     while(state.data < state.end)
     {
-        unsigned stateDataCount = 1;
-        for(unsigned i = 0; i < stateDataCount; i++)
-            if (exitSym[uint8_t(state.data[i])]) [[unlikely]]
-            {
-                state.data += i;
-                state.consumed += i;
-                state.node = (state.consumed >= 1) ? node_t::FUNC_11_1 : node_t::NO_STATE;
-                bool ret = (state.node == node_t::FUNC_11_1);
-                state.consumed = 0;
-                return ret;
-            }
-        state.data += stateDataCount;
+        if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        {
+            state.consumed += unsigned(state.data - beginData);
+            state.node = (state.consumed >= 1) ? node_t::FUNC_11_1 : node_t::NO_STATE;
+            bool ret = (state.node == node_t::FUNC_11_1);
+            state.consumed = 0;
+            return ret;
+        }
+        state.data++;
         state.node = node_t::FUNC_11_1;
         return true;
     }
@@ -980,7 +1008,7 @@ inline bool json::range_11_0(state_t & state)
 
 inline bool json::_func_11_1()
 {
-     value(key.c_str(), key.length(), true, true); depth--; 
+     value = std::move(key); 
     return true;
 }
 inline bool json::func_11_1(state_t & state)
@@ -992,12 +1020,38 @@ inline bool json::func_11_1(state_t & state)
 
 inline bool json::notify_11_2(state_t & state)
 {
+    gotVal();
+    state.node = node_t::FUNC_11_3;
+    return true;
+}
+
+inline bool json::_func_11_3()
+{
+     depth--; 
+    return true;
+}
+inline bool json::func_11_3(state_t & state)
+{
+    bool ret = _func_11_3();
+    state.node = ret ? node_t::NOTIFY_11_4 : node_t::NO_STATE;
+    return ret;
+}
+
+inline bool json::notify_11_4(state_t & state)
+{
     popDepth();
     state.node = node_t::LOOP_1_1;
     return true;
 }
 
-inline bool json::range_12_0(state_t & state)
+inline void json::_str_view_12_0(const char * data, unsigned len, uint64_t consumed)
+{
+    if (!consumed)
+        jsonResult::value = std::string_view();
+    jsonResult::value = std::string_view(data, len);
+}
+
+inline bool json::str_view_12_0(state_t & state)
 {
     const static bool exitSym[256] = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1016,7 +1070,6 @@ inline bool json::range_12_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x2d-0x2e][0-9][A-Z][_][a-z]
-    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
@@ -1065,17 +1118,24 @@ inline bool json::range_12_0(state_t & state)
             state.data++;
             continue;
         }
-        jsonResult::value(beginData, unsigned(state.data - beginData), isFirstData, true);
+        _str_view_12_0(beginData, unsigned(state.data - beginData), state.consumed);
         state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::LOOP_1_1 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::LOOP_1_1);
+        state.node = (state.consumed >= 1) ? node_t::NOTIFY_12_1 : node_t::NO_STATE;
+        bool ret = (state.node == node_t::NOTIFY_12_1);
         state.consumed = 0;
         return ret;
     }
-    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
-        jsonResult::value(beginData, unsigned(state.data - beginData), isFirstData, false);
-    state.node = node_t::RANGE_12_0;
+        _str_view_12_0(beginData, unsigned(state.data - beginData), state.consumed);
+    state.consumed += unsigned(state.data - beginData);
+    state.node = node_t::STR_VIEW_12_0;
+    return true;
+}
+
+inline bool json::notify_12_1(state_t & state)
+{
+    gotVal();
+    state.node = node_t::LOOP_1_1;
     return true;
 }
 
@@ -1084,9 +1144,9 @@ inline bool json::loop_14_0(state_t & state)
     return uint_14_0(state);
 }
 
-inline void json::_uint_14_0(const char * data, unsigned len, bool isFirst)
+inline void json::_uint_14_0(const char * data, unsigned len, uint64_t consumed)
 {
-    if (isFirst)
+    if (!consumed)
         jsonResult::depth = 0;
     for(const char * end = &data[len]; data < end; data++)
         jsonResult::depth = jsonResult::depth*10 + *data - '0';
@@ -1111,7 +1171,6 @@ inline bool json::uint_14_0(state_t & state)
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0-9]
-    bool isFirstData = !state.consumed;
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
@@ -1160,16 +1219,16 @@ inline bool json::uint_14_0(state_t & state)
             state.data++;
             continue;
         }
-        _uint_14_0(beginData, unsigned(state.data - beginData), isFirstData);
+        _uint_14_0(beginData, unsigned(state.data - beginData), state.consumed);
         state.consumed += unsigned(state.data - beginData);
         state.node = (state.consumed >= 1) ? node_t::LOOP_14_0 : node_t::NO_STATE;
         bool ret = (state.node == node_t::LOOP_14_0);
         state.consumed = 0;
         return ret;
     }
-    state.consumed += unsigned(state.data - beginData);
     if (beginData < state.data)
-        _uint_14_0(beginData, unsigned(state.data - beginData), isFirstData);
+        _uint_14_0(beginData, unsigned(state.data - beginData), state.consumed);
+    state.consumed += unsigned(state.data - beginData);
     state.node = node_t::UINT_14_0;
     return true;
 }
@@ -1177,7 +1236,6 @@ inline bool json::uint_14_0(state_t & state)
 void json::reset()
 {
     jsonResult::depth = 0;
-    jsonResult::key.clear();
     json::mainState = json::state_t();
 }
 
@@ -1197,7 +1255,7 @@ const char * json::state_t::name() const
         case node_t::FUNC_4_1: return "FUNC_4_1";
         case node_t::NOTIFY_4_2: return "NOTIFY_4_2";
         case node_t::TEXT_5_0: return "TEXT_5_0";
-        case node_t::STRING_5_1: return "STRING_5_1";
+        case node_t::STR_VIEW_5_1: return "STR_VIEW_5_1";
         case node_t::TEXT_5_2: return "TEXT_5_2";
         case node_t::RANGE_5_3: return "RANGE_5_3";
         case node_t::CASES_5_4: return "CASES_5_4";
@@ -1205,18 +1263,24 @@ const char * json::state_t::name() const
         case node_t::RANGE_6_1: return "RANGE_6_1";
         case node_t::CASES_6_2: return "CASES_6_2";
         case node_t::TEXT_7_0: return "TEXT_7_0";
-        case node_t::RANGE_7_1: return "RANGE_7_1";
+        case node_t::STR_VIEW_7_1: return "STR_VIEW_7_1";
         case node_t::TEXT_7_2: return "TEXT_7_2";
-        case node_t::RANGE_8_0: return "RANGE_8_0";
-        case node_t::FUNC_8_1: return "FUNC_8_1";
-        case node_t::NOTIFY_8_2: return "NOTIFY_8_2";
+        case node_t::NOTIFY_7_3: return "NOTIFY_7_3";
+        case node_t::STR_VIEW_8_0: return "STR_VIEW_8_0";
+        case node_t::NOTIFY_8_1: return "NOTIFY_8_1";
         case node_t::RANGE_9_0: return "RANGE_9_0";
+        case node_t::FUNC_9_1: return "FUNC_9_1";
+        case node_t::NOTIFY_9_2: return "NOTIFY_9_2";
         case node_t::TEXT_10_0: return "TEXT_10_0";
         case node_t::FUNC_10_1: return "FUNC_10_1";
+        case node_t::NOTIFY_10_2: return "NOTIFY_10_2";
         case node_t::RANGE_11_0: return "RANGE_11_0";
         case node_t::FUNC_11_1: return "FUNC_11_1";
         case node_t::NOTIFY_11_2: return "NOTIFY_11_2";
-        case node_t::RANGE_12_0: return "RANGE_12_0";
+        case node_t::FUNC_11_3: return "FUNC_11_3";
+        case node_t::NOTIFY_11_4: return "NOTIFY_11_4";
+        case node_t::STR_VIEW_12_0: return "STR_VIEW_12_0";
+        case node_t::NOTIFY_12_1: return "NOTIFY_12_1";
         case node_t::LOOP_14_0: return "LOOP_14_0";
         case node_t::UINT_14_0: return "UINT_14_0";
         case node_t::NO_STATE: return "NO_STATE";
