@@ -1,14 +1,13 @@
-label:start
-    [, \t\r\n]+
-    [\{\[] { depth++; } { key.clear(); }     notify:pushDepth
-    [\}\]] { depth--; }                      notify:popDepth
-    "\"" [^"]->string:key "\"" [ \t\r\n]* \
-        ":" [ \t\r\n]* \
-            "\"" [^"]*->string:value "\""    notify:gotKV
-            [0-9a-zA-Z\.\-]->string:value    notify:gotKV
-            [\{\[] { depth++; }              notify:pushDepth
-        "," { value.swap(key); }             notify:gotVal
-        [\}\]] { value.swap(key); }          notify:gotVal { depth--; } notify:popDepth
-    [0-9a-zA-Z_\-\.]->string:value           notify:gotVal
+[, \t\r\n]+
+[\{\[] { depth++; } { key.clear(); }     notify:pushDepth
+[\}\]] { depth--; }                      notify:popDepth
+"\"" [^"]->string:key "\"" [ \t\r\n]* \
+    ":" [ \t\r\n]* \
+        "\"" [^"]*->string:value "\""    notify:gotKV
+        [0-9a-zA-Z\.\-]->string:value    notify:gotKV
+        [\{\[] { depth++; }              notify:pushDepth
+    "," { value.swap(key); }             notify:gotVal
+    [\}\]] { value.swap(key); }          notify:gotVal { depth--; } notify:popDepth
+[0-9a-zA-Z_\-\.]->string:value           notify:gotVal
 
 u32:depth

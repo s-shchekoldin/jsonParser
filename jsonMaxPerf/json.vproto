@@ -1,14 +1,13 @@
-label:start
-    [, \t\r\n]+
-    [\{\[] { depth++; } { key = std::string_view(); } notify:pushDepth
-    [\}\]] { depth--; }                               notify:popDepth
-    "\"" [^"]->string_view:key "\"" [ \t\r\n]* \
-        ":" [ \t\r\n]* \
-            "\"" [^"]*->string_view:value "\""        notify:gotKV
-            [0-9a-zA-Z\.\-]->string_view:value        notify:gotKV
-            [\{\[] { depth++; }                       notify:pushDepth
-        "," { value = std::move(key); }               notify:gotVal
-        [\}\]] { value = std::move(key); }            notify:gotVal { depth--; } notify:popDepth
-    [0-9a-zA-Z_\-\.]->string_view:value               notify:gotVal
+[, \t\r\n]+
+[\{\[] { depth++; } { key = std::string_view(); } notify:pushDepth
+[\}\]] { depth--; }                               notify:popDepth
+"\"" [^"]->string_view:key "\"" [ \t\r\n]* \
+    ":" [ \t\r\n]* \
+        "\"" [^"]*->string_view:value "\""        notify:gotKV
+        [0-9a-zA-Z\.\-]->string_view:value        notify:gotKV
+        [\{\[] { depth++; }                       notify:pushDepth
+    "," { value = std::move(key); }               notify:gotVal
+    [\}\]] { value = std::move(key); }            notify:gotVal { depth--; } notify:popDepth
+[0-9a-zA-Z_\-\.]->string_view:value               notify:gotVal
 
 u32:depth

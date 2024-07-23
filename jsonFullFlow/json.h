@@ -35,20 +35,19 @@ private:
     enum class node_t
     {
         LOOP_1_0, // line_1
-            LABEL_1_0, LOOP_1_1,
-                RANGE_2_0, 
-                RANGE_3_0, FUNC_3_1, FUNC_3_2, NOTIFY_3_3, 
-                RANGE_4_0, FUNC_4_1, NOTIFY_4_2, 
-                TEXT_5_0, STRING_5_1, TEXT_5_2, RANGE_5_3, CASES_5_4,
-                    TEXT_6_0, RANGE_6_1, CASES_6_2,
-                        TEXT_7_0, STRING_7_1, TEXT_7_2, NOTIFY_7_3, 
-                        STRING_8_0, NOTIFY_8_1, 
-                        RANGE_9_0, FUNC_9_1, NOTIFY_9_2, 
-                    TEXT_10_0, FUNC_10_1, NOTIFY_10_2, 
-                    RANGE_11_0, FUNC_11_1, NOTIFY_11_2, FUNC_11_3, NOTIFY_11_4, 
-                STRING_12_0, NOTIFY_12_1, 
-        LOOP_14_0, // line_14
-            UINT_14_0, 
+            RANGE_1_0, 
+            RANGE_2_0, FUNC_2_1, FUNC_2_2, NOTIFY_2_3, 
+            RANGE_3_0, FUNC_3_1, NOTIFY_3_2, 
+            TEXT_4_0, STRING_4_1, TEXT_4_2, RANGE_4_3, CASES_4_4,
+                TEXT_5_0, RANGE_5_1, CASES_5_2,
+                    TEXT_6_0, STRING_6_1, TEXT_6_2, NOTIFY_6_3, 
+                    STRING_7_0, NOTIFY_7_1, 
+                    RANGE_8_0, FUNC_8_1, NOTIFY_8_2, 
+                TEXT_9_0, FUNC_9_1, NOTIFY_9_2, 
+                RANGE_10_0, FUNC_10_1, NOTIFY_10_2, FUNC_10_3, NOTIFY_10_4, 
+            STRING_11_0, NOTIFY_11_1, 
+        LOOP_13_0, // line_13
+            UINT_13_0, 
         NO_STATE
     };
     struct state_t
@@ -57,65 +56,61 @@ private:
         const char * end = nullptr;
         uint64_t consumed = 0;
         node_t node = node_t::LOOP_1_0;
-        unsigned retStackCount = 0;
-        node_t retStack[2];
         unsigned remainDataLen() const { return (unsigned)(end - data); }
         const char * name() const;
-    };
+    } __attribute__((packed));
     state_t mainState;
 
     void parse(state_t & state);
     bool loop_1_0(state_t & state);
-    bool label_1_0(state_t & state);
-    bool loop_1_1(state_t & state);
+    bool range_1_0(state_t & state);
     bool range_2_0(state_t & state);
+    bool func_2_1(state_t & state);
+    bool _func_2_1();
+    bool func_2_2(state_t & state);
+    bool _func_2_2();
+    bool notify_2_3(state_t & state);
     bool range_3_0(state_t & state);
     bool func_3_1(state_t & state);
     bool _func_3_1();
-    bool func_3_2(state_t & state);
-    bool _func_3_2();
-    bool notify_3_3(state_t & state);
-    bool range_4_0(state_t & state);
-    bool func_4_1(state_t & state);
-    bool _func_4_1();
-    bool notify_4_2(state_t & state);
+    bool notify_3_2(state_t & state);
+    bool text_4_0(state_t & state);
+    bool string_4_1(state_t & state);
+    void _string_4_1(const char * data, unsigned len, uint64_t consumed);
+    bool text_4_2(state_t & state);
+    bool range_4_3(state_t & state);
+    bool cases_4_4(state_t & state);
     bool text_5_0(state_t & state);
-    bool string_5_1(state_t & state);
-    void _string_5_1(const char * data, unsigned len, uint64_t consumed);
-    bool text_5_2(state_t & state);
-    bool range_5_3(state_t & state);
-    bool cases_5_4(state_t & state);
+    bool range_5_1(state_t & state);
+    bool cases_5_2(state_t & state);
     bool text_6_0(state_t & state);
-    bool range_6_1(state_t & state);
-    bool cases_6_2(state_t & state);
-    bool text_7_0(state_t & state);
-    bool string_7_1(state_t & state);
-    void _string_7_1(const char * data, unsigned len, uint64_t consumed);
-    bool text_7_2(state_t & state);
-    bool notify_7_3(state_t & state);
-    bool string_8_0(state_t & state);
-    void _string_8_0(const char * data, unsigned len, uint64_t consumed);
-    bool notify_8_1(state_t & state);
-    bool range_9_0(state_t & state);
+    bool string_6_1(state_t & state);
+    void _string_6_1(const char * data, unsigned len, uint64_t consumed);
+    bool text_6_2(state_t & state);
+    bool notify_6_3(state_t & state);
+    bool string_7_0(state_t & state);
+    void _string_7_0(const char * data, unsigned len, uint64_t consumed);
+    bool notify_7_1(state_t & state);
+    bool range_8_0(state_t & state);
+    bool func_8_1(state_t & state);
+    bool _func_8_1();
+    bool notify_8_2(state_t & state);
+    bool text_9_0(state_t & state);
     bool func_9_1(state_t & state);
     bool _func_9_1();
     bool notify_9_2(state_t & state);
-    bool text_10_0(state_t & state);
+    bool range_10_0(state_t & state);
     bool func_10_1(state_t & state);
     bool _func_10_1();
     bool notify_10_2(state_t & state);
-    bool range_11_0(state_t & state);
-    bool func_11_1(state_t & state);
-    bool _func_11_1();
-    bool notify_11_2(state_t & state);
-    bool func_11_3(state_t & state);
-    bool _func_11_3();
-    bool notify_11_4(state_t & state);
-    bool string_12_0(state_t & state);
-    void _string_12_0(const char * data, unsigned len, uint64_t consumed);
-    bool notify_12_1(state_t & state);
-    bool loop_14_0(state_t & state);
-    bool uint_14_0(state_t & state);
-    void _uint_14_0(const char * data, unsigned len, uint64_t consumed);
+    bool func_10_3(state_t & state);
+    bool _func_10_3();
+    bool notify_10_4(state_t & state);
+    bool string_11_0(state_t & state);
+    void _string_11_0(const char * data, unsigned len, uint64_t consumed);
+    bool notify_11_1(state_t & state);
+    bool loop_13_0(state_t & state);
+    bool uint_13_0(state_t & state);
+    void _uint_13_0(const char * data, unsigned len, uint64_t consumed);
 };
 #endif
