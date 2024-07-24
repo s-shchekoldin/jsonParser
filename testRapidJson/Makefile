@@ -1,33 +1,34 @@
 
 TARGET = perfJson
-LDFLAGS = -g -O3
+FLAGS = -g -O3
+GCC = g++
 
-all: version native profile valgrind
+all: version native profile
 
 version:
-	g++ --version
+	$(GCC) --version
 
 native:
 	@echo "\tNative Code Test:"
-	g++ $(LDFLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
+	$(GCC) $(FLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
 	taskset -c 0 ./$(TARGET)
 
 profile:
 	@echo "\tProfile Code Test:"
-	g++ -fprofile-generate=gcda $(LDFLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
+	$(GCC) -fprofile-generate=gcda $(FLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
 	./$(TARGET)
-	g++ -fprofile-use=gcda $(LDFLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
+	$(GCC) -fprofile-use=gcda $(FLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
 	taskset -c 0 ./$(TARGET)
 
 valgrind:
 	@echo "\tValgrind Native Code:"
-	g++ -DREPEAT_COUNT=1000000 $(LDFLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
+	$(GCC) -DREPEAT_COUNT=1000000 $(FLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
 	valgrind --tool=cachegrind --cache-sim=yes --branch-sim=yes ./$(TARGET)
 	
 	@echo "\tValgrind Profile Code:"
-	g++ -DREPEAT_COUNT=1000000 -fprofile-generate=gcda $(LDFLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
+	$(GCC) -DREPEAT_COUNT=1000000 -fprofile-generate=gcda $(FLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
 	./$(TARGET)
-	g++ -DREPEAT_COUNT=1000000 -fprofile-use=gcda $(LDFLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
+	$(GCC) -DREPEAT_COUNT=1000000 -fprofile-use=gcda $(FLAGS) $(shell find ./ -name '*.cc') -I./ -o $(TARGET)
 	valgrind --tool=cachegrind --cache-sim=yes --branch-sim=yes ./$(TARGET)
 
 clean:

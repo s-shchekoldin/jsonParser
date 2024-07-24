@@ -5,8 +5,10 @@
 
 #include <rapidjson/reader.h>
 
-#ifndef REPEAT_COUNT
-#define REPEAT_COUNT (20*1000*1000)
+#ifdef REPEAT_COUNT
+uint64_t repeatCount = REPEAT_COUNT;
+#else
+uint64_t repeatCount = 10*1000*1000;
 #endif
 
 struct MyHandler
@@ -38,7 +40,7 @@ int main()
     uint64_t reqCount = 0;
     uint64_t totalBytes = 0;
     auto startTime = std::chrono::high_resolution_clock::now();
-    for(uint64_t i = 0; i < REPEAT_COUNT; i++)
+    for(uint64_t i = 0; i < repeatCount; i++)
     {
         reqCount++;
         totalBytes += input.length();
@@ -55,7 +57,7 @@ int main()
     uint64_t usec = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();
     if (usec == 0)
     {
-        printf("Warning! increase REPEAT_COUNT=%lu\n", REPEAT_COUNT);
+        printf("Warning! increase repeatCount=%lu\n", repeatCount);
         return 0;
     }
     printf("\t\t\tRESULT: usec=%lu, Mbites/sec=%lu ReqPerSeq: %lu TotalBytes: %lu\r\n",
