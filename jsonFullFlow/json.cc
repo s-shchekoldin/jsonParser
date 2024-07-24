@@ -1,5 +1,6 @@
 // ==============================================================
-// Generated using https://www.vsyn.ru/
+// Date: 2024-07-24 20:20:52 GMT
+// Generated using vProto(2024.07.24)         https://www.vsyn.ru
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -24,39 +25,39 @@ inline void json::parse(state_t & state)
         {
             case node_t::LOOP_1_0: loop_1_0(state); break;
             case node_t::RANGE_1_0: range_1_0(state); break;
-            case node_t::RANGE_2_0: if (!range_2_0(state) || state.node != node_t::FUNC_2_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_2_1: if (!func_2_1(state) || state.node != node_t::FUNC_2_2) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_2_2: if (!func_2_2(state) || state.node != node_t::NOTIFY_2_3) break; __attribute__ ((fallthrough));
+            case node_t::RANGE_2_0: if (!range_2_0(state) || state.node != node_t::FUNC_2_1) break; [[fallthrough]];
+            case node_t::FUNC_2_1: if (!func_2_1(state) || state.node != node_t::FUNC_2_2) break; [[fallthrough]];
+            case node_t::FUNC_2_2: if (!func_2_2(state) || state.node != node_t::NOTIFY_2_3) break; [[fallthrough]];
             case node_t::NOTIFY_2_3: notify_2_3(state); break;
-            case node_t::RANGE_3_0: if (!range_3_0(state) || state.node != node_t::FUNC_3_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_3_1: if (!func_3_1(state) || state.node != node_t::NOTIFY_3_2) break; __attribute__ ((fallthrough));
+            case node_t::RANGE_3_0: if (!range_3_0(state) || state.node != node_t::FUNC_3_1) break; [[fallthrough]];
+            case node_t::FUNC_3_1: if (!func_3_1(state) || state.node != node_t::NOTIFY_3_2) break; [[fallthrough]];
             case node_t::NOTIFY_3_2: notify_3_2(state); break;
-            case node_t::TEXT_4_0: if (!text_4_0(state) || state.node != node_t::STRING_4_1) break; __attribute__ ((fallthrough));
-            case node_t::STRING_4_1: if (!string_4_1(state) || state.node != node_t::TEXT_4_2) break; __attribute__ ((fallthrough));
-            case node_t::TEXT_4_2: if (!text_4_2(state) || state.node != node_t::RANGE_4_3) break; __attribute__ ((fallthrough));
-            case node_t::RANGE_4_3: if (!range_4_3(state) || state.node != node_t::CASES_4_4) break; __attribute__ ((fallthrough));
+            case node_t::TEXT_4_0: if (!text_4_0(state) || state.node != node_t::STRING_4_1) break; [[fallthrough]];
+            case node_t::STRING_4_1: if (!string_4_1(state) || state.node != node_t::TEXT_4_2) break; [[fallthrough]];
+            case node_t::TEXT_4_2: if (!text_4_2(state) || state.node != node_t::RANGE_4_3) break; [[fallthrough]];
+            case node_t::RANGE_4_3: if (!range_4_3(state) || state.node != node_t::CASES_4_4) break; [[fallthrough]];
             case node_t::CASES_4_4: cases_4_4(state); break;
-            case node_t::TEXT_5_0: if (!text_5_0(state) || state.node != node_t::RANGE_5_1) break; __attribute__ ((fallthrough));
-            case node_t::RANGE_5_1: if (!range_5_1(state) || state.node != node_t::CASES_5_2) break; __attribute__ ((fallthrough));
+            case node_t::TEXT_5_0: if (!text_5_0(state) || state.node != node_t::RANGE_5_1) break; [[fallthrough]];
+            case node_t::RANGE_5_1: if (!range_5_1(state) || state.node != node_t::CASES_5_2) break; [[fallthrough]];
             case node_t::CASES_5_2: cases_5_2(state); break;
-            case node_t::TEXT_6_0: if (!text_6_0(state) || state.node != node_t::STRING_6_1) break; __attribute__ ((fallthrough));
-            case node_t::STRING_6_1: if (!string_6_1(state) || state.node != node_t::TEXT_6_2) break; __attribute__ ((fallthrough));
-            case node_t::TEXT_6_2: if (!text_6_2(state) || state.node != node_t::NOTIFY_6_3) break; __attribute__ ((fallthrough));
+            case node_t::TEXT_6_0: if (!text_6_0(state) || state.node != node_t::STRING_6_1) break; [[fallthrough]];
+            case node_t::STRING_6_1: if (!string_6_1(state) || state.node != node_t::TEXT_6_2) break; [[fallthrough]];
+            case node_t::TEXT_6_2: if (!text_6_2(state) || state.node != node_t::NOTIFY_6_3) break; [[fallthrough]];
             case node_t::NOTIFY_6_3: notify_6_3(state); break;
-            case node_t::STRING_7_0: if (!string_7_0(state) || state.node != node_t::NOTIFY_7_1) break; __attribute__ ((fallthrough));
+            case node_t::STRING_7_0: if (!string_7_0(state) || state.node != node_t::NOTIFY_7_1) break; [[fallthrough]];
             case node_t::NOTIFY_7_1: notify_7_1(state); break;
-            case node_t::RANGE_8_0: if (!range_8_0(state) || state.node != node_t::FUNC_8_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_8_1: if (!func_8_1(state) || state.node != node_t::NOTIFY_8_2) break; __attribute__ ((fallthrough));
+            case node_t::RANGE_8_0: if (!range_8_0(state) || state.node != node_t::FUNC_8_1) break; [[fallthrough]];
+            case node_t::FUNC_8_1: if (!func_8_1(state) || state.node != node_t::NOTIFY_8_2) break; [[fallthrough]];
             case node_t::NOTIFY_8_2: notify_8_2(state); break;
-            case node_t::TEXT_9_0: if (!text_9_0(state) || state.node != node_t::FUNC_9_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_9_1: if (!func_9_1(state) || state.node != node_t::NOTIFY_9_2) break; __attribute__ ((fallthrough));
+            case node_t::TEXT_9_0: if (!text_9_0(state) || state.node != node_t::FUNC_9_1) break; [[fallthrough]];
+            case node_t::FUNC_9_1: if (!func_9_1(state) || state.node != node_t::NOTIFY_9_2) break; [[fallthrough]];
             case node_t::NOTIFY_9_2: notify_9_2(state); break;
-            case node_t::RANGE_10_0: if (!range_10_0(state) || state.node != node_t::FUNC_10_1) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_10_1: if (!func_10_1(state) || state.node != node_t::NOTIFY_10_2) break; __attribute__ ((fallthrough));
-            case node_t::NOTIFY_10_2: if (!notify_10_2(state) || state.node != node_t::FUNC_10_3) break; __attribute__ ((fallthrough));
-            case node_t::FUNC_10_3: if (!func_10_3(state) || state.node != node_t::NOTIFY_10_4) break; __attribute__ ((fallthrough));
+            case node_t::RANGE_10_0: if (!range_10_0(state) || state.node != node_t::FUNC_10_1) break; [[fallthrough]];
+            case node_t::FUNC_10_1: if (!func_10_1(state) || state.node != node_t::NOTIFY_10_2) break; [[fallthrough]];
+            case node_t::NOTIFY_10_2: if (!notify_10_2(state) || state.node != node_t::FUNC_10_3) break; [[fallthrough]];
+            case node_t::FUNC_10_3: if (!func_10_3(state) || state.node != node_t::NOTIFY_10_4) break; [[fallthrough]];
             case node_t::NOTIFY_10_4: notify_10_4(state); break;
-            case node_t::STRING_11_0: if (!string_11_0(state) || state.node != node_t::NOTIFY_11_1) break; __attribute__ ((fallthrough));
+            case node_t::STRING_11_0: if (!string_11_0(state) || state.node != node_t::NOTIFY_11_1) break; [[fallthrough]];
             case node_t::NOTIFY_11_1: notify_11_1(state); break;
             case node_t::LOOP_13_0: loop_13_0(state); break;
             case node_t::UINT_13_0: uint_13_0(state); break;

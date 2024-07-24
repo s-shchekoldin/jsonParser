@@ -1,43 +1,43 @@
 g++ (Debian 12.2.0-14) 12.2.0
 
         Valgrind Native Code:
-== I   refs:      8,066,879,738
-== I1  misses:            2,222
+== I   refs:      8,067,879,740
+== I1  misses:            2,223
 == LLi misses:            2,102
 == I1  miss rate:          0.00%
 == LLi miss rate:          0.00%
 ==
-== D   refs:      3,312,645,212  (2,371,482,760 rd   + 941,162,452 wr)
+== D   refs:      3,313,645,213  (2,372,482,761 rd   + 941,162,452 wr)
 == D1  misses:           15,833  (       13,570 rd   +       2,263 wr)
 == LLd misses:            8,820  (        7,404 rd   +       1,416 wr)
 == D1  miss rate:           0.0% (          0.0%     +         0.0%  )
 == LLd miss rate:           0.0% (          0.0%     +         0.0%  )
 ==
-== LL refs:              18,055  (       15,792 rd   +       2,263 wr)
+== LL refs:              18,056  (       15,793 rd   +       2,263 wr)
 == LL misses:            10,922  (        9,506 rd   +       1,416 wr)
 == LL miss rate:            0.0% (          0.0%     +         0.0%  )
 ==
-== Branches:      1,877,294,114  (1,840,288,484 cond +  37,005,630 ind)
-== Mispredicts:     129,014,690  (  129,013,275 cond +       1,415 ind)
+== Branches:      1,877,294,115  (1,840,288,485 cond +  37,005,630 ind)
+== Mispredicts:     129,014,695  (  129,013,280 cond +       1,415 ind)
 == Mispred rate:            6.9% (          7.0%     +         0.0%   )
 
         Valgrind Profile Code:
-== I   refs:      7,251,668,588
-== I1  misses:            2,166
+== I   refs:      7,253,918,589
+== I1  misses:            2,165
 == LLi misses:            2,069
 == I1  miss rate:          0.00%
 == LLi miss rate:          0.00%
 ==
-== D   refs:      3,160,665,533  (2,231,496,751 rd   + 929,168,782 wr)
+== D   refs:      3,161,665,534  (2,232,496,752 rd   + 929,168,782 wr)
 == D1  misses:           15,818  (       13,554 rd   +       2,264 wr)
 == LLd misses:            8,815  (        7,398 rd   +       1,417 wr)
 == D1  miss rate:           0.0% (          0.0%     +         0.0%  )
 == LLd miss rate:           0.0% (          0.0%     +         0.0%  )
 ==
-== LL refs:              17,984  (       15,720 rd   +       2,264 wr)
+== LL refs:              17,983  (       15,719 rd   +       2,264 wr)
 == LL misses:            10,884  (        9,467 rd   +       1,417 wr)
 == LL miss rate:            0.0% (          0.0%     +         0.0%  )
 ==
-== Branches:      1,842,551,243  (1,841,545,611 cond +   1,005,632 ind)
-== Mispredicts:     129,764,643  (  129,763,234 cond +       1,409 ind)
+== Branches:      1,843,301,244  (1,842,295,612 cond +   1,005,632 ind)
+== Mispredicts:     129,014,626  (  129,013,217 cond +       1,409 ind)
 == Mispred rate:            7.0% (          7.0%     +         0.1%   )

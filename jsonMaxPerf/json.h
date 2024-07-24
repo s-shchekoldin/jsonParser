@@ -1,5 +1,6 @@
 // ==============================================================
-// Generated using https://www.vsyn.ru/
+// Date: 2024-07-24 20:21:07 GMT
+// Generated using vProto(2024.07.24)         https://www.vsyn.ru
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -57,6 +58,7 @@ private:
         const char * end = nullptr;
         uint64_t consumed = 0;
         node_t node = node_t::LOOP_1_0;
+
         unsigned remainDataLen() const { return (unsigned)(end - data); }
         const char * name() const;
     } __attribute__((packed));
