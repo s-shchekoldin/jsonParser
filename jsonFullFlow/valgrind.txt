@@ -1,43 +1,43 @@
 g++ (Debian 12.2.0-14) 12.2.0
 
         Valgrind Native Code:
-== I   refs:      11,681,885,276
-== I1  misses:             2,244
-== LLi misses:             2,128
+== I   refs:      11,318,885,276
+== I1  misses:             2,240
+== LLi misses:             2,127
 == I1  miss rate:           0.00%
 == LLi miss rate:           0.00%
 ==
-== D   refs:       4,874,647,364  (3,336,484,272 rd   + 1,538,163,092 wr)
+== D   refs:       4,841,647,364  (3,265,484,272 rd   + 1,576,163,092 wr)
 == D1  misses:            15,883  (       13,615 rd   +         2,268 wr)
 == LLd misses:             8,834  (        7,416 rd   +         1,418 wr)
 == D1  miss rate:            0.0% (          0.0%     +           0.0%  )
 == LLd miss rate:            0.0% (          0.0%     +           0.0%  )
 ==
-== LL refs:               18,127  (       15,859 rd   +         2,268 wr)
-== LL misses:             10,962  (        9,544 rd   +         1,418 wr)
+== LL refs:               18,123  (       15,855 rd   +         2,268 wr)
+== LL misses:             10,961  (        9,543 rd   +         1,418 wr)
 == LL miss rate:             0.0% (          0.0%     +           0.0%  )
 ==
-== Branches:       2,511,294,927  (2,359,289,278 cond +   152,005,649 ind)
-== Mispredicts:      202,014,888  (  194,013,468 cond +     8,001,420 ind)
-== Mispred rate:             8.0% (          8.2%     +           5.3%   )
+== Branches:       2,438,294,927  (2,322,289,278 cond +   116,005,649 ind)
+== Mispredicts:      192,014,896  (  184,013,476 cond +     8,001,420 ind)
+== Mispred rate:             7.9% (          7.9%     +           6.9%   )
 
         Valgrind Profile Code:
-== I   refs:      10,878,923,754
-== I1  misses:             2,199
-== LLi misses:             2,094
+== I   refs:      10,892,923,754
+== I1  misses:             2,198
+== LLi misses:             2,092
 == I1  miss rate:           0.00%
 == LLi miss rate:           0.00%
 ==
-== D   refs:       4,791,667,682  (3,265,498,261 rd   + 1,526,169,421 wr)
+== D   refs:       4,833,667,682  (3,269,498,261 rd   + 1,564,169,421 wr)
 == D1  misses:            15,879  (       13,612 rd   +         2,267 wr)
 == LLd misses:             8,833  (        7,415 rd   +         1,418 wr)
 == D1  miss rate:            0.0% (          0.0%     +           0.0%  )
 == LLd miss rate:            0.0% (          0.0%     +           0.0%  )
 ==
-== LL refs:               18,078  (       15,811 rd   +         2,267 wr)
-== LL misses:             10,927  (        9,509 rd   +         1,418 wr)
+== LL refs:               18,077  (       15,810 rd   +         2,267 wr)
+== LL misses:             10,925  (        9,507 rd   +         1,418 wr)
 == LL miss rate:             0.0% (          0.0%     +           0.0%  )
 ==
 == Branches:       2,477,302,006  (2,361,296,362 cond +   116,005,644 ind)
-== Mispredicts:      180,014,807  (  174,013,386 cond +     6,001,421 ind)
-== Mispred rate:             7.3% (          7.4%     +           5.2%   )
+== Mispredicts:      189,014,798  (  183,013,377 cond +     6,001,421 ind)
+== Mispred rate:             7.6% (          7.8%     +           5.2%   )
