@@ -1,10 +1,14 @@
 // ==============================================================
-// Date: 2024-08-06 19:59:34 GMT
-// Generated using vProto(2024.08.06)         https://www.vsyn.ru
+// Date: 2024-08-12 19:25:03 GMT
+// Generated using vProto(2024.08.12)         https://www.vsyn.ru
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
 #include "json.h"
+// To enable SSE4.2, use the compiler flag '-msse4.2' or '-march=native' (if the CPU supports it)
+#ifdef __SSE4_2__
+#include <immintrin.h>
+#endif
 
 inline void json::parse(state_t & state)
 {
@@ -125,6 +129,21 @@ inline bool json::range_1_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
+#ifdef __SSE4_2__
+        if(&state.data[16] <= state.end)
+        {
+            const __m128i s = _mm_set_epi8(0x09, 0x0A, 0x0D, 0x20, 0x2C, 0x09, 0x0A, 0x0D, 0x20, 0x2C, 0x09, 0x0A, 0x0D, 0x20, 0x2C, 0x09);
+            const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
+            int r =  _mm_cmpistri(s, d, _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_ANY | _SIDD_LEAST_SIGNIFICANT | _SIDD_NEGATIVE_POLARITY);
+            if (r < 16)
+                state.data += r;
+            else
+            {
+                state.data += 16;
+                continue;
+            }
+        }
+#else // __SSE4_2__
         if(&state.data[16] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
@@ -165,16 +184,22 @@ inline bool json::range_1_0(state_t & state)
                 continue;
             }
         }
+#endif // __SSE4_2__
         else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
         {
             state.data++;
             continue;
         }
-        state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::LOOP_1_0 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::LOOP_1_0);
+        uint64_t totalConsumed = state.consumed + unsigned(state.data - beginData);
         state.consumed = 0;
-        return ret;
+        if (totalConsumed >= 1)
+        {
+            state.node = node_t::LOOP_1_0;
+            return true;
+        } else {
+            state.node = node_t::NO_STATE;
+            return false;
+        }
     }
     state.consumed += unsigned(state.data - beginData);
     state.node = node_t::RANGE_1_0;
@@ -354,6 +379,21 @@ inline bool json::str_view_4_1(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
+#ifdef __SSE4_2__
+        if(&state.data[16] <= state.end)
+        {
+            const __m128i s = _mm_set_epi8(0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22);
+            const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
+            int r =  _mm_cmpistri(s, d, _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_ANY | _SIDD_LEAST_SIGNIFICANT);
+            if (r < 16)
+                state.data += r;
+            else
+            {
+                state.data += 16;
+                continue;
+            }
+        }
+#else // __SSE4_2__
         if(&state.data[16] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
@@ -394,17 +434,23 @@ inline bool json::str_view_4_1(state_t & state)
                 continue;
             }
         }
+#endif // __SSE4_2__
         else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
         {
             state.data++;
             continue;
         }
         _str_view_4_1(beginData, unsigned(state.data - beginData), state.consumed);
-        state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::TEXT_4_2 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::TEXT_4_2);
+        uint64_t totalConsumed = state.consumed + unsigned(state.data - beginData);
         state.consumed = 0;
-        return ret;
+        if (totalConsumed >= 1)
+        {
+            state.node = node_t::TEXT_4_2;
+            return true;
+        } else {
+            state.node = node_t::NO_STATE;
+            return false;
+        }
     }
     if (beginData < state.data)
         _str_view_4_1(beginData, unsigned(state.data - beginData), state.consumed);
@@ -498,10 +544,9 @@ inline bool json::range_4_3(state_t & state)
             state.data++;
             continue;
         }
-        state.node = node_t::CASES_4_4;
-        bool ret = (state.node == node_t::CASES_4_4);
         state.consumed = 0;
-        return ret;
+        state.node = node_t::CASES_4_4;
+        return true;
     }
     state.consumed += unsigned(state.data - beginData);
     state.node = node_t::RANGE_4_3;
@@ -611,10 +656,9 @@ inline bool json::range_5_1(state_t & state)
             state.data++;
             continue;
         }
-        state.node = node_t::CASES_5_2;
-        bool ret = (state.node == node_t::CASES_5_2);
         state.consumed = 0;
-        return ret;
+        state.node = node_t::CASES_5_2;
+        return true;
     }
     state.consumed += unsigned(state.data - beginData);
     state.node = node_t::RANGE_5_1;
@@ -732,10 +776,9 @@ inline bool json::str_view_6_1(state_t & state)
             continue;
         }
         _str_view_6_1(beginData, unsigned(state.data - beginData), state.consumed);
-        state.node = node_t::TEXT_6_2;
-        bool ret = (state.node == node_t::TEXT_6_2);
         state.consumed = 0;
-        return ret;
+        state.node = node_t::TEXT_6_2;
+        return true;
     }
     if (beginData < state.data)
         _str_view_6_1(beginData, unsigned(state.data - beginData), state.consumed);
@@ -844,11 +887,16 @@ inline bool json::str_view_7_0(state_t & state)
             continue;
         }
         _str_view_7_0(beginData, unsigned(state.data - beginData), state.consumed);
-        state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::NOTIFY_7_1 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::NOTIFY_7_1);
+        uint64_t totalConsumed = state.consumed + unsigned(state.data - beginData);
         state.consumed = 0;
-        return ret;
+        if (totalConsumed >= 1)
+        {
+            state.node = node_t::NOTIFY_7_1;
+            return true;
+        } else {
+            state.node = node_t::NO_STATE;
+            return false;
+        }
     }
     if (beginData < state.data)
         _str_view_7_0(beginData, unsigned(state.data - beginData), state.consumed);
@@ -1109,11 +1157,16 @@ inline bool json::str_view_11_0(state_t & state)
             continue;
         }
         _str_view_11_0(beginData, unsigned(state.data - beginData), state.consumed);
-        state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::NOTIFY_11_1 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::NOTIFY_11_1);
+        uint64_t totalConsumed = state.consumed + unsigned(state.data - beginData);
         state.consumed = 0;
-        return ret;
+        if (totalConsumed >= 1)
+        {
+            state.node = node_t::NOTIFY_11_1;
+            return true;
+        } else {
+            state.node = node_t::NO_STATE;
+            return false;
+        }
     }
     if (beginData < state.data)
         _str_view_11_0(beginData, unsigned(state.data - beginData), state.consumed);
@@ -1164,6 +1217,21 @@ inline bool json::uint_13_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
+#ifdef __SSE4_2__
+        if(&state.data[16] <= state.end)
+        {
+            const __m128i s = _mm_set_epi8(0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35);
+            const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
+            int r =  _mm_cmpistri(s, d, _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_ANY | _SIDD_LEAST_SIGNIFICANT | _SIDD_NEGATIVE_POLARITY);
+            if (r < 16)
+                state.data += r;
+            else
+            {
+                state.data += 16;
+                continue;
+            }
+        }
+#else // __SSE4_2__
         if(&state.data[16] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
@@ -1204,17 +1272,23 @@ inline bool json::uint_13_0(state_t & state)
                 continue;
             }
         }
+#endif // __SSE4_2__
         else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
         {
             state.data++;
             continue;
         }
         _uint_13_0(beginData, unsigned(state.data - beginData), state.consumed);
-        state.consumed += unsigned(state.data - beginData);
-        state.node = (state.consumed >= 1) ? node_t::LOOP_13_0 : node_t::NO_STATE;
-        bool ret = (state.node == node_t::LOOP_13_0);
+        uint64_t totalConsumed = state.consumed + unsigned(state.data - beginData);
         state.consumed = 0;
-        return ret;
+        if (totalConsumed >= 1)
+        {
+            state.node = node_t::LOOP_13_0;
+            return true;
+        } else {
+            state.node = node_t::NO_STATE;
+            return false;
+        }
     }
     if (beginData < state.data)
         _uint_13_0(beginData, unsigned(state.data - beginData), state.consumed);
