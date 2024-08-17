@@ -1,6 +1,6 @@
 
 TARGET = perfJson
-FLAGS = -g -O3
+FLAGS = -g -O3 -march=native
 GCC = g++
 
 all: version native profile

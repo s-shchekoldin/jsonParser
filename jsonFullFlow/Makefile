@@ -1,7 +1,7 @@
 
 TEST_TARGET = jsonParserTest
 PERF_TARGET = jsonParserPerf
-FLAGS = -g -O3
+FLAGS = -g -O3 -march=native
 GCC = g++
 
 all: output version native profile

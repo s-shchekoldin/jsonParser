@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2024-08-12 19:25:03 GMT
-// Generated using vProto(2024.08.12)         https://www.vsyn.ru
+// Date: 2024-08-17 11:01:31 GMT
+// Generated using vProto(2024.08.17)         https://www.vsyn.ru
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -85,22 +85,16 @@ inline bool json::loop_1_0(state_t & state)
 {
     if (state.data == state.end)
         return true;
-    state_t startState = state;
     if (range_1_0(state)) // case_1
         return true;
-    state = startState;
     if (range_2_0(state)) // case_2
         return true;
-    state = startState;
     if (range_3_0(state)) // case_3
         return true;
-    state = startState;
     if (text_4_0(state)) // case_4
         return true;
-    state = startState;
     if (string_11_0(state)) // case_5
         return true;
-    state = startState;
     state.node = node_t::NO_STATE;
     return true;
 }
@@ -127,21 +121,6 @@ inline bool json::range_1_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
-#ifdef __SSE4_2__
-        if(&state.data[16] <= state.end)
-        {
-            const __m128i s = _mm_set_epi8(0x09, 0x0A, 0x0D, 0x20, 0x2C, 0x09, 0x0A, 0x0D, 0x20, 0x2C, 0x09, 0x0A, 0x0D, 0x20, 0x2C, 0x09);
-            const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
-            int r =  _mm_cmpistri(s, d, _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_ANY | _SIDD_LEAST_SIGNIFICANT | _SIDD_NEGATIVE_POLARITY);
-            if (r < 16)
-                state.data += r;
-            else
-            {
-                state.data += 16;
-                continue;
-            }
-        }
-#else // __SSE4_2__
         if(&state.data[16] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
@@ -182,7 +161,6 @@ inline bool json::range_1_0(state_t & state)
                 continue;
             }
         }
-#endif // __SSE4_2__
         else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
         {
             state.data++;
@@ -557,16 +535,12 @@ inline bool json::cases_4_4(state_t & state)
 {
     if (state.data == state.end)
         return true;
-    state_t startState = state;
     if (text_5_0(state)) // case_1
         return true;
-    state = startState;
     if (text_9_0(state)) // case_2
         return true;
-    state = startState;
     if (range_10_0(state)) // case_3
         return true;
-    state = startState;
     state.node = node_t::NO_STATE;
     return true;
 }
@@ -669,16 +643,12 @@ inline bool json::cases_5_2(state_t & state)
 {
     if (state.data == state.end)
         return true;
-    state_t startState = state;
     if (text_6_0(state)) // case_1
         return true;
-    state = startState;
     if (string_7_0(state)) // case_2
         return true;
-    state = startState;
     if (range_8_0(state)) // case_3
         return true;
-    state = startState;
     state.node = node_t::NO_STATE;
     return true;
 }
@@ -732,6 +702,21 @@ inline bool json::string_6_1(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
+#ifdef __SSE4_2__
+        if(&state.data[16] <= state.end)
+        {
+            const __m128i s = _mm_set_epi8(0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22);
+            const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
+            int r =  _mm_cmpistri(s, d, _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_ANY | _SIDD_LEAST_SIGNIFICANT);
+            if (r < 16)
+                state.data += r;
+            else
+            {
+                state.data += 16;
+                continue;
+            }
+        }
+#else // __SSE4_2__
         if(&state.data[16] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
@@ -772,6 +757,7 @@ inline bool json::string_6_1(state_t & state)
                 continue;
             }
         }
+#endif // __SSE4_2__
         else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
         {
             state.data++;
@@ -1223,21 +1209,6 @@ inline bool json::uint_13_0(state_t & state)
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
-#ifdef __SSE4_2__
-        if(&state.data[16] <= state.end)
-        {
-            const __m128i s = _mm_set_epi8(0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35);
-            const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
-            int r =  _mm_cmpistri(s, d, _SIDD_UBYTE_OPS | _SIDD_CMP_EQUAL_ANY | _SIDD_LEAST_SIGNIFICANT | _SIDD_NEGATIVE_POLARITY);
-            if (r < 16)
-                state.data += r;
-            else
-            {
-                state.data += 16;
-                continue;
-            }
-        }
-#else // __SSE4_2__
         if(&state.data[16] <= state.end)
         {
             if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
@@ -1278,7 +1249,6 @@ inline bool json::uint_13_0(state_t & state)
                 continue;
             }
         }
-#endif // __SSE4_2__
         else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
         {
             state.data++;
