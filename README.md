@@ -1,5 +1,5 @@
 This is a demonstration of using the json-parsing example.
-The code (json.h and json.cc) was automatically generated using vProto at https://vsyn.ru
+The code (json.h and json.cc) was automatically generated using vProto at https://cgen.dev
 The application demonstrates operation in 2 modes:
 jsonFullFlow - streaming processing (any data fragmentation, data can arrive byte by byte)
 jsonMaxPerf - lack of fragmentation support (std::string_view) achieving maximum performance in this mode.
