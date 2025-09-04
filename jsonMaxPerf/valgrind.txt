@@ -1,85 +1,43 @@
 g++ (Debian 12.2.0-14) 12.2.0
 
         Valgrind Native Code:
-== I   refs:      7,641,879,754
-== I1  misses:            2,216
-== LLi misses:            2,094
-== I1  miss rate:          0.00%
-== LLi miss rate:          0.00%
-==
-== D   refs:      3,262,645,221  (2,321,482,769 rd   + 941,162,452 wr)
-== D1  misses:           15,833  (       13,570 rd   +       2,263 wr)
-== LLd misses:            8,820  (        7,404 rd   +       1,416 wr)
-== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
-== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
-==
-== LL refs:              18,049  (       15,786 rd   +       2,263 wr)
-== LL misses:            10,914  (        9,498 rd   +       1,416 wr)
-== LL miss rate:            0.0% (          0.0%     +         0.0%  )
-==
-== Branches:      1,804,294,116  (1,803,288,486 cond +   1,005,630 ind)
-== Mispredicts:     121,014,705  (  121,013,290 cond +       1,415 ind)
-== Mispred rate:            6.7% (          6.7%     +         0.1%   )
+==40346== I   refs:      6,174,879,717
+==40346== I1  misses:            2,204
+==40346== LLi misses:            2,087
+==40346== I1  miss rate:          0.00%
+==40346== LLi miss rate:          0.00%
+==40346== 
+==40346== D   refs:      2,375,645,314  (1,458,482,806 rd   + 917,162,508 wr)
+==40346== D1  misses:           15,829  (       13,563 rd   +       2,266 wr)
+==40346== LLd misses:            8,815  (        7,397 rd   +       1,418 wr)
+==40346== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
+==40346== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
+==40346== 
+==40346== LL refs:              18,033  (       15,767 rd   +       2,266 wr)
+==40346== LL misses:            10,902  (        9,484 rd   +       1,418 wr)
+==40346== LL miss rate:            0.0% (          0.0%     +         0.0%  )
+==40346== 
+==40346== Branches:      1,400,294,052  (1,399,288,422 cond +   1,005,630 ind)
+==40346== Mispredicts:      75,014,669  (   75,013,254 cond +       1,415 ind)
+==40346== Mispred rate:            5.4% (          5.4%     +         0.1%   )
 
         Valgrind Profile Code:
-== I   refs:      7,332,900,662
-== I1  misses:            2,166
-== LLi misses:            2,069
-== I1  miss rate:          0.00%
-== LLi miss rate:          0.00%
-==
-== D   refs:      3,161,650,606  (2,232,487,337 rd   + 929,163,269 wr)
-== D1  misses:           15,818  (       13,554 rd   +       2,264 wr)
-== LLd misses:            8,815  (        7,398 rd   +       1,417 wr)
-== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
-== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
-==
-== LL refs:              17,984  (       15,720 rd   +       2,264 wr)
-== LL misses:            10,884  (        9,467 rd   +       1,417 wr)
-== LL miss rate:            0.0% (          0.0%     +         0.0%  )
-==
-== Branches:      1,843,298,102  (1,842,292,470 cond +   1,005,632 ind)
-== Mispredicts:     152,014,664  (  152,013,254 cond +       1,410 ind)
-== Mispred rate:            8.2% (          8.3%     +         0.1%   )
-
-        Valgrind Native Code SSE4.2:
-== I   refs:      6,188,879,775
-== I1  misses:            2,198
-== LLi misses:            2,080
-== I1  miss rate:          0.00%
-== LLi miss rate:          0.00%
-==
-== D   refs:      2,411,645,226  (1,489,482,772 rd   + 922,162,454 wr)
-== D1  misses:           15,829  (       13,566 rd   +       2,263 wr)
-== LLd misses:            8,817  (        7,401 rd   +       1,416 wr)
-== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
-== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
-==
-== LL refs:              18,027  (       15,764 rd   +       2,263 wr)
-== LL misses:            10,897  (        9,481 rd   +       1,416 wr)
-== LL miss rate:            0.0% (          0.0%     +         0.0%  )
-==
-== Branches:      1,426,294,119  (1,425,288,489 cond +   1,005,630 ind)
-== Mispredicts:      81,014,692  (   81,013,277 cond +       1,415 ind)
-== Mispred rate:            5.7% (          5.7%     +         0.1%   )
-
-        Valgrind Profile Code SSE4.2:
-== I   refs:      5,938,919,413
-== I1  misses:            2,150
-== LLi misses:            2,054
-== I1  miss rate:          0.00%
-== LLi miss rate:          0.00%
-==
-== D   refs:      2,305,668,712  (1,387,498,345 rd   + 918,170,367 wr)
-== D1  misses:           15,813  (       13,550 rd   +       2,263 wr)
-== LLd misses:            8,811  (        7,395 rd   +       1,416 wr)
-== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
-== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
-==
-== LL refs:              17,963  (       15,700 rd   +       2,263 wr)
-== LL misses:            10,865  (        9,449 rd   +       1,416 wr)
-== LL miss rate:            0.0% (          0.0%     +         0.0%  )
-==
-== Branches:      1,423,301,245  (1,422,295,613 cond +   1,005,632 ind)
-== Mispredicts:     114,014,627  (  114,013,218 cond +       1,409 ind)
-== Mispred rate:            8.0% (          8.0%     +         0.1%   )
+==40363== I   refs:      5,888,918,548
+==40363== I1  misses:            2,160
+==40363== LLi misses:            2,061
+==40363== I1  miss rate:          0.00%
+==40363== LLi miss rate:          0.00%
+==40363== 
+==40363== D   refs:      2,339,665,632  (1,427,496,795 rd   + 912,168,837 wr)
+==40363== D1  misses:           15,813  (       13,547 rd   +       2,266 wr)
+==40363== LLd misses:            8,809  (        7,391 rd   +       1,418 wr)
+==40363== D1  miss rate:           0.0% (          0.0%     +         0.0%  )
+==40363== LLd miss rate:           0.0% (          0.0%     +         0.0%  )
+==40363== 
+==40363== LL refs:              17,973  (       15,707 rd   +       2,266 wr)
+==40363== LL misses:            10,870  (        9,452 rd   +       1,418 wr)
+==40363== LL miss rate:            0.0% (          0.0%     +         0.0%  )
+==40363== 
+==40363== Branches:      1,397,301,178  (1,396,295,546 cond +   1,005,632 ind)
+==40363== Mispredicts:      95,014,653  (   95,013,244 cond +       1,409 ind)
+==40363== Mispred rate:            6.8% (          6.8%     +         0.1%   )

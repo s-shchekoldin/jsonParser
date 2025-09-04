@@ -1,4 +1,4 @@
-[, \t\r\n]+
+[, \t\r\n]+ (nosse)
 [\{\[] { depth++; } { key.clear(); }     notify:pushDepth
 [\}\]] { depth--; }                      notify:popDepth
 "\"" [^"]->string:key "\"" [ \t\r\n]* \

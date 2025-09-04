@@ -1,17 +1,26 @@
 // ==============================================================
-// Date: 2025-08-31 19:58:07 GMT
-// Generated using vProto(2025.08.31)        https://www.cgen.dev
+// Date: 2025-09-04 06:13:37 GMT
+// Generated using vProto(2025.09.04)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
+// autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
 
+// To enable AVX2 use: -mavx2
+// To enable SSE2 use: -msse2
+// Or: -march=native (may break compatibility)
 #include "json.h"
-// To enable SSE4.2, use the compiler flag '-msse4.2' or '-march=native' (if the CPU supports it)
-#ifdef __SSE4_2__
+#if defined(__SSE4_2__) || defined(__AVX2__)
 #include <immintrin.h>
 #endif
-// To enable SSE2, use the compiler flag '-msse2' or '-march=native' (if the CPU supports it)
-#ifdef __SSE2__
+#if defined(__SSE2__)
 #include <emmintrin.h>
+#endif
+
+#if defined(_MSC_VER)
+#include <intrin.h>
+inline unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
+#else
+inline unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
 #endif
 
 inline void json::parse(state_t & state)
@@ -167,7 +176,7 @@ inline bool json::range_1_0(state_t & state)
                 continue;
             }
         }
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(exitSym[uint8_t(state.data[0])])) [[unlikely]]
         {
             state.data++;
             continue;
@@ -343,48 +352,31 @@ void json::_str_view_4_1(const char * data, unsigned len, uint64_t consumed)
 
 inline bool json::str_view_4_1(state_t & state)
 {
-    const static bool exitSym[256] = {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false,  true, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}; // ^[0x22]
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
-#ifdef __AVX2__
+#if defined(__AVX2__)
         if(&state.data[32] <= state.end)
         {
             const __m256i d = _mm256_lddqu_si256((const __m256i *)state.data);
             __m256i m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
             uint32_t r = _mm256_movemask_epi8(m);
             if (r)
-                state.data += __builtin_ctzl(r);
+                state.data += __ctz32(r);
             else
             {
                 state.data += 32;
                 continue;
             }
         }
-#elif __SSE2__
+#elif defined(__SSE2__)
         if(&state.data[16] <= state.end)
         {
             const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
             __m128i m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
             uint16_t r = _mm_movemask_epi8(m);
             if (r)
-                state.data += __builtin_ctz(r);
+                state.data += __ctz32(r);
             else
             {
                 state.data += 16;
@@ -394,37 +386,37 @@ inline bool json::str_view_4_1(state_t & state)
 #else
         if(&state.data[16] <= state.end)
         {
-            if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
+            if (uint8_t(state.data[0]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 0;
-            else if (exitSym[uint8_t(state.data[1])]) [[unlikely]]
+            else if (uint8_t(state.data[1]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 1;
-            else if (exitSym[uint8_t(state.data[2])]) [[unlikely]]
+            else if (uint8_t(state.data[2]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 2;
-            else if (exitSym[uint8_t(state.data[3])]) [[unlikely]]
+            else if (uint8_t(state.data[3]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 3;
-            else if (exitSym[uint8_t(state.data[4])]) [[unlikely]]
+            else if (uint8_t(state.data[4]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 4;
-            else if (exitSym[uint8_t(state.data[5])]) [[unlikely]]
+            else if (uint8_t(state.data[5]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 5;
-            else if (exitSym[uint8_t(state.data[6])]) [[unlikely]]
+            else if (uint8_t(state.data[6]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 6;
-            else if (exitSym[uint8_t(state.data[7])]) [[unlikely]]
+            else if (uint8_t(state.data[7]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 7;
-            else if (exitSym[uint8_t(state.data[8])]) [[unlikely]]
+            else if (uint8_t(state.data[8]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 8;
-            else if (exitSym[uint8_t(state.data[9])]) [[unlikely]]
+            else if (uint8_t(state.data[9]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 9;
-            else if (exitSym[uint8_t(state.data[10])]) [[unlikely]]
+            else if (uint8_t(state.data[10]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 10;
-            else if (exitSym[uint8_t(state.data[11])]) [[unlikely]]
+            else if (uint8_t(state.data[11]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 11;
-            else if (exitSym[uint8_t(state.data[12])]) [[unlikely]]
+            else if (uint8_t(state.data[12]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 12;
-            else if (exitSym[uint8_t(state.data[13])]) [[unlikely]]
+            else if (uint8_t(state.data[13]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 13;
-            else if (exitSym[uint8_t(state.data[14])]) [[unlikely]]
+            else if (uint8_t(state.data[14]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 14;
-            else if (exitSym[uint8_t(state.data[15])]) [[unlikely]]
+            else if (uint8_t(state.data[15]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 15;
             else
             {
@@ -433,7 +425,7 @@ inline bool json::str_view_4_1(state_t & state)
             }
         }
 #endif
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(uint8_t(state.data[0]) == uint8_t(0x22))) [[unlikely]]
         {
             state.data++;
             continue;
@@ -537,7 +529,7 @@ inline bool json::range_4_3(state_t & state)
                 continue;
             }
         }
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(exitSym[uint8_t(state.data[0])])) [[unlikely]]
         {
             state.data++;
             continue;
@@ -645,7 +637,7 @@ inline bool json::range_5_1(state_t & state)
                 continue;
             }
         }
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(exitSym[uint8_t(state.data[0])])) [[unlikely]]
         {
             state.data++;
             continue;
@@ -700,48 +692,31 @@ void json::_str_view_6_1(const char * data, unsigned len, uint64_t consumed)
 
 inline bool json::str_view_6_1(state_t & state)
 {
-    const static bool exitSym[256] = {
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false,  true, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false}; // ^[0x22]
     const char * beginData = state.data;
     while(state.data < state.end) [[likely]]
     {
-#ifdef __AVX2__
+#if defined(__AVX2__)
         if(&state.data[32] <= state.end)
         {
             const __m256i d = _mm256_lddqu_si256((const __m256i *)state.data);
             __m256i m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
             uint32_t r = _mm256_movemask_epi8(m);
             if (r)
-                state.data += __builtin_ctzl(r);
+                state.data += __ctz32(r);
             else
             {
                 state.data += 32;
                 continue;
             }
         }
-#elif __SSE2__
+#elif defined(__SSE2__)
         if(&state.data[16] <= state.end)
         {
             const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
             __m128i m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
             uint16_t r = _mm_movemask_epi8(m);
             if (r)
-                state.data += __builtin_ctz(r);
+                state.data += __ctz32(r);
             else
             {
                 state.data += 16;
@@ -751,37 +726,37 @@ inline bool json::str_view_6_1(state_t & state)
 #else
         if(&state.data[16] <= state.end)
         {
-            if (exitSym[uint8_t(state.data[0])]) [[unlikely]]
+            if (uint8_t(state.data[0]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 0;
-            else if (exitSym[uint8_t(state.data[1])]) [[unlikely]]
+            else if (uint8_t(state.data[1]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 1;
-            else if (exitSym[uint8_t(state.data[2])]) [[unlikely]]
+            else if (uint8_t(state.data[2]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 2;
-            else if (exitSym[uint8_t(state.data[3])]) [[unlikely]]
+            else if (uint8_t(state.data[3]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 3;
-            else if (exitSym[uint8_t(state.data[4])]) [[unlikely]]
+            else if (uint8_t(state.data[4]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 4;
-            else if (exitSym[uint8_t(state.data[5])]) [[unlikely]]
+            else if (uint8_t(state.data[5]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 5;
-            else if (exitSym[uint8_t(state.data[6])]) [[unlikely]]
+            else if (uint8_t(state.data[6]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 6;
-            else if (exitSym[uint8_t(state.data[7])]) [[unlikely]]
+            else if (uint8_t(state.data[7]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 7;
-            else if (exitSym[uint8_t(state.data[8])]) [[unlikely]]
+            else if (uint8_t(state.data[8]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 8;
-            else if (exitSym[uint8_t(state.data[9])]) [[unlikely]]
+            else if (uint8_t(state.data[9]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 9;
-            else if (exitSym[uint8_t(state.data[10])]) [[unlikely]]
+            else if (uint8_t(state.data[10]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 10;
-            else if (exitSym[uint8_t(state.data[11])]) [[unlikely]]
+            else if (uint8_t(state.data[11]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 11;
-            else if (exitSym[uint8_t(state.data[12])]) [[unlikely]]
+            else if (uint8_t(state.data[12]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 12;
-            else if (exitSym[uint8_t(state.data[13])]) [[unlikely]]
+            else if (uint8_t(state.data[13]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 13;
-            else if (exitSym[uint8_t(state.data[14])]) [[unlikely]]
+            else if (uint8_t(state.data[14]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 14;
-            else if (exitSym[uint8_t(state.data[15])]) [[unlikely]]
+            else if (uint8_t(state.data[15]) == uint8_t(0x22)) [[unlikely]]
                 state.data += 15;
             else
             {
@@ -790,7 +765,7 @@ inline bool json::str_view_6_1(state_t & state)
             }
         }
 #endif
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(uint8_t(state.data[0]) == uint8_t(0x22))) [[unlikely]]
         {
             state.data++;
             continue;
@@ -901,7 +876,7 @@ inline bool json::str_view_7_0(state_t & state)
                 continue;
             }
         }
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(exitSym[uint8_t(state.data[0])])) [[unlikely]]
         {
             state.data++;
             continue;
@@ -1173,7 +1148,7 @@ inline bool json::str_view_11_0(state_t & state)
                 continue;
             }
         }
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(exitSym[uint8_t(state.data[0])])) [[unlikely]]
         {
             state.data++;
             continue;
@@ -1279,7 +1254,7 @@ inline bool json::uint_13_0(state_t & state)
                 continue;
             }
         }
-        else if (!exitSym[uint8_t(state.data[0])]) [[unlikely]]
+        else if (!(exitSym[uint8_t(state.data[0])])) [[unlikely]]
         {
             state.data++;
             continue;

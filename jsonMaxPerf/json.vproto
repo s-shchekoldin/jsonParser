@@ -1,4 +1,4 @@
-[, \t\r\n]+
+[, \t\r\n]+ (nosse)
 [\{\[] { depth++; } { key = std::string_view(); } notify:pushDepth
 [\}\]] { depth--; }                               notify:popDepth
 "\"" [^"]->string_view:key "\"" [ \t\r\n]* \
