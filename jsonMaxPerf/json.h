@@ -62,7 +62,7 @@ private:
 
         unsigned remainDataLen() const { return (unsigned)(end - data); }
         const char * name() const;
-    } __attribute__((packed));
+    };
     state_t mainState;
 
     void parse(state_t & state);
