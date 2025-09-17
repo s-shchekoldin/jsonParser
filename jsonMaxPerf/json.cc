@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2025-09-04 06:13:49 GMT
-// Generated using vProto(2025.09.04)        https://www.cgen.dev
+// Date: 2025-09-17 08:30:45 GMT
+// Generated using vProto(2025.09.17)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
@@ -116,7 +116,7 @@ inline bool json::loop_1_0(state_t & state)
 
 inline bool json::range_1_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
         false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true, 
@@ -199,7 +199,7 @@ inline bool json::range_1_0(state_t & state)
 
 inline bool json::range_2_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -269,7 +269,7 @@ inline bool json::notify_2_3(state_t & state)
 
 inline bool json::range_3_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -469,7 +469,7 @@ inline bool json::text_4_2(state_t & state)
 
 inline bool json::range_4_3(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
         false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -577,7 +577,7 @@ inline bool json::text_5_0(state_t & state)
 
 inline bool json::range_5_1(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
         false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -816,7 +816,7 @@ void json::_str_view_7_0(const char * data, unsigned len, uint64_t consumed)
 
 inline bool json::str_view_7_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true, 
@@ -909,7 +909,7 @@ inline bool json::notify_7_1(state_t & state)
 
 inline bool json::range_8_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1004,7 +1004,7 @@ inline bool json::notify_9_2(state_t & state)
 
 inline bool json::range_10_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1088,7 +1088,7 @@ void json::_str_view_11_0(const char * data, unsigned len, uint64_t consumed)
 
 inline bool json::str_view_11_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true, 
@@ -1194,7 +1194,7 @@ void json::_uint_13_0(const char * data, unsigned len, uint64_t consumed)
 
 inline bool json::uint_13_0(state_t & state)
 {
-    const static bool exitSym[256] = {
+    const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
