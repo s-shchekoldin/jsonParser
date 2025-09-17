@@ -1,5 +1,5 @@
 // ==============================================================
-// Date: 2025-09-17 08:30:45 GMT
+// Date: 2025-09-17 18:46:08 GMT
 // Generated using vProto(2025.09.17)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
@@ -241,9 +241,13 @@ inline bool json::_func_2_1()
 }
 inline bool json::func_2_1(state_t & state)
 {
-    bool ret = _func_2_1();
-    state.node = ret ? node_t::FUNC_2_2 : node_t::NO_STATE;
-    return ret;
+    if (_func_2_1())
+    {
+        state.node = node_t::FUNC_2_2;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::_func_2_2()
@@ -253,9 +257,13 @@ inline bool json::_func_2_2()
 }
 inline bool json::func_2_2(state_t & state)
 {
-    bool ret = _func_2_2();
-    state.node = ret ? node_t::NOTIFY_2_3 : node_t::NO_STATE;
-    return ret;
+    if (_func_2_2())
+    {
+        state.node = node_t::NOTIFY_2_3;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::notify_2_3(state_t & state)
@@ -311,9 +319,13 @@ inline bool json::_func_3_1()
 }
 inline bool json::func_3_1(state_t & state)
 {
-    bool ret = _func_3_1();
-    state.node = ret ? node_t::NOTIFY_3_2 : node_t::NO_STATE;
-    return ret;
+    if (_func_3_1())
+    {
+        state.node = node_t::NOTIFY_3_2;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::notify_3_2(state_t & state)
@@ -957,9 +969,13 @@ inline bool json::_func_8_1()
 }
 inline bool json::func_8_1(state_t & state)
 {
-    bool ret = _func_8_1();
-    state.node = ret ? node_t::NOTIFY_8_2 : node_t::NO_STATE;
-    return ret;
+    if (_func_8_1())
+    {
+        state.node = node_t::NOTIFY_8_2;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::notify_8_2(state_t & state)
@@ -994,9 +1010,13 @@ inline bool json::_func_9_1()
 }
 inline bool json::func_9_1(state_t & state)
 {
-    bool ret = _func_9_1();
-    state.node = ret ? node_t::NOTIFY_9_2 : node_t::NO_STATE;
-    return ret;
+    if (_func_9_1())
+    {
+        state.node = node_t::NOTIFY_9_2;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::notify_9_2(state_t & state)
@@ -1052,9 +1072,13 @@ inline bool json::_func_10_1()
 }
 inline bool json::func_10_1(state_t & state)
 {
-    bool ret = _func_10_1();
-    state.node = ret ? node_t::NOTIFY_10_2 : node_t::NO_STATE;
-    return ret;
+    if (_func_10_1())
+    {
+        state.node = node_t::NOTIFY_10_2;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::notify_10_2(state_t & state)
@@ -1071,9 +1095,13 @@ inline bool json::_func_10_3()
 }
 inline bool json::func_10_3(state_t & state)
 {
-    bool ret = _func_10_3();
-    state.node = ret ? node_t::NOTIFY_10_4 : node_t::NO_STATE;
-    return ret;
+    if (_func_10_3())
+    {
+        state.node = node_t::NOTIFY_10_4;
+        return true;
+    }
+    state.node = node_t::NO_STATE;
+    return false;
 }
 
 inline bool json::notify_10_4(state_t & state)
