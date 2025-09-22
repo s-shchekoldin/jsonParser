@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2025-09-17 18:46:08 GMT
-// Generated using vProto(2025.09.17)        https://www.cgen.dev
+// Date: 2025-09-22 18:01:21 GMT
+// Generated using vProto(2025.09.22)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -67,43 +67,43 @@ private:
 
     void parse(state_t & state);
     bool loop_1_0(state_t & state);
-    bool range_1_0(state_t & state);
-    bool range_2_0(state_t & state);
+    bool range_1_0(state_t & state) const;
+    bool range_2_0(state_t & state) const;
     bool func_2_1(state_t & state);
     bool _func_2_1();
     bool func_2_2(state_t & state);
     bool _func_2_2();
     bool notify_2_3(state_t & state);
-    bool range_3_0(state_t & state);
+    bool range_3_0(state_t & state) const;
     bool func_3_1(state_t & state);
     bool _func_3_1();
     bool notify_3_2(state_t & state);
-    bool text_4_0(state_t & state);
+    bool text_4_0(state_t & state) const;
     bool string_4_1(state_t & state);
     void _string_4_1(const char * data, unsigned len, uint64_t consumed);
-    bool text_4_2(state_t & state);
-    bool range_4_3(state_t & state);
-    bool cases_4_4(state_t & state);
-    bool text_5_0(state_t & state);
-    bool range_5_1(state_t & state);
+    bool text_4_2(state_t & state) const;
+    bool range_4_3(state_t & state) const;
+    bool cases_4_4(state_t & state) const;
+    bool text_5_0(state_t & state) const;
+    bool range_5_1(state_t & state) const;
     bool cases_5_2(state_t & state);
-    bool text_6_0(state_t & state);
+    bool text_6_0(state_t & state) const;
     bool string_6_1(state_t & state);
     void _string_6_1(const char * data, unsigned len, uint64_t consumed);
-    bool text_6_2(state_t & state);
+    bool text_6_2(state_t & state) const;
     bool notify_6_3(state_t & state);
     bool string_7_0(state_t & state);
     void _string_7_0(const char * data, unsigned len, uint64_t consumed);
     bool notify_7_1(state_t & state);
-    bool range_8_0(state_t & state);
+    bool range_8_0(state_t & state) const;
     bool func_8_1(state_t & state);
     bool _func_8_1();
     bool notify_8_2(state_t & state);
-    bool text_9_0(state_t & state);
+    bool text_9_0(state_t & state) const;
     bool func_9_1(state_t & state);
     bool _func_9_1();
     bool notify_9_2(state_t & state);
-    bool range_10_0(state_t & state);
+    bool range_10_0(state_t & state) const;
     bool func_10_1(state_t & state);
     bool _func_10_1();
     bool notify_10_2(state_t & state);

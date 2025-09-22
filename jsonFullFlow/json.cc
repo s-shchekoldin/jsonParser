@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2025-09-17 18:46:08 GMT
-// Generated using vProto(2025.09.17)        https://www.cgen.dev
+// Date: 2025-09-22 18:01:21 GMT
+// Generated using vProto(2025.09.22)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
@@ -112,7 +112,7 @@ inline bool json::loop_1_0(state_t & state)
     return true;
 }
 
-inline bool json::range_1_0(state_t & state)
+inline bool json::range_1_0(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
@@ -195,7 +195,7 @@ inline bool json::range_1_0(state_t & state)
     return true;
 }
 
-inline bool json::range_2_0(state_t & state)
+inline bool json::range_2_0(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -273,7 +273,7 @@ inline bool json::notify_2_3(state_t & state)
     return true;
 }
 
-inline bool json::range_3_0(state_t & state)
+inline bool json::range_3_0(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -335,7 +335,7 @@ inline bool json::notify_3_2(state_t & state)
     return true;
 }
 
-inline bool json::text_4_0(state_t & state)
+inline bool json::text_4_0(state_t & state) const
 {
     if(state.data < state.end)
     {
@@ -461,7 +461,7 @@ inline bool json::string_4_1(state_t & state)
     return true;
 }
 
-inline bool json::text_4_2(state_t & state)
+inline bool json::text_4_2(state_t & state) const
 {
     if(state.data < state.end)
     {
@@ -479,7 +479,7 @@ inline bool json::text_4_2(state_t & state)
     return true;
 }
 
-inline bool json::range_4_3(state_t & state)
+inline bool json::range_4_3(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
@@ -555,7 +555,7 @@ inline bool json::range_4_3(state_t & state)
     return true;
 }
 
-inline bool json::cases_4_4(state_t & state)
+inline bool json::cases_4_4(state_t & state) const
 {
     if (state.data == state.end)
         return true;
@@ -569,7 +569,7 @@ inline bool json::cases_4_4(state_t & state)
     return true;
 }
 
-inline bool json::text_5_0(state_t & state)
+inline bool json::text_5_0(state_t & state) const
 {
     if(state.data < state.end)
     {
@@ -587,7 +587,7 @@ inline bool json::text_5_0(state_t & state)
     return true;
 }
 
-inline bool json::range_5_1(state_t & state)
+inline bool json::range_5_1(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
@@ -677,7 +677,7 @@ inline bool json::cases_5_2(state_t & state)
     return true;
 }
 
-inline bool json::text_6_0(state_t & state)
+inline bool json::text_6_0(state_t & state) const
 {
     if(state.data < state.end)
     {
@@ -796,7 +796,7 @@ inline bool json::string_6_1(state_t & state)
     return true;
 }
 
-inline bool json::text_6_2(state_t & state)
+inline bool json::text_6_2(state_t & state) const
 {
     if(state.data < state.end)
     {
@@ -923,7 +923,7 @@ inline bool json::notify_7_1(state_t & state)
     return true;
 }
 
-inline bool json::range_8_0(state_t & state)
+inline bool json::range_8_0(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -985,7 +985,7 @@ inline bool json::notify_8_2(state_t & state)
     return true;
 }
 
-inline bool json::text_9_0(state_t & state)
+inline bool json::text_9_0(state_t & state) const
 {
     if(state.data < state.end)
     {
@@ -1026,7 +1026,7 @@ inline bool json::notify_9_2(state_t & state)
     return true;
 }
 
-inline bool json::range_10_0(state_t & state)
+inline bool json::range_10_0(state_t & state) const
 {
     const static std::array<bool, 256> exitSym = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
