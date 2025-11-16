@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2025-09-22 18:01:21 GMT
-// Generated using vProto(2025.09.22)        https://www.cgen.dev
+// Date: 2025-11-16 07:23:23 GMT
+// Generated using vProto(2025.11.16)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -39,19 +39,19 @@ private:
     enum class node_t
     {
         LOOP_1_0, // line_1
-            RANGE_1_0, 
-            RANGE_2_0, FUNC_2_1, FUNC_2_2, NOTIFY_2_3, 
-            RANGE_3_0, FUNC_3_1, NOTIFY_3_2, 
+            RANGE_1_0,
+            RANGE_2_0, FUNC_2_1, FUNC_2_2, NOTIFY_2_3,
+            RANGE_3_0, FUNC_3_1, NOTIFY_3_2,
             TEXT_4_0, STR_VIEW_4_1, TEXT_4_2, RANGE_4_3, CASES_4_4,
                 TEXT_5_0, RANGE_5_1, CASES_5_2,
-                    TEXT_6_0, STR_VIEW_6_1, TEXT_6_2, NOTIFY_6_3, 
-                    STR_VIEW_7_0, NOTIFY_7_1, 
-                    RANGE_8_0, FUNC_8_1, NOTIFY_8_2, 
-                TEXT_9_0, FUNC_9_1, NOTIFY_9_2, 
-                RANGE_10_0, FUNC_10_1, NOTIFY_10_2, FUNC_10_3, NOTIFY_10_4, 
-            STR_VIEW_11_0, NOTIFY_11_1, 
+                    TEXT_6_0, STR_VIEW_6_1, TEXT_6_2, NOTIFY_6_3,
+                    STR_VIEW_7_0, NOTIFY_7_1,
+                    RANGE_8_0, FUNC_8_1, NOTIFY_8_2,
+                TEXT_9_0, FUNC_9_1, NOTIFY_9_2,
+                RANGE_10_0, FUNC_10_1, NOTIFY_10_2, FUNC_10_3, NOTIFY_10_4,
+            STR_VIEW_11_0, NOTIFY_11_1,
         LOOP_13_0, // line_13
-            UINT_13_0, 
+            UINT_13_0,
         NO_STATE
     };
     struct state_t
