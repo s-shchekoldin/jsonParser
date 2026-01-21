@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2025-11-16 07:24:00 GMT
-// Generated using vProto(2025.11.16)        https://www.cgen.dev
+// Date: 2026-01-21 18:12:37 GMT
+// Generated using vProto(2026.01.21)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -28,93 +28,92 @@ struct jsonResult
 
 struct json : jsonResult
 {
-    template<class... Args> explicit json(Args ... args) : jsonResult(args ...) {}
+    template<class... Args> explicit json(Args && ... args) : jsonResult(args ...) {}
     bool parse(const char * data, unsigned len);
     bool parse(const std::string & data) { return parse(data.data(), data.length()); }
+    bool empty() const { return mstate.node == NodeT::NoState; }
     void reset();
-    bool empty() const { return mainState.node == node_t::NO_STATE; }
 
 private:
-    enum class node_t
+    enum class NodeT
     {
-        LOOP_1_0, // line_1
-            RANGE_1_0,
-            RANGE_2_0, FUNC_2_1, FUNC_2_2, NOTIFY_2_3,
-            RANGE_3_0, FUNC_3_1, NOTIFY_3_2,
-            TEXT_4_0, STRING_4_1, TEXT_4_2, RANGE_4_3, CASES_4_4,
-                TEXT_5_0, RANGE_5_1, CASES_5_2,
-                    TEXT_6_0, STRING_6_1, TEXT_6_2, NOTIFY_6_3,
-                    STRING_7_0, NOTIFY_7_1,
-                    RANGE_8_0, FUNC_8_1, NOTIFY_8_2,
-                TEXT_9_0, FUNC_9_1, NOTIFY_9_2,
-                RANGE_10_0, FUNC_10_1, NOTIFY_10_2, FUNC_10_3, NOTIFY_10_4,
-            STRING_11_0, NOTIFY_11_1,
-        LOOP_13_0, // line_13
-            UINT_13_0,
-        NO_STATE
+        Loop1_0, // line_1
+            Range1_0,
+            Range2_0, Func2_1, Func2_2, Notify2_3,
+            Range3_0, Func3_1, Notify3_2,
+            Text4_0, String4_1, Text4_2, Range4_3, Cases4_4,
+                Text5_0, Range5_1, Cases5_2,
+                    Text6_0, String6_1, Text6_2, Notify6_3,
+                    String7_0, Notify7_1,
+                    Range8_0, Func8_1, Notify8_2,
+                Text9_0, Func9_1, Notify9_2,
+                Range10_0, Func10_1, Notify10_2, Func10_3, Notify10_4,
+            String11_0, Notify11_1,
+        Loop13_0, // line_13
+            Uint13_0,
+        NoState
     };
-    struct state_t
+    struct StateT
     {
         const char * data = nullptr;
         const char * end = nullptr;
         uint64_t consumed = 0;
-        node_t node = node_t::LOOP_1_0;
-
-        unsigned remainDataLen() const { return (unsigned)(end - data); }
+        NodeT node = NodeT::Loop1_0;
+        unsigned remain() const { return unsigned(end - data); }
         const char * name() const;
     };
-    state_t mainState;
+    StateT mstate;
 
-    void parse(state_t & state);
-    bool loop_1_0(state_t & state);
-    bool range_1_0(state_t & state) const;
-    bool range_2_0(state_t & state) const;
-    bool func_2_1(state_t & state);
-    bool _func_2_1();
-    bool func_2_2(state_t & state);
-    bool _func_2_2();
-    bool notify_2_3(state_t & state);
-    bool range_3_0(state_t & state) const;
-    bool func_3_1(state_t & state);
-    bool _func_3_1();
-    bool notify_3_2(state_t & state);
-    bool text_4_0(state_t & state) const;
-    bool string_4_1(state_t & state);
-    void _string_4_1(const char * data, unsigned len, uint64_t consumed);
-    bool text_4_2(state_t & state) const;
-    bool range_4_3(state_t & state) const;
-    bool cases_4_4(state_t & state) const;
-    bool text_5_0(state_t & state) const;
-    bool range_5_1(state_t & state) const;
-    bool cases_5_2(state_t & state);
-    bool text_6_0(state_t & state) const;
-    bool string_6_1(state_t & state);
-    void _string_6_1(const char * data, unsigned len, uint64_t consumed);
-    bool text_6_2(state_t & state) const;
-    bool notify_6_3(state_t & state);
-    bool string_7_0(state_t & state);
-    void _string_7_0(const char * data, unsigned len, uint64_t consumed);
-    bool notify_7_1(state_t & state);
-    bool range_8_0(state_t & state) const;
-    bool func_8_1(state_t & state);
-    bool _func_8_1();
-    bool notify_8_2(state_t & state);
-    bool text_9_0(state_t & state) const;
-    bool func_9_1(state_t & state);
-    bool _func_9_1();
-    bool notify_9_2(state_t & state);
-    bool range_10_0(state_t & state) const;
-    bool func_10_1(state_t & state);
-    bool _func_10_1();
-    bool notify_10_2(state_t & state);
-    bool func_10_3(state_t & state);
-    bool _func_10_3();
-    bool notify_10_4(state_t & state);
-    bool string_11_0(state_t & state);
-    void _string_11_0(const char * data, unsigned len, uint64_t consumed);
-    bool notify_11_1(state_t & state);
-    bool loop_13_0(state_t & state);
-    bool uint_13_0(state_t & state);
-    void _uint_13_0(const char * data, unsigned len, uint64_t consumed);
+    void parse(StateT & state);
+    bool loop1_0(StateT & state);
+    bool range1_0(StateT & state) const;
+    bool range2_0(StateT & state) const;
+    bool func2_1(StateT & state);
+    bool func2_1();
+    bool func2_2(StateT & state);
+    bool func2_2();
+    bool notify2_3(StateT & state);
+    bool range3_0(StateT & state) const;
+    bool func3_1(StateT & state);
+    bool func3_1();
+    bool notify3_2(StateT & state);
+    bool text4_0(StateT & state) const;
+    bool string4_1(StateT & state);
+    void string4_1(const char * data, unsigned len, uint64_t consumed);
+    bool text4_2(StateT & state) const;
+    bool range4_3(StateT & state) const;
+    bool cases4_4(StateT & state) const;
+    bool text5_0(StateT & state) const;
+    bool range5_1(StateT & state) const;
+    bool cases5_2(StateT & state);
+    bool text6_0(StateT & state) const;
+    bool string6_1(StateT & state);
+    void string6_1(const char * data, unsigned len, uint64_t consumed);
+    bool text6_2(StateT & state) const;
+    bool notify6_3(StateT & state);
+    bool string7_0(StateT & state);
+    void string7_0(const char * data, unsigned len, uint64_t consumed);
+    bool notify7_1(StateT & state);
+    bool range8_0(StateT & state) const;
+    bool func8_1(StateT & state);
+    bool func8_1();
+    bool notify8_2(StateT & state);
+    bool text9_0(StateT & state) const;
+    bool func9_1(StateT & state);
+    bool func9_1();
+    bool notify9_2(StateT & state);
+    bool range10_0(StateT & state) const;
+    bool func10_1(StateT & state);
+    bool func10_1();
+    bool notify10_2(StateT & state);
+    bool func10_3(StateT & state);
+    bool func10_3();
+    bool notify10_4(StateT & state);
+    bool string11_0(StateT & state);
+    void string11_0(const char * data, unsigned len, uint64_t consumed);
+    bool notify11_1(StateT & state);
+    bool loop13_0(StateT & state);
+    bool uint13_0(StateT & state);
+    void uint13_0(const char * data, unsigned len, uint64_t consumed);
 };
 #endif
