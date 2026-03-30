@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-01-28 20:26:22 GMT
-// Generated using vProto(2026.01.28)        https://www.cgen.dev
+// Date: 2026-03-30 13:32:26 GMT
+// Generated using vProto(2026.03.30)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
@@ -93,7 +93,7 @@ bool json::parse(const char * data, unsigned len)
     jsonResult::key = std::string_view();
     jsonResult::value = std::string_view();
     parse(mstate);
-    return mstate.node != NodeT::NoState;
+    return !empty();
 }
 
 inline bool json::loop1_0(StateT & state)

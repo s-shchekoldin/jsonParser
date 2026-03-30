@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-02-22 10:07:03 GMT
-// Generated using vProto(2026.02.21)        https://www.cgen.dev
+// Date: 2026-03-30 13:32:26 GMT
+// Generated using vProto(2026.03.30)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -125,13 +125,13 @@ impl <T: JsonRustResultTrait> JsonRust<T> {
     pub fn new() -> Self { Self{ output: T::new(), vstate: vec![StateT::new()] } }
     pub fn empty(&self) -> bool { self.vstate.is_empty() }
     pub fn reset(&mut self) {
-        self.reset_output();
-        self.vstate = vec![StateT::new()];
-    }
-    pub fn reset_output(&mut self) {
         *self.output.depth() = 0;
         *self.output.key()= String::new();
         *self.output.value()= String::new();
+        for v in & mut self.vstate {
+            v.node = NodeT::NoState;
+        }
+        self.vstate.push(StateT::new());
     }
     pub fn parse(&mut self, data : &[u8]) -> bool {
         for v in & mut self.vstate {
