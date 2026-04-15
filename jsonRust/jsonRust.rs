@@ -1,5 +1,5 @@
 // ==============================================================
-// Date: 2026-04-15 19:12:27 GMT
+// Date: 2026-04-15 19:32:46 GMT
 // Generated using vProto(2026.04.15)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
@@ -853,7 +853,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[allow(unused_variables)]
     #[allow(unreachable_code)]
     fn _func9_1(this : &mut T) -> bool {
-         *this.value() = this.key().clone(); 
+         *this.value() = std::mem::take(this.key()); 
         return true;
     }
     fn func9_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
@@ -907,7 +907,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[allow(unused_variables)]
     #[allow(unreachable_code)]
     fn _func10_1(this : &mut T) -> bool {
-         *this.value() = this.key().clone(); 
+         *this.value() = std::mem::take(this.key()); 
         return true;
     }
     fn func10_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
