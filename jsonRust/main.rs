@@ -11,7 +11,7 @@ pub struct jsonResult2
 }
 
 #[allow(dead_code)]
-impl jsonRust::JsonRustResultTrait for jsonResult2 {
+impl jsonRust::JsonRustTrait for jsonResult2 {
     fn new() -> Self { Self{key: String::new(), value: String::new(), depth: 0} }
     fn depth(&mut self) -> &mut u32 { &mut self.depth }
     fn key(&mut self) -> &mut String { &mut self.key }

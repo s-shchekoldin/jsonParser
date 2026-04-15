@@ -1,13 +1,13 @@
 // ==============================================================
-// Date: 2026-03-30 13:41:45 GMT
-// Generated using vProto(2026.03.30)        https://www.cgen.dev
+// Date: 2026-04-15 19:12:27 GMT
+// Generated using vProto(2026.04.15)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
 // Example usage:
-// let mut m = crate::JsonRust::JsonRust::<JsonRust::JsonRustResult>::new();
+// let mut m = crate::JsonRust::JsonRust::<JsonRust::JsonRustExample>::new();
 // m.parse(&byte_slice);
-// If necessary, override JsonRust::JsonRustResult and its trait as well
+// If necessary, override JsonRust::JsonRustExample and its trait as well
 
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
@@ -30,81 +30,50 @@ enum NodeT {
     Loop15_0, // line_15
     NoState
 }
-#[derive(Debug, Copy, Clone)]
-pub struct StateT {
-    left: usize,
-    right: usize,
-    consumed: usize,
-    node: NodeT
-}
-impl StateT {
-    pub fn new() -> Self { Self{ left: 0, right: 0, consumed: 0, node: NodeT::Loop1_0 } }
-    pub fn remain(&self) -> usize { self.right - self.left }
-    pub fn name(&self) -> String {
-        match self.node {
-            NodeT::Loop1_0 => { return "Loop1_0".to_string(); }
-            NodeT::Range1_0 => { return "Range1_0".to_string(); }
-            NodeT::Range2_0 => { return "Range2_0".to_string(); }
-            NodeT::Func2_1 => { return "Func2_1".to_string(); }
-            NodeT::Func2_2 => { return "Func2_2".to_string(); }
-            NodeT::Notify2_3 => { return "Notify2_3".to_string(); }
-            NodeT::Range3_0 => { return "Range3_0".to_string(); }
-            NodeT::Func3_1 => { return "Func3_1".to_string(); }
-            NodeT::Notify3_2 => { return "Notify3_2".to_string(); }
-            NodeT::Text4_0 => { return "Text4_0".to_string(); }
-            NodeT::String4_1 => { return "String4_1".to_string(); }
-            NodeT::Text4_2 => { return "Text4_2".to_string(); }
-            NodeT::Range4_3 => { return "Range4_3".to_string(); }
-            NodeT::Cases4_4 => { return "Cases4_4".to_string(); }
-            NodeT::Text5_0 => { return "Text5_0".to_string(); }
-            NodeT::Range5_1 => { return "Range5_1".to_string(); }
-            NodeT::Cases5_2 => { return "Cases5_2".to_string(); }
-            NodeT::Text6_0 => { return "Text6_0".to_string(); }
-            NodeT::String6_1 => { return "String6_1".to_string(); }
-            NodeT::Text6_2 => { return "Text6_2".to_string(); }
-            NodeT::Notify6_3 => { return "Notify6_3".to_string(); }
-            NodeT::String7_0 => { return "String7_0".to_string(); }
-            NodeT::Notify7_1 => { return "Notify7_1".to_string(); }
-            NodeT::Range8_0 => { return "Range8_0".to_string(); }
-            NodeT::Func8_1 => { return "Func8_1".to_string(); }
-            NodeT::Notify8_2 => { return "Notify8_2".to_string(); }
-            NodeT::Text9_0 => { return "Text9_0".to_string(); }
-            NodeT::Func9_1 => { return "Func9_1".to_string(); }
-            NodeT::Notify9_2 => { return "Notify9_2".to_string(); }
-            NodeT::Range10_0 => { return "Range10_0".to_string(); }
-            NodeT::Func10_1 => { return "Func10_1".to_string(); }
-            NodeT::Notify10_2 => { return "Notify10_2".to_string(); }
-            NodeT::Func10_3 => { return "Func10_3".to_string(); }
-            NodeT::Notify10_4 => { return "Notify10_4".to_string(); }
-            NodeT::String11_0 => { return "String11_0".to_string(); }
-            NodeT::Notify11_1 => { return "Notify11_1".to_string(); }
-            NodeT::Loop13_0 => { return "Loop13_0".to_string(); }
-            NodeT::Uint13_0 => { return "Uint13_0".to_string(); }
-            NodeT::Loop15_0 => { return "Loop15_0".to_string(); }
-            _ => { return "NoState".to_string(); }
-        }; // match
+impl std::fmt::Display for NodeT {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
     }
 }
 
-pub trait JsonRustResultTrait {
+#[derive(Debug, Copy, Clone)]
+pub struct StateT {
+    node: NodeT,
+    left: usize,
+    right: usize,
+    consumed: usize
+}
+impl StateT {
+    pub fn new() -> Self { Self{ node: NodeT::Loop1_0, left: 0, right: 0, consumed: 0 } }
+    pub fn remain(&self) -> usize { self.right - self.left }
+}
+impl std::fmt::Display for StateT {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} remain:{}({}->{}) consumed:{}", self.node, self.remain(), self.left, self.right, self.consumed)
+    }
+}
+
+pub trait JsonRustTrait {
     fn new() -> Self;
+    // field accessors:
     fn depth(&mut self) -> &mut u32;
     fn key(&mut self) -> &mut String;
     fn value(&mut self) -> &mut String;
-    fn gotKV(&mut self); // user-defined function required
-    fn gotVal(&mut self); // user-defined function required
-    fn popDepth(&mut self); // user-defined function required
-    fn pushDepth(&mut self); // user-defined function required
+    // callbacks to be implemented by the user:
+    fn gotKV(&mut self);
+    fn gotVal(&mut self);
+    fn popDepth(&mut self);
+    fn pushDepth(&mut self);
 }
 
-pub struct JsonRustResult
+pub struct JsonRustExample
 {
     key: String,
     value: String,
     depth: u32
 }
 #[allow(dead_code)]
-impl JsonRustResultTrait for JsonRustResult {
+impl JsonRustTrait for JsonRustExample {
     fn new() -> Self { Self{key: String::new(), value: String::new(), depth: 0} }
     fn depth(&mut self) -> &mut u32 { &mut self.depth }
     fn key(&mut self) -> &mut String { &mut self.key }
@@ -121,7 +90,7 @@ pub struct JsonRust <T> {
 }
 #[allow(dead_code)]
 #[allow(unused_variables)]
-impl <T: JsonRustResultTrait> JsonRust<T> {
+impl <T: JsonRustTrait> JsonRust<T> {
     pub fn new() -> Self { Self{ output: T::new(), vstate: vec![StateT::new()] } }
     pub fn empty(&self) -> bool { self.vstate.is_empty() }
     pub fn reset(&mut self) {
@@ -172,7 +141,7 @@ impl <T: JsonRustResultTrait> JsonRust<T> {
     fn parse_s(&mut self, state: &mut StateT, data: &[u8]) {
         loop {
             if cfg!(debug_assertions) {
-                println!("State: {} data: [{:#04X}, {:#04X}, {:#04X}, {:#04X}, {:#04X}]", state.name(),
+                println!("State: {} data: [{:#04X}, {:#04X}, {:#04X}, {:#04X}, {:#04X}]", state.node,
                     if state.remain() > 0 { data[state.left+0] } else { 0 },
                     if state.remain() > 1 { data[state.left+1] } else { 0 },
                     if state.remain() > 2 { data[state.left+2] } else { 0 },
