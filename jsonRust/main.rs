@@ -1,27 +1,26 @@
 use std::fs;
 
 #[allow(non_snake_case)]
-mod jsonRust;
+mod JsonRust;
 
-pub struct jsonResult2
+pub struct JsonResult2
 {
-    key: String,
-    value: String,
+    key: Vec<u8>,
+    value: Vec<u8>,
     depth: u32
 }
 
 #[allow(dead_code)]
-impl jsonRust::JsonRustTrait for jsonResult2 {
-    fn new() -> Self { Self{key: String::new(), value: String::new(), depth: 0} }
+impl JsonRust::JsonRustTrait for JsonResult2 {
+    fn new() -> Self { Self{key: Vec::new(), value: Vec::new(), depth: 0} }
     fn depth(&mut self) -> &mut u32 { &mut self.depth }
-    fn key(&mut self) -> &mut String { &mut self.key }
-    fn value(&mut self) -> &mut String { &mut self.value }
-    fn gotKV(&mut self) { println!("gotKV({}): {}->{}", self.depth, self.key, self.value); }
-    fn gotVal(&mut self) { println!("gotVal({}): {}", self.depth, self.value); }
+    fn key(&mut self) -> &mut Vec<u8> { &mut self.key }
+    fn value(&mut self) -> &mut Vec<u8> { &mut self.value }
+    fn gotKV(&mut self) { println!("gotKV({}): {}->{}", self.depth, String::from_utf8(self.key.clone()).unwrap(), String::from_utf8(self.value.clone()).unwrap());  }
+    fn gotVal(&mut self) { println!("gotVal({}): {}", self.depth, String::from_utf8(self.value.clone()).unwrap()); }
     fn popDepth(&mut self) { println!("popDepth({})", self.depth); }
-    fn pushDepth(&mut self) { println!("pushDepth({}): {}", self.depth, self.key); }
+    fn pushDepth(&mut self) { println!("pushDepth({}): {}", self.depth, String::from_utf8(self.key.clone()).unwrap()); }
 }
-
 
 fn main() {
     let contents = fs::read_to_string("../input.txt").expect("Should have been able to read the file");
@@ -29,7 +28,7 @@ fn main() {
     let byte_slice: &[u8] = contents.as_bytes();
 //    println!("contents: {contents}");
 
-    let mut m = crate::jsonRust::JsonRust::<jsonResult2>::new();
+    let mut m = crate::JsonRust::JsonRust::<JsonResult2>::new();
     m.parse(&byte_slice);
     println!("-----flow-----");
     for i in 0..byte_slice.len() {
