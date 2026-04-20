@@ -1,5 +1,5 @@
 // ==============================================================
-// Date: 2026-04-20 16:48:51 GMT
+// Date: 2026-04-20 18:22:04 GMT
 // Generated using vProto(2026.04.20)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
@@ -26,11 +26,12 @@ enum NodeT {
                 Vector7_0, Notify7_1,
                 Range8_0, Func8_1, Notify8_2,
             Text9_0, Func9_1, Notify9_2,
-            Range10_0, Func10_1, Notify10_2, Func10_3, Notify10_4,
-        Vector11_0, Notify11_1,
-    Loop13_0, // line_13
-        Uint13_0,
-    Loop15_0, // line_15
+            Range10_0, Func10_1, Notify10_2, Cases10_3,
+                Func11_0, Notify11_1,
+        Vector12_0, Notify12_1,
+    Loop14_0, // line_14
+        Uint14_0,
+    Loop16_0, // line_16
     NoState
 }
 impl std::fmt::Display for NodeT {
@@ -185,13 +186,14 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 NodeT::Range10_0 => { self.range10_0(state, data); }
                 NodeT::Func10_1 => { self.func10_1(state, data); }
                 NodeT::Notify10_2 => { self.notify10_2(state, data); }
-                NodeT::Func10_3 => { self.func10_3(state, data); }
-                NodeT::Notify10_4 => { self.notify10_4(state, data); }
-                NodeT::Vector11_0 => { self.vector11_0(state, data); }
+                NodeT::Cases10_3 => { self.cases10_3(state, data); }
+                NodeT::Func11_0 => { self.func11_0(state, data); }
                 NodeT::Notify11_1 => { self.notify11_1(state, data); }
-                NodeT::Loop13_0 => { self.loop13_0(state, data); }
-                NodeT::Uint13_0 => { self.uint13_0(state, data); }
-                NodeT::Loop15_0 => { self.loop15_0(state, data); }
+                NodeT::Vector12_0 => { self.vector12_0(state, data); }
+                NodeT::Notify12_1 => { self.notify12_1(state, data); }
+                NodeT::Loop14_0 => { self.loop14_0(state, data); }
+                NodeT::Uint14_0 => { self.uint14_0(state, data); }
+                NodeT::Loop16_0 => { self.loop16_0(state, data); }
                 NodeT::NoState => { break; }
             }; // match
             if d == state.left && n == state.node {
@@ -215,7 +217,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         if self.text4_0(state, data) { // case_4
             return true;
         }
-        if self.vector11_0(state, data) { // case_5
+        if self.vector12_0(state, data) { // case_5
             return true;
         }
         state.node = NodeT::NoState;
@@ -416,10 +418,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
         if state.consumed == 0 {
             self.output.key().clear();
         }
-        for x in data {
-            self.output.key().push(*x);
-            state.consumed += 1;
-        }
+        let len = if (self.output.key().len() + data.len()) > 256 { 256 - self.output.key().len() } else { data.len() };
+        self.output.key().extend_from_slice(&data[0 .. len]);
+        state.consumed += data.len();
     }
     fn vector4_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.left;
@@ -705,10 +706,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
         if state.consumed == 0 {
             self.output.value().clear();
         }
-        for x in data {
-            self.output.value().push(*x);
-            state.consumed += 1;
-        }
+        let len = if (self.output.value().len() + data.len()) > 256 { 256 - self.output.value().len() } else { data.len() };
+        self.output.value().extend_from_slice(&data[0 .. len]);
+        state.consumed += data.len();
     }
     fn vector6_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.left;
@@ -813,10 +813,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
         if state.consumed == 0 {
             self.output.value().clear();
         }
-        for x in data {
-            self.output.value().push(*x);
-            state.consumed += 1;
-        }
+        let len = if (self.output.value().len() + data.len()) > 256 { 256 - self.output.value().len() } else { data.len() };
+        self.output.value().extend_from_slice(&data[0 .. len]);
+        state.consumed += data.len();
     }
     fn vector7_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
@@ -1036,38 +1035,40 @@ impl <T: JsonRustTrait> JsonRust<T> {
     }
     fn notify10_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotVal();
-        state.node = NodeT::Func10_3;
+        state.node = NodeT::Cases10_3;
         return true;
+    }
+    fn cases10_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+        return self.func11_0(state, data);
     }
     #[allow(unused_variables)]
     #[allow(unreachable_code)]
-    fn _func10_3(this : &mut T) -> bool {
+    fn _func11_0(this : &mut T) -> bool {
          if *this.depth() == 0 { return false; } *this.depth() -= 1; 
         return true;
     }
-    fn func10_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func10_3(&mut self.output) {
-            state.node = NodeT::Notify10_4;
+    fn func11_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+        if Self::_func11_0(&mut self.output) {
+            state.node = NodeT::Notify11_1;
             return true;
         }
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify10_4(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    fn notify11_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.popDepth();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn _vector11_0(&mut self, state: &mut StateT, data: &[u8]) {
+    fn _vector12_0(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             self.output.value().clear();
         }
-        for x in data {
-            self.output.value().push(*x);
-            state.consumed += 1;
-        }
+        let len = if (self.output.value().len() + data.len()) > 256 { 256 - self.output.value().len() } else { data.len() };
+        self.output.value().extend_from_slice(&data[0 .. len]);
+        state.consumed += data.len();
     }
-    fn vector11_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    fn vector12_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1123,11 +1124,11 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 continue;
             }
             let left = state.left;
-            self._vector11_0(state, &data[datastart .. left]);
+            self._vector12_0(state, &data[datastart .. left]);
             let total = state.consumed + state.left - datastart;
             state.consumed = 0;
             if total >= 1 {
-                state.node = NodeT::Notify11_1;
+                state.node = NodeT::Notify12_1;
                 return true;
             } else {
                 state.node = NodeT::NoState;
@@ -1136,21 +1137,21 @@ impl <T: JsonRustTrait> JsonRust<T> {
         }
         if datastart < state.left {
             let left = state.left;
-            self._vector11_0(state, &data[datastart .. left]);
+            self._vector12_0(state, &data[datastart .. left]);
         }
         state.consumed += state.left - datastart;
-        state.node = NodeT::Vector11_0;
+        state.node = NodeT::Vector12_0;
         return true;
     }
-    fn notify11_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    fn notify12_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotVal();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn loop13_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        return self.uint13_0(state, data);
+    fn loop14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+        return self.uint14_0(state, data);
     }
-    fn _uint13_0(&mut self, state: &mut StateT, data: &[u8]) {
+    fn _uint14_0(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             *self.output.depth() = 0;
         }
@@ -1158,7 +1159,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
             *self.output.depth() = *self.output.depth()*10 + u32::from(*x - b'0');
         }
     }
-    fn uint13_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    fn uint14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1214,11 +1215,11 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 continue;
             }
             let left = state.left;
-            self._uint13_0(state, &data[datastart .. left]);
+            self._uint14_0(state, &data[datastart .. left]);
             let total = state.consumed + state.left - datastart;
             state.consumed = 0;
             if total >= 1 {
-                state.node = NodeT::Loop13_0;
+                state.node = NodeT::Loop14_0;
                 return true;
             } else {
                 state.node = NodeT::NoState;
@@ -1227,13 +1228,13 @@ impl <T: JsonRustTrait> JsonRust<T> {
         }
         if datastart < state.left {
             let left = state.left;
-            self._uint13_0(state, &data[datastart .. left]);
+            self._uint14_0(state, &data[datastart .. left]);
         }
         state.consumed += state.left - datastart;
-        state.node = NodeT::Uint13_0;
+        state.node = NodeT::Uint14_0;
         return true;
     }
-    fn loop15_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    fn loop16_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         state.node = NodeT::NoState;
         return true;
     }

@@ -1,5 +1,5 @@
 // ==============================================================
-// Date: 2026-04-20 16:48:51 GMT
+// Date: 2026-04-20 18:22:04 GMT
 // Generated using vProto(2026.04.20)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
@@ -43,9 +43,8 @@ inline void json::parse(StateT & state)
             case NodeT::Loop1_0: loop1_0(state); break;
             case NodeT::Range1_0: range1_0(state); break;
             case NodeT::Range2_0: if (!range2_0(state) || state.node != NodeT::Func2_1) break; [[fallthrough]];
-            case NodeT::Func2_1: if (!func2_1(state) || state.node != NodeT::Func2_2) break; [[fallthrough]];
-            case NodeT::Func2_2: if (!func2_2(state) || state.node != NodeT::Notify2_3) break; [[fallthrough]];
-            case NodeT::Notify2_3: notify2_3(state); break;
+            case NodeT::Func2_1: if (!func2_1(state) || state.node != NodeT::Notify2_2) break; [[fallthrough]];
+            case NodeT::Notify2_2: notify2_2(state); break;
             case NodeT::Range3_0: if (!range3_0(state) || state.node != NodeT::Func3_1) break; [[fallthrough]];
             case NodeT::Func3_1: if (!func3_1(state) || state.node != NodeT::Notify3_2) break; [[fallthrough]];
             case NodeT::Notify3_2: notify3_2(state); break;
@@ -71,13 +70,15 @@ inline void json::parse(StateT & state)
             case NodeT::Notify9_2: notify9_2(state); break;
             case NodeT::Range10_0: if (!range10_0(state) || state.node != NodeT::Func10_1) break; [[fallthrough]];
             case NodeT::Func10_1: if (!func10_1(state) || state.node != NodeT::Notify10_2) break; [[fallthrough]];
-            case NodeT::Notify10_2: if (!notify10_2(state) || state.node != NodeT::Func10_3) break; [[fallthrough]];
-            case NodeT::Func10_3: if (!func10_3(state) || state.node != NodeT::Notify10_4) break; [[fallthrough]];
-            case NodeT::Notify10_4: notify10_4(state); break;
-            case NodeT::String11_0: if (!string11_0(state) || state.node != NodeT::Notify11_1) break; [[fallthrough]];
+            case NodeT::Notify10_2: if (!notify10_2(state) || state.node != NodeT::Cases10_3) break; [[fallthrough]];
+            case NodeT::Cases10_3: cases10_3(state); break;
+            case NodeT::Func11_0: if (!func11_0(state) || state.node != NodeT::Notify11_1) break; [[fallthrough]];
             case NodeT::Notify11_1: notify11_1(state); break;
-            case NodeT::Loop13_0: loop13_0(state); break;
-            case NodeT::Uint13_0: uint13_0(state); break;
+            case NodeT::String12_0: if (!string12_0(state) || state.node != NodeT::Notify12_1) break; [[fallthrough]];
+            case NodeT::Notify12_1: notify12_1(state); break;
+            case NodeT::Loop14_0: loop14_0(state); break;
+            case NodeT::Uint14_0: uint14_0(state); break;
+            case NodeT::Loop16_0: loop16_0(state); break;
             case NodeT::NoState:
             default: return;
         }; // switch
@@ -106,7 +107,7 @@ inline bool json::loop1_0(StateT & state)
         return true;
     if (text4_0(state)) // case_4
         return true;
-    if (string11_0(state)) // case_5
+    if (string12_0(state)) // case_5
         return true;
     state.node = NodeT::NoState;
     return true;
@@ -236,37 +237,21 @@ inline bool json::range2_0(StateT & state) const
 
 inline bool json::func2_1()
 {
-     depth++; 
+     depth++; key = ""; 
     return true;
 }
 inline bool json::func2_1(StateT & state)
 {
     if (func2_1())
     {
-        state.node = NodeT::Func2_2;
+        state.node = NodeT::Notify2_2;
         return true;
     }
     state.node = NodeT::NoState;
     return false;
 }
 
-inline bool json::func2_2()
-{
-     key.clear(); 
-    return true;
-}
-inline bool json::func2_2(StateT & state)
-{
-    if (func2_2())
-    {
-        state.node = NodeT::Notify2_3;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
-
-inline bool json::notify2_3(StateT & state)
+inline bool json::notify2_2(StateT & state)
 {
     pushDepth();
     state.node = NodeT::Loop1_0;
@@ -314,7 +299,7 @@ inline bool json::range3_0(StateT & state) const
 
 inline bool json::func3_1()
 {
-     depth--; 
+     return depth--; 
     return true;
 }
 inline bool json::func3_1(StateT & state)
@@ -443,16 +428,9 @@ inline bool json::string4_1(StateT & state)
             continue;
         }
         string4_1(datastart, unsigned(state.data - datastart), state.consumed);
-        uint64_t total = state.consumed + unsigned(state.data - datastart);
         state.consumed = 0;
-        if (total >= 1)
-        {
-            state.node = NodeT::Text4_2;
-            return true;
-        } else {
-            state.node = NodeT::NoState;
-            return false;
-        }
+        state.node = NodeT::Text4_2;
+        return true;
     }
     if (datastart < state.data)
         string4_1(datastart, unsigned(state.data - datastart), state.consumed);
@@ -1084,34 +1062,39 @@ inline bool json::func10_1(StateT & state)
 inline bool json::notify10_2(StateT & state)
 {
     gotVal();
-    state.node = NodeT::Func10_3;
+    state.node = NodeT::Cases10_3;
     return true;
 }
 
-inline bool json::func10_3()
+inline bool json::cases10_3(StateT & state)
 {
-     depth--; 
+    return func11_0(state);
+}
+
+inline bool json::func11_0()
+{
+     return depth--; 
     return true;
 }
-inline bool json::func10_3(StateT & state)
+inline bool json::func11_0(StateT & state)
 {
-    if (func10_3())
+    if (func11_0())
     {
-        state.node = NodeT::Notify10_4;
+        state.node = NodeT::Notify11_1;
         return true;
     }
     state.node = NodeT::NoState;
     return false;
 }
 
-inline bool json::notify10_4(StateT & state)
+inline bool json::notify11_1(StateT & state)
 {
     popDepth();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-void json::string11_0(const char * data, unsigned len, uint64_t consumed)
+void json::string12_0(const char * data, unsigned len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -1120,7 +1103,7 @@ void json::string11_0(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value.append(data, len);
 }
 
-inline bool json::string11_0(StateT & state)
+inline bool json::string12_0(StateT & state)
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1187,12 +1170,12 @@ inline bool json::string11_0(StateT & state)
             state.data++;
             continue;
         }
-        string11_0(datastart, unsigned(state.data - datastart), state.consumed);
+        string12_0(datastart, unsigned(state.data - datastart), state.consumed);
         uint64_t total = state.consumed + unsigned(state.data - datastart);
         state.consumed = 0;
         if (total >= 1)
         {
-            state.node = NodeT::Notify11_1;
+            state.node = NodeT::Notify12_1;
             return true;
         } else {
             state.node = NodeT::NoState;
@@ -1200,25 +1183,25 @@ inline bool json::string11_0(StateT & state)
         }
     }
     if (datastart < state.data)
-        string11_0(datastart, unsigned(state.data - datastart), state.consumed);
+        string12_0(datastart, unsigned(state.data - datastart), state.consumed);
     state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::String11_0;
+    state.node = NodeT::String12_0;
     return true;
 }
 
-inline bool json::notify11_1(StateT & state)
+inline bool json::notify12_1(StateT & state)
 {
     gotVal();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::loop13_0(StateT & state)
+inline bool json::loop14_0(StateT & state)
 {
-    return uint13_0(state);
+    return uint14_0(state);
 }
 
-void json::uint13_0(const char * data, unsigned len, uint64_t consumed)
+void json::uint14_0(const char * data, unsigned len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::depth = 0;
@@ -1226,7 +1209,7 @@ void json::uint13_0(const char * data, unsigned len, uint64_t consumed)
         jsonResult::depth = jsonResult::depth*10 + *data - '0';
 }
 
-inline bool json::uint13_0(StateT & state)
+inline bool json::uint14_0(StateT & state)
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1293,12 +1276,12 @@ inline bool json::uint13_0(StateT & state)
             state.data++;
             continue;
         }
-        uint13_0(datastart, unsigned(state.data - datastart), state.consumed);
+        uint14_0(datastart, unsigned(state.data - datastart), state.consumed);
         uint64_t total = state.consumed + unsigned(state.data - datastart);
         state.consumed = 0;
         if (total >= 1)
         {
-            state.node = NodeT::Loop13_0;
+            state.node = NodeT::Loop14_0;
             return true;
         } else {
             state.node = NodeT::NoState;
@@ -1306,9 +1289,15 @@ inline bool json::uint13_0(StateT & state)
         }
     }
     if (datastart < state.data)
-        uint13_0(datastart, unsigned(state.data - datastart), state.consumed);
+        uint14_0(datastart, unsigned(state.data - datastart), state.consumed);
     state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Uint13_0;
+    state.node = NodeT::Uint14_0;
+    return true;
+}
+
+inline bool json::loop16_0(StateT & state) const
+{
+    state.node = NodeT::NoState;
     return true;
 }
 
@@ -1328,8 +1317,7 @@ const char * json::StateT::name() const
         case NodeT::Range1_0: return "Range1_0";
         case NodeT::Range2_0: return "Range2_0";
         case NodeT::Func2_1: return "Func2_1";
-        case NodeT::Func2_2: return "Func2_2";
-        case NodeT::Notify2_3: return "Notify2_3";
+        case NodeT::Notify2_2: return "Notify2_2";
         case NodeT::Range3_0: return "Range3_0";
         case NodeT::Func3_1: return "Func3_1";
         case NodeT::Notify3_2: return "Notify3_2";
@@ -1356,12 +1344,14 @@ const char * json::StateT::name() const
         case NodeT::Range10_0: return "Range10_0";
         case NodeT::Func10_1: return "Func10_1";
         case NodeT::Notify10_2: return "Notify10_2";
-        case NodeT::Func10_3: return "Func10_3";
-        case NodeT::Notify10_4: return "Notify10_4";
-        case NodeT::String11_0: return "String11_0";
+        case NodeT::Cases10_3: return "Cases10_3";
+        case NodeT::Func11_0: return "Func11_0";
         case NodeT::Notify11_1: return "Notify11_1";
-        case NodeT::Loop13_0: return "Loop13_0";
-        case NodeT::Uint13_0: return "Uint13_0";
+        case NodeT::String12_0: return "String12_0";
+        case NodeT::Notify12_1: return "Notify12_1";
+        case NodeT::Loop14_0: return "Loop14_0";
+        case NodeT::Uint14_0: return "Uint14_0";
+        case NodeT::Loop16_0: return "Loop16_0";
         case NodeT::NoState: return "NoState";
         default: return "unknown";
     };

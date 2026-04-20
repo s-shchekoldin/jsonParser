@@ -1,5 +1,5 @@
 // ==============================================================
-// Date: 2026-04-20 16:48:51 GMT
+// Date: 2026-04-20 18:22:04 GMT
 // Generated using vProto(2026.04.20)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
@@ -48,11 +48,12 @@ private:
                     StrView7_0, Notify7_1,
                     Range8_0, Func8_1, Notify8_2,
                 Text9_0, Func9_1, Notify9_2,
-                Range10_0, Func10_1, Notify10_2, Func10_3, Notify10_4,
-            StrView11_0, Notify11_1,
-        Loop13_0, // line_13
-            Uint13_0,
-        Loop15_0, // line_15
+                Range10_0, Func10_1, Notify10_2, Cases10_3,
+                    Func11_0, Notify11_1,
+            StrView12_0, Notify12_1,
+        Loop14_0, // line_14
+            Uint14_0,
+        Loop16_0, // line_16
         NoState
     };
     struct StateT
@@ -106,15 +107,16 @@ private:
     bool func10_1(StateT & state);
     bool func10_1();
     bool notify10_2(StateT & state);
-    bool func10_3(StateT & state);
-    bool func10_3();
-    bool notify10_4(StateT & state);
-    bool strview11_0(StateT & state);
-    void strview11_0(const char * data, unsigned len, uint64_t consumed);
+    bool cases10_3(StateT & state);
+    bool func11_0(StateT & state);
+    bool func11_0();
     bool notify11_1(StateT & state);
-    bool loop13_0(StateT & state);
-    bool uint13_0(StateT & state);
-    void uint13_0(const char * data, unsigned len, uint64_t consumed);
-    bool loop15_0(StateT & state) const;
+    bool strview12_0(StateT & state);
+    void strview12_0(const char * data, unsigned len, uint64_t consumed);
+    bool notify12_1(StateT & state);
+    bool loop14_0(StateT & state);
+    bool uint14_0(StateT & state);
+    void uint14_0(const char * data, unsigned len, uint64_t consumed);
+    bool loop16_0(StateT & state) const;
 };
 #endif

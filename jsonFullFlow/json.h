@@ -1,5 +1,5 @@
 // ==============================================================
-// Date: 2026-04-20 16:48:51 GMT
+// Date: 2026-04-20 18:22:04 GMT
 // Generated using vProto(2026.04.20)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
@@ -39,7 +39,7 @@ private:
     {
         Loop1_0, // line_1
             Range1_0,
-            Range2_0, Func2_1, Func2_2, Notify2_3,
+            Range2_0, Func2_1, Notify2_2,
             Range3_0, Func3_1, Notify3_2,
             Text4_0, String4_1, Text4_2, Range4_3, Cases4_4,
                 Text5_0, Range5_1, Cases5_2,
@@ -47,10 +47,12 @@ private:
                     String7_0, Notify7_1,
                     Range8_0, Func8_1, Notify8_2,
                 Text9_0, Func9_1, Notify9_2,
-                Range10_0, Func10_1, Notify10_2, Func10_3, Notify10_4,
-            String11_0, Notify11_1,
-        Loop13_0, // line_13
-            Uint13_0,
+                Range10_0, Func10_1, Notify10_2, Cases10_3,
+                    Func11_0, Notify11_1,
+            String12_0, Notify12_1,
+        Loop14_0, // line_14
+            Uint14_0,
+        Loop16_0, // line_16
         NoState
     };
     struct StateT
@@ -70,9 +72,7 @@ private:
     bool range2_0(StateT & state) const;
     bool func2_1(StateT & state);
     bool func2_1();
-    bool func2_2(StateT & state);
-    bool func2_2();
-    bool notify2_3(StateT & state);
+    bool notify2_2(StateT & state);
     bool range3_0(StateT & state) const;
     bool func3_1(StateT & state);
     bool func3_1();
@@ -106,14 +106,16 @@ private:
     bool func10_1(StateT & state);
     bool func10_1();
     bool notify10_2(StateT & state);
-    bool func10_3(StateT & state);
-    bool func10_3();
-    bool notify10_4(StateT & state);
-    bool string11_0(StateT & state);
-    void string11_0(const char * data, unsigned len, uint64_t consumed);
+    bool cases10_3(StateT & state);
+    bool func11_0(StateT & state);
+    bool func11_0();
     bool notify11_1(StateT & state);
-    bool loop13_0(StateT & state);
-    bool uint13_0(StateT & state);
-    void uint13_0(const char * data, unsigned len, uint64_t consumed);
+    bool string12_0(StateT & state);
+    void string12_0(const char * data, unsigned len, uint64_t consumed);
+    bool notify12_1(StateT & state);
+    bool loop14_0(StateT & state);
+    bool uint14_0(StateT & state);
+    void uint14_0(const char * data, unsigned len, uint64_t consumed);
+    bool loop16_0(StateT & state) const;
 };
 #endif
