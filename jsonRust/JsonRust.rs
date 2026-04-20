@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-04-18 16:57:42 GMT
-// Generated using vProto(2026.04.18)        https://www.cgen.dev
+// Date: 2026-04-20 16:48:51 GMT
+// Generated using vProto(2026.04.20)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -18,7 +18,7 @@ use std::arch::x86_64::*;
 enum NodeT {
     Loop1_0, // line_1
         Range1_0,
-        Range2_0, Func2_1, Func2_2, Notify2_3,
+        Range2_0, Func2_1, Notify2_2,
         Range3_0, Func3_1, Notify3_2,
         Text4_0, Vector4_1, Text4_2, Range4_3, Cases4_4,
             Text5_0, Range5_1, Cases5_2,
@@ -158,8 +158,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 NodeT::Range1_0 => { self.range1_0(state, data); }
                 NodeT::Range2_0 => { self.range2_0(state, data); }
                 NodeT::Func2_1 => { self.func2_1(state, data); }
-                NodeT::Func2_2 => { self.func2_2(state, data); }
-                NodeT::Notify2_3 => { self.notify2_3(state, data); }
+                NodeT::Notify2_2 => { self.notify2_2(state, data); }
                 NodeT::Range3_0 => { self.range3_0(state, data); }
                 NodeT::Func3_1 => { self.func3_1(state, data); }
                 NodeT::Notify3_2 => { self.notify3_2(state, data); }
@@ -329,32 +328,18 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[allow(unused_variables)]
     #[allow(unreachable_code)]
     fn _func2_1(this : &mut T) -> bool {
-         *this.depth() += 1; 
+         *this.depth() += 1; this.key().clear(); 
         return true;
     }
     fn func2_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if Self::_func2_1(&mut self.output) {
-            state.node = NodeT::Func2_2;
+            state.node = NodeT::Notify2_2;
             return true;
         }
         state.node = NodeT::NoState;
         return false;
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func2_2(this : &mut T) -> bool {
-         this.key().clear(); 
-        return true;
-    }
-    fn func2_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func2_2(&mut self.output) {
-            state.node = NodeT::Notify2_3;
-            return true;
-        }
-        state.node = NodeT::NoState;
-        return false;
-    }
-    fn notify2_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    fn notify2_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.pushDepth();
         state.node = NodeT::Loop1_0;
         return true;
@@ -397,7 +382,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[allow(unused_variables)]
     #[allow(unreachable_code)]
     fn _func3_1(this : &mut T) -> bool {
-         *this.depth() -= 1; 
+         if *this.depth() == 0 { return false; } *this.depth() -= 1; 
         return true;
     }
     fn func3_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
@@ -504,15 +489,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
             }
             let left = state.left;
             self._vector4_1(state, &data[datastart .. left]);
-            let total = state.consumed + state.left - datastart;
             state.consumed = 0;
-            if total >= 1 {
-                state.node = NodeT::Text4_2;
-                return true;
-            } else {
-                state.node = NodeT::NoState;
-                return false;
-            }
+            state.node = NodeT::Text4_2;
+            return true;
         }
         if datastart < state.left {
             let left = state.left;
@@ -1063,7 +1042,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[allow(unused_variables)]
     #[allow(unreachable_code)]
     fn _func10_3(this : &mut T) -> bool {
-         *this.depth() -= 1; 
+         if *this.depth() == 0 { return false; } *this.depth() -= 1; 
         return true;
     }
     fn func10_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {

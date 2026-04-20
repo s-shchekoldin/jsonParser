@@ -11,7 +11,12 @@ foreach(vproto ${vprotoList})
     install(TARGETS ${vName} DESTINATION lib)
     install(FILES ${vPath}/${vName}.h DESTINATION include)
 
-    add_executable("${vName}Parser" "${vPath}/main.cc")
+    add_executable("${vName}Parser" "${vPath}/perf.cc")
+
+#    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+#        target_link_options("${vName}Parser" PRIVATE "-static-libgcc" "-static-libstdc++")
+#    endif()
+
     target_link_libraries("${vName}Parser" PUBLIC ${vName})
 endforeach()
 

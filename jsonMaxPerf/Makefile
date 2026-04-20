@@ -1,7 +1,7 @@
 
 TEST_TARGET = jsonParserTest
 PERF_TARGET = jsonParserPerf
-FLAGS = -g -O3 -march=native
+FLAGS = -g -O3 -march=native -static-libstdc++
 GCC = g++
 
 all: output version native profile

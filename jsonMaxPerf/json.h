@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-03-30 13:41:45 GMT
-// Generated using vProto(2026.03.30)        https://www.cgen.dev
+// Date: 2026-04-20 16:48:51 GMT
+// Generated using vProto(2026.04.20)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -40,7 +40,7 @@ private:
     {
         Loop1_0, // line_1
             Range1_0,
-            Range2_0, Func2_1, Func2_2, Notify2_3,
+            Range2_0, Func2_1, Notify2_2,
             Range3_0, Func3_1, Notify3_2,
             Text4_0, StrView4_1, Text4_2, Range4_3, Cases4_4,
                 Text5_0, Range5_1, Cases5_2,
@@ -52,6 +52,7 @@ private:
             StrView11_0, Notify11_1,
         Loop13_0, // line_13
             Uint13_0,
+        Loop15_0, // line_15
         NoState
     };
     struct StateT
@@ -71,9 +72,7 @@ private:
     bool range2_0(StateT & state) const;
     bool func2_1(StateT & state);
     bool func2_1();
-    bool func2_2(StateT & state);
-    bool func2_2();
-    bool notify2_3(StateT & state);
+    bool notify2_2(StateT & state);
     bool range3_0(StateT & state) const;
     bool func3_1(StateT & state);
     bool func3_1();
@@ -116,5 +115,6 @@ private:
     bool loop13_0(StateT & state);
     bool uint13_0(StateT & state);
     void uint13_0(const char * data, unsigned len, uint64_t consumed);
+    bool loop15_0(StateT & state) const;
 };
 #endif
