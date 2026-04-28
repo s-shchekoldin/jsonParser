@@ -1,5 +1,4 @@
-This is a demonstration of using the json-parsing example.
-The code (json.h, json.cc and jsonRust.rs) was automatically generated using vProto at https://cgen.dev
+This example of automatically generated high-performance code (json.h, json.cc and jsonRust.rs), using vProto at https://cgen.dev
 The application demonstrates operation in 2 modes: jsonFullFlow or jsonMaxPerf.
 - ***jsonFullFlow*** streaming processing (any data fragmentation, data can arrive byte by byte, result will be same)
 - ***jsonMaxPerf*** lack of fragmentation support (std::string_view) achieving maximum performance in this mode
@@ -33,3 +32,8 @@ make uninstall
 - **Include** "json.h" (#include "json.h")
 - **Declare** user functions from "jsonResult" (section "Don't forget to declare" from .h file)
 - **Add Linking Library** -ljson (libjson.a)
+
+### Note
+- It is a lightweight version and is not intended to provide full JSON parsing according to all standards
+- Escaping is not supported
+- No validation is performed for UTF-8 text (you can add it manually)
