@@ -1,13 +1,13 @@
 // ==============================================================
-// Date: 2026-04-20 18:22:04 GMT
-// Generated using vProto(2026.04.20)        https://www.cgen.dev
+// Date: 2026-04-28 17:05:32 GMT
+// Generated using vProto(2026.04.28)        https://www.cgen.dev
 // Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
 // ==============================================================
 
 // Example usage:
 // let mut m = crate::JsonRust::JsonRust::<JsonRust::JsonRustExample>::new();
 // m.parse(&byte_slice);
-// If necessary, override JsonRust::JsonRustExample and its trait as well
+// Also, you can redefine JsonRustTrait implementation for interacting with the JsonRust module.
 
 
 #[cfg(target_arch = "x86_64")]
@@ -57,17 +57,28 @@ impl std::fmt::Display for StateT {
     }
 }
 
+#[allow(unreachable_code)]
 pub trait JsonRustTrait {
     fn new() -> Self;
+
     // field accessors:
     fn depth(&mut self) -> &mut u32;
     fn key(&mut self) -> &mut Vec<u8>;
     fn value(&mut self) -> &mut Vec<u8>;
+
     // callbacks to be implemented by the user:
-    fn gotKV(&mut self);
-    fn gotVal(&mut self);
-    fn popDepth(&mut self);
-    fn pushDepth(&mut self);
+    fn gotKV(&mut self) { println!("Notify::gotKV"); }
+    fn gotVal(&mut self) { println!("Notify::gotVal"); }
+    fn popDepth(&mut self) { println!("Notify::popDepth"); }
+    fn pushDepth(&mut self) { println!("Notify::pushDepth"); }
+
+    // private functions:
+    fn _func10_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
+    fn _func11_0(&mut self) -> bool {  if *self.depth() == 0 { return false; } *self.depth() -= 1;  return true; }
+    fn _func2_1(&mut self) -> bool {  *self.depth() += 1; self.key().clear();  return true; }
+    fn _func3_1(&mut self) -> bool {  if *self.depth() == 0 { return false; } *self.depth() -= 1;  return true; }
+    fn _func8_1(&mut self) -> bool {  *self.depth() += 1;  return true; }
+    fn _func9_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
 }
 
 pub struct JsonRustExample
@@ -82,10 +93,6 @@ impl JsonRustTrait for JsonRustExample {
     fn depth(&mut self) -> &mut u32 { &mut self.depth }
     fn key(&mut self) -> &mut Vec<u8> { &mut self.key }
     fn value(&mut self) -> &mut Vec<u8> { &mut self.value }
-    fn gotKV(&mut self) { println!("Notify::gotKV"); }
-    fn gotVal(&mut self) { println!("Notify::gotVal"); }
-    fn popDepth(&mut self) { println!("Notify::popDepth"); }
-    fn pushDepth(&mut self) { println!("Notify::pushDepth"); }
 }
 
 pub struct JsonRust <T> {
@@ -327,14 +334,8 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range2_0;
         return true;
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func2_1(this : &mut T) -> bool {
-         *this.depth() += 1; this.key().clear(); 
-        return true;
-    }
     fn func2_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func2_1(&mut self.output) {
+        if self.output._func2_1() {
             state.node = NodeT::Notify2_2;
             return true;
         }
@@ -381,14 +382,8 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range3_0;
         return true;
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func3_1(this : &mut T) -> bool {
-         if *this.depth() == 0 { return false; } *this.depth() -= 1; 
-        return true;
-    }
     fn func3_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func3_1(&mut self.output) {
+        if self.output._func3_1() {
             state.node = NodeT::Notify3_2;
             return true;
         }
@@ -932,14 +927,8 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range8_0;
         return true;
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func8_1(this : &mut T) -> bool {
-         *this.depth() += 1; 
-        return true;
-    }
     fn func8_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func8_1(&mut self.output) {
+        if self.output._func8_1() {
             state.node = NodeT::Notify8_2;
             return true;
         }
@@ -965,14 +954,8 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text9_0;
         return true;
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func9_1(this : &mut T) -> bool {
-         *this.value() = std::mem::take(this.key()); 
-        return true;
-    }
     fn func9_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func9_1(&mut self.output) {
+        if self.output._func9_1() {
             state.node = NodeT::Notify9_2;
             return true;
         }
@@ -1019,14 +1002,8 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range10_0;
         return true;
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func10_1(this : &mut T) -> bool {
-         *this.value() = std::mem::take(this.key()); 
-        return true;
-    }
     fn func10_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func10_1(&mut self.output) {
+        if self.output._func10_1() {
             state.node = NodeT::Notify10_2;
             return true;
         }
@@ -1041,14 +1018,8 @@ impl <T: JsonRustTrait> JsonRust<T> {
     fn cases10_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         return self.func11_0(state, data);
     }
-    #[allow(unused_variables)]
-    #[allow(unreachable_code)]
-    fn _func11_0(this : &mut T) -> bool {
-         if *this.depth() == 0 { return false; } *this.depth() -= 1; 
-        return true;
-    }
     fn func11_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if Self::_func11_0(&mut self.output) {
+        if self.output._func11_0() {
             state.node = NodeT::Notify11_1;
             return true;
         }
