@@ -1,7 +1,7 @@
 // ==============================================================
-// Date: 2026-04-28 17:05:32 GMT
-// Generated using vProto(2026.04.28)        https://www.cgen.dev
-// Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
+// Date: 2026-04-30 17:15:32 GMT
+// Generated using vProto(2026.04.30)        https://www.cgen.dev
+// Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
 // Example usage:
@@ -42,18 +42,16 @@ impl std::fmt::Display for NodeT {
 
 #[derive(Debug, Copy, Clone)]
 pub struct StateT {
-    node: NodeT,
-    left: usize,
-    right: usize,
-    consumed: usize
+    pos: usize,
+    consumed: usize,
+    node: NodeT
 }
 impl StateT {
-    pub fn new() -> Self { Self{ node: NodeT::Loop1_0, left: 0, right: 0, consumed: 0 } }
-    pub fn remain(&self) -> usize { self.right - self.left }
+    pub fn new() -> Self { Self{ pos: 0, consumed: 0, node: NodeT::Loop1_0 } }
 }
 impl std::fmt::Display for StateT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{} remain:{}({}->{}) consumed:{}", self.node, self.remain(), self.left, self.right, self.consumed)
+        write!(f, "{} pos:{} consumed:{}", self.node, self.pos, self.consumed)
     }
 }
 
@@ -115,8 +113,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     }
     pub fn parse(&mut self, data : &[u8]) -> bool {
         for v in & mut self.vstate {
-            v.left = 0;
-            v.right = data.len();
+            v.pos = 0;
         }
         let mut reparse = true;
         while reparse {
@@ -126,7 +123,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
             while s_flow < self.vstate.len() {
                 if self.vstate[s_flow].node == NodeT::NoState {
                     s_flow += 1;
-                } else if self.vstate[s_flow].remain() == 0 {
+                } else if self.vstate[s_flow].pos == data.len() {
                     if s_flow != d_flow {
                         self.vstate[d_flow] = self.vstate[s_flow];
                     }
@@ -153,14 +150,14 @@ impl <T: JsonRustTrait> JsonRust<T> {
         loop {
             if cfg!(debug_assertions) {
                 println!("State: {} data: [{:#04X}, {:#04X}, {:#04X}, {:#04X}, {:#04X}]", state.node,
-                    if state.remain() > 0 { data[state.left+0] } else { 0 },
-                    if state.remain() > 1 { data[state.left+1] } else { 0 },
-                    if state.remain() > 2 { data[state.left+2] } else { 0 },
-                    if state.remain() > 3 { data[state.left+3] } else { 0 },
-                    if state.remain() > 4 { data[state.left+4] } else { 0 });
+                    if state.pos+0 < data.len() { data[state.pos+0] } else { 0 },
+                    if state.pos+1 < data.len() { data[state.pos+1] } else { 0 },
+                    if state.pos+2 < data.len() { data[state.pos+2] } else { 0 },
+                    if state.pos+3 < data.len() { data[state.pos+3] } else { 0 },
+                    if state.pos+4 < data.len() { data[state.pos+4] } else { 0 });
             }
             let n = state.node;
-            let d = state.left;
+            let d = state.pos;
             match state.node {
                 NodeT::Loop1_0 => { self.loop1_0(state, data); }
                 NodeT::Range1_0 => { self.range1_0(state, data); }
@@ -203,13 +200,13 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 NodeT::Loop16_0 => { self.loop16_0(state, data); }
                 NodeT::NoState => { break; }
             }; // match
-            if d == state.left && n == state.node {
+            if d == state.pos && n == state.node {
                 break;
             }
         } // loop
     }
     fn loop1_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left == state.right {
+        if state.pos == data.len() {
             return true;
         }
         if self.range1_0(state, data) { // case_1
@@ -248,44 +245,44 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x9-0xa][0xd][0x20][0x2c]
-        let datastart = state.left;
-        while state.left < state.right {
-            if (state.left + 8) <= state.right {
-                if TERMINATOR[usize::from(data[state.left])] {
-                    state.left += 0;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
+                if TERMINATOR[usize::from(data[state.pos])] {
+                    state.pos += 0;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 1])] {
-                    state.left += 1;
+                else if TERMINATOR[usize::from(data[state.pos + 1])] {
+                    state.pos += 1;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 2])] {
-                    state.left += 2;
+                else if TERMINATOR[usize::from(data[state.pos + 2])] {
+                    state.pos += 2;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 3])] {
-                    state.left += 3;
+                else if TERMINATOR[usize::from(data[state.pos + 3])] {
+                    state.pos += 3;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 4])] {
-                    state.left += 4;
+                else if TERMINATOR[usize::from(data[state.pos + 4])] {
+                    state.pos += 4;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 5])] {
-                    state.left += 5;
+                else if TERMINATOR[usize::from(data[state.pos + 5])] {
+                    state.pos += 5;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 6])] {
-                    state.left += 6;
+                else if TERMINATOR[usize::from(data[state.pos + 6])] {
+                    state.pos += 6;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 7])] {
-                    state.left += 7;
+                else if TERMINATOR[usize::from(data[state.pos + 7])] {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(TERMINATOR[usize::from(data[state.left])]) {
-                state.left += 1;
+            else if !(TERMINATOR[usize::from(data[state.pos])]) {
+                state.pos += 1;
                 continue;
             }
-            let total = state.consumed + state.left - datastart;
+            let total = state.consumed + state.pos - datastart;
             state.consumed = 0;
             if total >= 1 {
                 state.node = NodeT::Loop1_0;
@@ -295,7 +292,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 return false;
             }
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range1_0;
         return true;
     }
@@ -317,20 +314,20 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x5b][0x7b]
-        let datastart = state.left;
-        while state.left < state.right {
-            if TERMINATOR[usize::from(data[state.left])] {
-                state.consumed += state.left - datastart;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if TERMINATOR[usize::from(data[state.pos])] {
+                state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func2_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func2_1;
                 state.consumed = 0;
                 return ret;
             }
-            state.left += 1;
+            state.pos += 1;
             state.node = NodeT::Func2_1;
             return true;
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range2_0;
         return true;
     }
@@ -365,20 +362,20 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x5d][0x7d]
-        let datastart = state.left;
-        while state.left < state.right {
-            if TERMINATOR[usize::from(data[state.left])] {
-                state.consumed += state.left - datastart;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if TERMINATOR[usize::from(data[state.pos])] {
+                state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func3_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func3_1;
                 state.consumed = 0;
                 return ret;
             }
-            state.left += 1;
+            state.pos += 1;
             state.node = NodeT::Func3_1;
             return true;
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range3_0;
         return true;
     }
@@ -396,12 +393,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         return true;
     }
     fn text4_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left < state.right {
-            if 0x22 != data[state.left] {
+        if state.pos < data.len() {
+            if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
                 return false;
             } else {
-                state.left += 1;
+                state.pos += 1;
                 state.node = NodeT::Vector4_1;
                 return true;
             }
@@ -418,92 +415,92 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.consumed += data.len();
     }
     fn vector4_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        let datastart = state.left;
+        let datastart = state.pos;
         let is_avx2 = is_x86_feature_detected!("avx2");
         let is_sse2 = is_x86_feature_detected!("sse2");
-        while state.left < state.right {
-            if is_avx2 && (state.left + 32) <= state.right {
+        while state.pos < data.len() {
+            if is_avx2 && (state.pos + 32) <= data.len() {
                 unsafe {
-                    let d = _mm256_lddqu_si256(data.as_ptr().add(state.left) as *const __m256i);
+                    let d = _mm256_lddqu_si256(data.as_ptr().add(state.pos) as *const __m256i);
                     let m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
                     let r: u32 = _mm256_movemask_epi8(m) as u32;
                     if r > 0 {
-                        state.left += r.trailing_zeros() as usize;
+                        state.pos += r.trailing_zeros() as usize;
                     } else {
-                        state.left += 32;
+                        state.pos += 32;
                         continue;
                     }
                 }
             }
-            else if is_sse2 && (state.left + 16) <= state.right {
+            else if is_sse2 && (state.pos + 16) <= data.len() {
                 unsafe {
-                    let d = _mm_loadu_si128(data.as_ptr().add(state.left) as *const __m128i);
+                    let d = _mm_loadu_si128(data.as_ptr().add(state.pos) as *const __m128i);
                     let m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
                     let r: u16 = _mm_movemask_epi8(m) as u16;
                     if r > 0 {
-                        state.left += r.trailing_zeros() as usize;
+                        state.pos += r.trailing_zeros() as usize;
                     } else {
-                        state.left += 16;
+                        state.pos += 16;
                         continue;
                     }
                 }
             }
-            else if (state.left + 8) <= state.right {
-                if data[state.left] == 0x22 {
-                    state.left += 0;
+            else if (state.pos + 8) <= data.len() {
+                if data[state.pos] == 0x22 {
+                    state.pos += 0;
                 }
-                else if data[state.left + 1] == 0x22 {
-                    state.left += 1;
+                else if data[state.pos + 1] == 0x22 {
+                    state.pos += 1;
                 }
-                else if data[state.left + 2] == 0x22 {
-                    state.left += 2;
+                else if data[state.pos + 2] == 0x22 {
+                    state.pos += 2;
                 }
-                else if data[state.left + 3] == 0x22 {
-                    state.left += 3;
+                else if data[state.pos + 3] == 0x22 {
+                    state.pos += 3;
                 }
-                else if data[state.left + 4] == 0x22 {
-                    state.left += 4;
+                else if data[state.pos + 4] == 0x22 {
+                    state.pos += 4;
                 }
-                else if data[state.left + 5] == 0x22 {
-                    state.left += 5;
+                else if data[state.pos + 5] == 0x22 {
+                    state.pos += 5;
                 }
-                else if data[state.left + 6] == 0x22 {
-                    state.left += 6;
+                else if data[state.pos + 6] == 0x22 {
+                    state.pos += 6;
                 }
-                else if data[state.left + 7] == 0x22 {
-                    state.left += 7;
+                else if data[state.pos + 7] == 0x22 {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(data[state.left] == 0x22) {
-                state.left += 1;
+            else if !(data[state.pos] == 0x22) {
+                state.pos += 1;
                 continue;
             }
-            let left = state.left;
-            self._vector4_1(state, &data[datastart .. left]);
+            let pos = state.pos;
+            self._vector4_1(state, &data[datastart .. pos]);
             state.consumed = 0;
             state.node = NodeT::Text4_2;
             return true;
         }
-        if datastart < state.left {
-            let left = state.left;
-            self._vector4_1(state, &data[datastart .. left]);
+        if datastart < state.pos {
+            let pos = state.pos;
+            self._vector4_1(state, &data[datastart .. pos]);
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Vector4_1;
         return true;
     }
     fn text4_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left < state.right {
-            if 0x22 != data[state.left] {
+        if state.pos < data.len() {
+            if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
                 return false;
             } else {
-                state.left += 1;
+                state.pos += 1;
                 state.node = NodeT::Range4_3;
                 return true;
             }
@@ -529,53 +526,53 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x9-0xa][0xd][0x20]
-        let datastart = state.left;
-        while state.left < state.right {
-            if (state.left + 8) <= state.right {
-                if TERMINATOR[usize::from(data[state.left])] {
-                    state.left += 0;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
+                if TERMINATOR[usize::from(data[state.pos])] {
+                    state.pos += 0;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 1])] {
-                    state.left += 1;
+                else if TERMINATOR[usize::from(data[state.pos + 1])] {
+                    state.pos += 1;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 2])] {
-                    state.left += 2;
+                else if TERMINATOR[usize::from(data[state.pos + 2])] {
+                    state.pos += 2;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 3])] {
-                    state.left += 3;
+                else if TERMINATOR[usize::from(data[state.pos + 3])] {
+                    state.pos += 3;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 4])] {
-                    state.left += 4;
+                else if TERMINATOR[usize::from(data[state.pos + 4])] {
+                    state.pos += 4;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 5])] {
-                    state.left += 5;
+                else if TERMINATOR[usize::from(data[state.pos + 5])] {
+                    state.pos += 5;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 6])] {
-                    state.left += 6;
+                else if TERMINATOR[usize::from(data[state.pos + 6])] {
+                    state.pos += 6;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 7])] {
-                    state.left += 7;
+                else if TERMINATOR[usize::from(data[state.pos + 7])] {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(TERMINATOR[usize::from(data[state.left])]) {
-                state.left += 1;
+            else if !(TERMINATOR[usize::from(data[state.pos])]) {
+                state.pos += 1;
                 continue;
             }
             state.consumed = 0;
             state.node = NodeT::Cases4_4;
             return true;
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range4_3;
         return true;
     }
     fn cases4_4(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left == state.right {
+        if state.pos == data.len() {
             return true;
         }
         if self.text5_0(state, data) { // case_1
@@ -591,12 +588,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         return true;
     }
     fn text5_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left < state.right {
-            if 0x3A != data[state.left] {
+        if state.pos < data.len() {
+            if 0x3A != data[state.pos] {
                 state.node = NodeT::NoState;
                 return false;
             } else {
-                state.left += 1;
+                state.pos += 1;
                 state.node = NodeT::Range5_1;
                 return true;
             }
@@ -622,53 +619,53 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x9-0xa][0xd][0x20]
-        let datastart = state.left;
-        while state.left < state.right {
-            if (state.left + 8) <= state.right {
-                if TERMINATOR[usize::from(data[state.left])] {
-                    state.left += 0;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
+                if TERMINATOR[usize::from(data[state.pos])] {
+                    state.pos += 0;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 1])] {
-                    state.left += 1;
+                else if TERMINATOR[usize::from(data[state.pos + 1])] {
+                    state.pos += 1;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 2])] {
-                    state.left += 2;
+                else if TERMINATOR[usize::from(data[state.pos + 2])] {
+                    state.pos += 2;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 3])] {
-                    state.left += 3;
+                else if TERMINATOR[usize::from(data[state.pos + 3])] {
+                    state.pos += 3;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 4])] {
-                    state.left += 4;
+                else if TERMINATOR[usize::from(data[state.pos + 4])] {
+                    state.pos += 4;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 5])] {
-                    state.left += 5;
+                else if TERMINATOR[usize::from(data[state.pos + 5])] {
+                    state.pos += 5;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 6])] {
-                    state.left += 6;
+                else if TERMINATOR[usize::from(data[state.pos + 6])] {
+                    state.pos += 6;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 7])] {
-                    state.left += 7;
+                else if TERMINATOR[usize::from(data[state.pos + 7])] {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(TERMINATOR[usize::from(data[state.left])]) {
-                state.left += 1;
+            else if !(TERMINATOR[usize::from(data[state.pos])]) {
+                state.pos += 1;
                 continue;
             }
             state.consumed = 0;
             state.node = NodeT::Cases5_2;
             return true;
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range5_1;
         return true;
     }
     fn cases5_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left == state.right {
+        if state.pos == data.len() {
             return true;
         }
         if self.text6_0(state, data) { // case_1
@@ -684,12 +681,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         return true;
     }
     fn text6_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left < state.right {
-            if 0x22 != data[state.left] {
+        if state.pos < data.len() {
+            if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
                 return false;
             } else {
-                state.left += 1;
+                state.pos += 1;
                 state.node = NodeT::Vector6_1;
                 return true;
             }
@@ -706,92 +703,92 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.consumed += data.len();
     }
     fn vector6_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        let datastart = state.left;
+        let datastart = state.pos;
         let is_avx2 = is_x86_feature_detected!("avx2");
         let is_sse2 = is_x86_feature_detected!("sse2");
-        while state.left < state.right {
-            if is_avx2 && (state.left + 32) <= state.right {
+        while state.pos < data.len() {
+            if is_avx2 && (state.pos + 32) <= data.len() {
                 unsafe {
-                    let d = _mm256_lddqu_si256(data.as_ptr().add(state.left) as *const __m256i);
+                    let d = _mm256_lddqu_si256(data.as_ptr().add(state.pos) as *const __m256i);
                     let m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
                     let r: u32 = _mm256_movemask_epi8(m) as u32;
                     if r > 0 {
-                        state.left += r.trailing_zeros() as usize;
+                        state.pos += r.trailing_zeros() as usize;
                     } else {
-                        state.left += 32;
+                        state.pos += 32;
                         continue;
                     }
                 }
             }
-            else if is_sse2 && (state.left + 16) <= state.right {
+            else if is_sse2 && (state.pos + 16) <= data.len() {
                 unsafe {
-                    let d = _mm_loadu_si128(data.as_ptr().add(state.left) as *const __m128i);
+                    let d = _mm_loadu_si128(data.as_ptr().add(state.pos) as *const __m128i);
                     let m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
                     let r: u16 = _mm_movemask_epi8(m) as u16;
                     if r > 0 {
-                        state.left += r.trailing_zeros() as usize;
+                        state.pos += r.trailing_zeros() as usize;
                     } else {
-                        state.left += 16;
+                        state.pos += 16;
                         continue;
                     }
                 }
             }
-            else if (state.left + 8) <= state.right {
-                if data[state.left] == 0x22 {
-                    state.left += 0;
+            else if (state.pos + 8) <= data.len() {
+                if data[state.pos] == 0x22 {
+                    state.pos += 0;
                 }
-                else if data[state.left + 1] == 0x22 {
-                    state.left += 1;
+                else if data[state.pos + 1] == 0x22 {
+                    state.pos += 1;
                 }
-                else if data[state.left + 2] == 0x22 {
-                    state.left += 2;
+                else if data[state.pos + 2] == 0x22 {
+                    state.pos += 2;
                 }
-                else if data[state.left + 3] == 0x22 {
-                    state.left += 3;
+                else if data[state.pos + 3] == 0x22 {
+                    state.pos += 3;
                 }
-                else if data[state.left + 4] == 0x22 {
-                    state.left += 4;
+                else if data[state.pos + 4] == 0x22 {
+                    state.pos += 4;
                 }
-                else if data[state.left + 5] == 0x22 {
-                    state.left += 5;
+                else if data[state.pos + 5] == 0x22 {
+                    state.pos += 5;
                 }
-                else if data[state.left + 6] == 0x22 {
-                    state.left += 6;
+                else if data[state.pos + 6] == 0x22 {
+                    state.pos += 6;
                 }
-                else if data[state.left + 7] == 0x22 {
-                    state.left += 7;
+                else if data[state.pos + 7] == 0x22 {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(data[state.left] == 0x22) {
-                state.left += 1;
+            else if !(data[state.pos] == 0x22) {
+                state.pos += 1;
                 continue;
             }
-            let left = state.left;
-            self._vector6_1(state, &data[datastart .. left]);
+            let pos = state.pos;
+            self._vector6_1(state, &data[datastart .. pos]);
             state.consumed = 0;
             state.node = NodeT::Text6_2;
             return true;
         }
-        if datastart < state.left {
-            let left = state.left;
-            self._vector6_1(state, &data[datastart .. left]);
+        if datastart < state.pos {
+            let pos = state.pos;
+            self._vector6_1(state, &data[datastart .. pos]);
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Vector6_1;
         return true;
     }
     fn text6_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left < state.right {
-            if 0x22 != data[state.left] {
+        if state.pos < data.len() {
+            if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
                 return false;
             } else {
-                state.left += 1;
+                state.pos += 1;
                 state.node = NodeT::Notify6_3;
                 return true;
             }
@@ -830,46 +827,46 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x2d-0x2e][0-9][A-Z][a-z]
-        let datastart = state.left;
-        while state.left < state.right {
-            if (state.left + 8) <= state.right {
-                if TERMINATOR[usize::from(data[state.left])] {
-                    state.left += 0;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
+                if TERMINATOR[usize::from(data[state.pos])] {
+                    state.pos += 0;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 1])] {
-                    state.left += 1;
+                else if TERMINATOR[usize::from(data[state.pos + 1])] {
+                    state.pos += 1;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 2])] {
-                    state.left += 2;
+                else if TERMINATOR[usize::from(data[state.pos + 2])] {
+                    state.pos += 2;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 3])] {
-                    state.left += 3;
+                else if TERMINATOR[usize::from(data[state.pos + 3])] {
+                    state.pos += 3;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 4])] {
-                    state.left += 4;
+                else if TERMINATOR[usize::from(data[state.pos + 4])] {
+                    state.pos += 4;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 5])] {
-                    state.left += 5;
+                else if TERMINATOR[usize::from(data[state.pos + 5])] {
+                    state.pos += 5;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 6])] {
-                    state.left += 6;
+                else if TERMINATOR[usize::from(data[state.pos + 6])] {
+                    state.pos += 6;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 7])] {
-                    state.left += 7;
+                else if TERMINATOR[usize::from(data[state.pos + 7])] {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(TERMINATOR[usize::from(data[state.left])]) {
-                state.left += 1;
+            else if !(TERMINATOR[usize::from(data[state.pos])]) {
+                state.pos += 1;
                 continue;
             }
-            let left = state.left;
-            self._vector7_0(state, &data[datastart .. left]);
-            let total = state.consumed + state.left - datastart;
+            let pos = state.pos;
+            self._vector7_0(state, &data[datastart .. pos]);
+            let total = state.consumed + state.pos - datastart;
             state.consumed = 0;
             if total >= 1 {
                 state.node = NodeT::Notify7_1;
@@ -879,11 +876,11 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 return false;
             }
         }
-        if datastart < state.left {
-            let left = state.left;
-            self._vector7_0(state, &data[datastart .. left]);
+        if datastart < state.pos {
+            let pos = state.pos;
+            self._vector7_0(state, &data[datastart .. pos]);
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Vector7_0;
         return true;
     }
@@ -910,20 +907,20 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x5b][0x7b]
-        let datastart = state.left;
-        while state.left < state.right {
-            if TERMINATOR[usize::from(data[state.left])] {
-                state.consumed += state.left - datastart;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if TERMINATOR[usize::from(data[state.pos])] {
+                state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func8_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func8_1;
                 state.consumed = 0;
                 return ret;
             }
-            state.left += 1;
+            state.pos += 1;
             state.node = NodeT::Func8_1;
             return true;
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range8_0;
         return true;
     }
@@ -941,12 +938,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         return true;
     }
     fn text9_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
-        if state.left < state.right {
-            if 0x2C != data[state.left] {
+        if state.pos < data.len() {
+            if 0x2C != data[state.pos] {
                 state.node = NodeT::NoState;
                 return false;
             } else {
-                state.left += 1;
+                state.pos += 1;
                 state.node = NodeT::Func9_1;
                 return true;
             }
@@ -985,20 +982,20 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x5d][0x7d]
-        let datastart = state.left;
-        while state.left < state.right {
-            if TERMINATOR[usize::from(data[state.left])] {
-                state.consumed += state.left - datastart;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if TERMINATOR[usize::from(data[state.pos])] {
+                state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func10_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func10_1;
                 state.consumed = 0;
                 return ret;
             }
-            state.left += 1;
+            state.pos += 1;
             state.node = NodeT::Func10_1;
             return true;
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Range10_0;
         return true;
     }
@@ -1057,46 +1054,46 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x2d-0x2e][0-9][A-Z][_][a-z]
-        let datastart = state.left;
-        while state.left < state.right {
-            if (state.left + 8) <= state.right {
-                if TERMINATOR[usize::from(data[state.left])] {
-                    state.left += 0;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
+                if TERMINATOR[usize::from(data[state.pos])] {
+                    state.pos += 0;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 1])] {
-                    state.left += 1;
+                else if TERMINATOR[usize::from(data[state.pos + 1])] {
+                    state.pos += 1;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 2])] {
-                    state.left += 2;
+                else if TERMINATOR[usize::from(data[state.pos + 2])] {
+                    state.pos += 2;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 3])] {
-                    state.left += 3;
+                else if TERMINATOR[usize::from(data[state.pos + 3])] {
+                    state.pos += 3;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 4])] {
-                    state.left += 4;
+                else if TERMINATOR[usize::from(data[state.pos + 4])] {
+                    state.pos += 4;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 5])] {
-                    state.left += 5;
+                else if TERMINATOR[usize::from(data[state.pos + 5])] {
+                    state.pos += 5;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 6])] {
-                    state.left += 6;
+                else if TERMINATOR[usize::from(data[state.pos + 6])] {
+                    state.pos += 6;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 7])] {
-                    state.left += 7;
+                else if TERMINATOR[usize::from(data[state.pos + 7])] {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(TERMINATOR[usize::from(data[state.left])]) {
-                state.left += 1;
+            else if !(TERMINATOR[usize::from(data[state.pos])]) {
+                state.pos += 1;
                 continue;
             }
-            let left = state.left;
-            self._vector12_0(state, &data[datastart .. left]);
-            let total = state.consumed + state.left - datastart;
+            let pos = state.pos;
+            self._vector12_0(state, &data[datastart .. pos]);
+            let total = state.consumed + state.pos - datastart;
             state.consumed = 0;
             if total >= 1 {
                 state.node = NodeT::Notify12_1;
@@ -1106,11 +1103,11 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 return false;
             }
         }
-        if datastart < state.left {
-            let left = state.left;
-            self._vector12_0(state, &data[datastart .. left]);
+        if datastart < state.pos {
+            let pos = state.pos;
+            self._vector12_0(state, &data[datastart .. pos]);
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Vector12_0;
         return true;
     }
@@ -1148,46 +1145,46 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0-9]
-        let datastart = state.left;
-        while state.left < state.right {
-            if (state.left + 8) <= state.right {
-                if TERMINATOR[usize::from(data[state.left])] {
-                    state.left += 0;
+        let datastart = state.pos;
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
+                if TERMINATOR[usize::from(data[state.pos])] {
+                    state.pos += 0;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 1])] {
-                    state.left += 1;
+                else if TERMINATOR[usize::from(data[state.pos + 1])] {
+                    state.pos += 1;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 2])] {
-                    state.left += 2;
+                else if TERMINATOR[usize::from(data[state.pos + 2])] {
+                    state.pos += 2;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 3])] {
-                    state.left += 3;
+                else if TERMINATOR[usize::from(data[state.pos + 3])] {
+                    state.pos += 3;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 4])] {
-                    state.left += 4;
+                else if TERMINATOR[usize::from(data[state.pos + 4])] {
+                    state.pos += 4;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 5])] {
-                    state.left += 5;
+                else if TERMINATOR[usize::from(data[state.pos + 5])] {
+                    state.pos += 5;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 6])] {
-                    state.left += 6;
+                else if TERMINATOR[usize::from(data[state.pos + 6])] {
+                    state.pos += 6;
                 }
-                else if TERMINATOR[usize::from(data[state.left + 7])] {
-                    state.left += 7;
+                else if TERMINATOR[usize::from(data[state.pos + 7])] {
+                    state.pos += 7;
                 }
                 else
                 {
-                    state.left += 8;
+                    state.pos += 8;
                     continue;
                 }
             }
-            else if !(TERMINATOR[usize::from(data[state.left])]) {
-                state.left += 1;
+            else if !(TERMINATOR[usize::from(data[state.pos])]) {
+                state.pos += 1;
                 continue;
             }
-            let left = state.left;
-            self._uint14_0(state, &data[datastart .. left]);
-            let total = state.consumed + state.left - datastart;
+            let pos = state.pos;
+            self._uint14_0(state, &data[datastart .. pos]);
+            let total = state.consumed + state.pos - datastart;
             state.consumed = 0;
             if total >= 1 {
                 state.node = NodeT::Loop14_0;
@@ -1197,11 +1194,11 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 return false;
             }
         }
-        if datastart < state.left {
-            let left = state.left;
-            self._uint14_0(state, &data[datastart .. left]);
+        if datastart < state.pos {
+            let pos = state.pos;
+            self._uint14_0(state, &data[datastart .. pos]);
         }
-        state.consumed += state.left - datastart;
+        state.consumed += state.pos - datastart;
         state.node = NodeT::Uint14_0;
         return true;
     }
