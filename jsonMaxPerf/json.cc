@@ -1,7 +1,7 @@
 // ==============================================================
-// Date: 2026-04-20 18:22:04 GMT
-// Generated using vProto(2026.04.20)        https://www.cgen.dev
-// Author: Sergey V. Shchekoldin     Email: shchekoldin@gmail.com
+// Date: 2026-05-01 12:52:52 GMT
+// Generated using vProto(2026.05.01)        https://www.cgen.dev
+// Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
 
@@ -15,15 +15,24 @@
 #if defined(__SSE2__)
 #include <emmintrin.h>
 #endif
+#if !defined(ALWAYS_INLINE)
+    #if defined(_MSC_VER)
+        #define ALWAYS_INLINE __forceinline
+    #elif defined(__clang__)
+        #define ALWAYS_INLINE [[clang::always_inline]]
+    #else
+        #define ALWAYS_INLINE inline
+    #endif
+#endif
 
 #if defined(_MSC_VER)
 #include <intrin.h>
-inline unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
+ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
 #else
-inline unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
+ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
 #endif
 
-inline void json::parse(StateT & state)
+void json::parse(StateT & state)
 {
     while(true)
     {
@@ -97,7 +106,7 @@ bool json::parse(const char * data, unsigned len)
     return !empty();
 }
 
-inline bool json::loop1_0(StateT & state)
+ALWAYS_INLINE bool json::loop1_0(StateT & state)
 {
     if (state.data == state.end)
         return true;
@@ -115,7 +124,7 @@ inline bool json::loop1_0(StateT & state)
     return true;
 }
 
-inline bool json::range1_0(StateT & state) const
+ALWAYS_INLINE bool json::range1_0(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
@@ -198,7 +207,7 @@ inline bool json::range1_0(StateT & state) const
     return true;
 }
 
-inline bool json::range2_0(StateT & state) const
+ALWAYS_INLINE bool json::range2_0(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -237,12 +246,12 @@ inline bool json::range2_0(StateT & state) const
     return true;
 }
 
-inline bool json::func2_1()
+ALWAYS_INLINE bool json::func2_1()
 {
      depth++; key = ""; 
     return true;
 }
-inline bool json::func2_1(StateT & state)
+ALWAYS_INLINE bool json::func2_1(StateT & state)
 {
     if (func2_1())
     {
@@ -253,14 +262,14 @@ inline bool json::func2_1(StateT & state)
     return false;
 }
 
-inline bool json::notify2_2(StateT & state)
+ALWAYS_INLINE bool json::notify2_2(StateT & state)
 {
     pushDepth();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::range3_0(StateT & state) const
+ALWAYS_INLINE bool json::range3_0(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -299,12 +308,12 @@ inline bool json::range3_0(StateT & state) const
     return true;
 }
 
-inline bool json::func3_1()
+ALWAYS_INLINE bool json::func3_1()
 {
      return depth--; 
     return true;
 }
-inline bool json::func3_1(StateT & state)
+ALWAYS_INLINE bool json::func3_1(StateT & state)
 {
     if (func3_1())
     {
@@ -315,14 +324,14 @@ inline bool json::func3_1(StateT & state)
     return false;
 }
 
-inline bool json::notify3_2(StateT & state)
+ALWAYS_INLINE bool json::notify3_2(StateT & state)
 {
     popDepth();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::text4_0(StateT & state) const
+ALWAYS_INLINE bool json::text4_0(StateT & state) const
 {
     if(state.data < state.end)
     {
@@ -347,7 +356,7 @@ void json::strview4_1(const char * data, unsigned len, uint64_t consumed)
     jsonResult::key = std::string_view(data, len);
 }
 
-inline bool json::strview4_1(StateT & state)
+ALWAYS_INLINE bool json::strview4_1(StateT & state)
 {
     const char * datastart = state.data;
     while(state.data < state.end) [[likely]]
@@ -439,7 +448,7 @@ inline bool json::strview4_1(StateT & state)
     return true;
 }
 
-inline bool json::text4_2(StateT & state) const
+ALWAYS_INLINE bool json::text4_2(StateT & state) const
 {
     if(state.data < state.end)
     {
@@ -457,7 +466,7 @@ inline bool json::text4_2(StateT & state) const
     return true;
 }
 
-inline bool json::range4_3(StateT & state) const
+ALWAYS_INLINE bool json::range4_3(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
@@ -533,7 +542,7 @@ inline bool json::range4_3(StateT & state) const
     return true;
 }
 
-inline bool json::cases4_4(StateT & state) const
+ALWAYS_INLINE bool json::cases4_4(StateT & state) const
 {
     if (state.data == state.end)
         return true;
@@ -547,7 +556,7 @@ inline bool json::cases4_4(StateT & state) const
     return true;
 }
 
-inline bool json::text5_0(StateT & state) const
+ALWAYS_INLINE bool json::text5_0(StateT & state) const
 {
     if(state.data < state.end)
     {
@@ -565,7 +574,7 @@ inline bool json::text5_0(StateT & state) const
     return true;
 }
 
-inline bool json::range5_1(StateT & state) const
+ALWAYS_INLINE bool json::range5_1(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
@@ -641,7 +650,7 @@ inline bool json::range5_1(StateT & state) const
     return true;
 }
 
-inline bool json::cases5_2(StateT & state)
+ALWAYS_INLINE bool json::cases5_2(StateT & state)
 {
     if (state.data == state.end)
         return true;
@@ -655,7 +664,7 @@ inline bool json::cases5_2(StateT & state)
     return true;
 }
 
-inline bool json::text6_0(StateT & state) const
+ALWAYS_INLINE bool json::text6_0(StateT & state) const
 {
     if(state.data < state.end)
     {
@@ -680,7 +689,7 @@ void json::strview6_1(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value = std::string_view(data, len);
 }
 
-inline bool json::strview6_1(StateT & state)
+ALWAYS_INLINE bool json::strview6_1(StateT & state)
 {
     const char * datastart = state.data;
     while(state.data < state.end) [[likely]]
@@ -772,7 +781,7 @@ inline bool json::strview6_1(StateT & state)
     return true;
 }
 
-inline bool json::text6_2(StateT & state) const
+ALWAYS_INLINE bool json::text6_2(StateT & state) const
 {
     if(state.data < state.end)
     {
@@ -790,7 +799,7 @@ inline bool json::text6_2(StateT & state) const
     return true;
 }
 
-inline bool json::notify6_3(StateT & state)
+ALWAYS_INLINE bool json::notify6_3(StateT & state)
 {
     gotKV();
     state.node = NodeT::Loop1_0;
@@ -804,7 +813,7 @@ void json::strview7_0(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value = std::string_view(data, len);
 }
 
-inline bool json::strview7_0(StateT & state)
+ALWAYS_INLINE bool json::strview7_0(StateT & state)
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -890,14 +899,14 @@ inline bool json::strview7_0(StateT & state)
     return true;
 }
 
-inline bool json::notify7_1(StateT & state)
+ALWAYS_INLINE bool json::notify7_1(StateT & state)
 {
     gotKV();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::range8_0(StateT & state) const
+ALWAYS_INLINE bool json::range8_0(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -936,12 +945,12 @@ inline bool json::range8_0(StateT & state) const
     return true;
 }
 
-inline bool json::func8_1()
+ALWAYS_INLINE bool json::func8_1()
 {
      depth++; 
     return true;
 }
-inline bool json::func8_1(StateT & state)
+ALWAYS_INLINE bool json::func8_1(StateT & state)
 {
     if (func8_1())
     {
@@ -952,14 +961,14 @@ inline bool json::func8_1(StateT & state)
     return false;
 }
 
-inline bool json::notify8_2(StateT & state)
+ALWAYS_INLINE bool json::notify8_2(StateT & state)
 {
     pushDepth();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::text9_0(StateT & state) const
+ALWAYS_INLINE bool json::text9_0(StateT & state) const
 {
     if(state.data < state.end)
     {
@@ -977,12 +986,12 @@ inline bool json::text9_0(StateT & state) const
     return true;
 }
 
-inline bool json::func9_1()
+ALWAYS_INLINE bool json::func9_1()
 {
      value.swap(key); 
     return true;
 }
-inline bool json::func9_1(StateT & state)
+ALWAYS_INLINE bool json::func9_1(StateT & state)
 {
     if (func9_1())
     {
@@ -993,14 +1002,14 @@ inline bool json::func9_1(StateT & state)
     return false;
 }
 
-inline bool json::notify9_2(StateT & state)
+ALWAYS_INLINE bool json::notify9_2(StateT & state)
 {
     gotVal();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::range10_0(StateT & state) const
+ALWAYS_INLINE bool json::range10_0(StateT & state) const
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1039,12 +1048,12 @@ inline bool json::range10_0(StateT & state) const
     return true;
 }
 
-inline bool json::func10_1()
+ALWAYS_INLINE bool json::func10_1()
 {
      value.swap(key); 
     return true;
 }
-inline bool json::func10_1(StateT & state)
+ALWAYS_INLINE bool json::func10_1(StateT & state)
 {
     if (func10_1())
     {
@@ -1055,24 +1064,24 @@ inline bool json::func10_1(StateT & state)
     return false;
 }
 
-inline bool json::notify10_2(StateT & state)
+ALWAYS_INLINE bool json::notify10_2(StateT & state)
 {
     gotVal();
     state.node = NodeT::Cases10_3;
     return true;
 }
 
-inline bool json::cases10_3(StateT & state)
+ALWAYS_INLINE bool json::cases10_3(StateT & state)
 {
     return func11_0(state);
 }
 
-inline bool json::func11_0()
+ALWAYS_INLINE bool json::func11_0()
 {
      return depth--; 
     return true;
 }
-inline bool json::func11_0(StateT & state)
+ALWAYS_INLINE bool json::func11_0(StateT & state)
 {
     if (func11_0())
     {
@@ -1083,7 +1092,7 @@ inline bool json::func11_0(StateT & state)
     return false;
 }
 
-inline bool json::notify11_1(StateT & state)
+ALWAYS_INLINE bool json::notify11_1(StateT & state)
 {
     popDepth();
     state.node = NodeT::Loop1_0;
@@ -1097,7 +1106,7 @@ void json::strview12_0(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value = std::string_view(data, len);
 }
 
-inline bool json::strview12_0(StateT & state)
+ALWAYS_INLINE bool json::strview12_0(StateT & state)
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1183,14 +1192,14 @@ inline bool json::strview12_0(StateT & state)
     return true;
 }
 
-inline bool json::notify12_1(StateT & state)
+ALWAYS_INLINE bool json::notify12_1(StateT & state)
 {
     gotVal();
     state.node = NodeT::Loop1_0;
     return true;
 }
 
-inline bool json::loop14_0(StateT & state)
+ALWAYS_INLINE bool json::loop14_0(StateT & state)
 {
     return uint14_0(state);
 }
@@ -1203,7 +1212,7 @@ void json::uint14_0(const char * data, unsigned len, uint64_t consumed)
         jsonResult::depth = jsonResult::depth*10 + *data - '0';
 }
 
-inline bool json::uint14_0(StateT & state)
+ALWAYS_INLINE bool json::uint14_0(StateT & state)
 {
     const static std::array<bool, 256> terminator = {
          true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1289,7 +1298,7 @@ inline bool json::uint14_0(StateT & state)
     return true;
 }
 
-inline bool json::loop16_0(StateT & state) const
+ALWAYS_INLINE bool json::loop16_0(StateT & state) const
 {
     state.node = NodeT::NoState;
     return true;

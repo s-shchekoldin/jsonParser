@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-04-30 17:15:32 GMT
-// Generated using vProto(2026.04.30)        https://www.cgen.dev
+// Date: 2026-05-01 12:52:52 GMT
+// Generated using vProto(2026.05.01)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -65,18 +65,18 @@ pub trait JsonRustTrait {
     fn value(&mut self) -> &mut Vec<u8>;
 
     // callbacks to be implemented by the user:
-    fn gotKV(&mut self) { println!("Notify::gotKV"); }
-    fn gotVal(&mut self) { println!("Notify::gotVal"); }
-    fn popDepth(&mut self) { println!("Notify::popDepth"); }
-    fn pushDepth(&mut self) { println!("Notify::pushDepth"); }
+    #[inline(always)] fn gotKV(&mut self) { println!("Notify::gotKV"); }
+    #[inline(always)] fn gotVal(&mut self) { println!("Notify::gotVal"); }
+    #[inline(always)] fn popDepth(&mut self) { println!("Notify::popDepth"); }
+    #[inline(always)] fn pushDepth(&mut self) { println!("Notify::pushDepth"); }
 
     // private functions:
-    fn _func10_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
-    fn _func11_0(&mut self) -> bool {  if *self.depth() == 0 { return false; } *self.depth() -= 1;  return true; }
-    fn _func2_1(&mut self) -> bool {  *self.depth() += 1; self.key().clear();  return true; }
-    fn _func3_1(&mut self) -> bool {  if *self.depth() == 0 { return false; } *self.depth() -= 1;  return true; }
-    fn _func8_1(&mut self) -> bool {  *self.depth() += 1;  return true; }
-    fn _func9_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
+    #[inline(always)] fn _func10_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
+    #[inline(always)] fn _func11_0(&mut self) -> bool {  if *self.depth() == 0 { return false; } *self.depth() -= 1;  return true; }
+    #[inline(always)] fn _func2_1(&mut self) -> bool {  *self.depth() += 1; self.key().clear();  return true; }
+    #[inline(always)] fn _func3_1(&mut self) -> bool {  if *self.depth() == 0 { return false; } *self.depth() -= 1;  return true; }
+    #[inline(always)] fn _func8_1(&mut self) -> bool {  *self.depth() += 1;  return true; }
+    #[inline(always)] fn _func9_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
 }
 
 pub struct JsonRustExample
@@ -161,39 +161,79 @@ impl <T: JsonRustTrait> JsonRust<T> {
             match state.node {
                 NodeT::Loop1_0 => { self.loop1_0(state, data); }
                 NodeT::Range1_0 => { self.range1_0(state, data); }
-                NodeT::Range2_0 => { self.range2_0(state, data); }
-                NodeT::Func2_1 => { self.func2_1(state, data); }
+                NodeT::Range2_0 => if self.range2_0(state, data) &&
+                        (state.node == NodeT::Func2_1 && self.func2_1(state, data)) &&
+                        (state.node == NodeT::Notify2_2 && self.notify2_2(state, data)){ continue; }
+                NodeT::Func2_1 => if self.func2_1(state, data) &&
+                        (state.node == NodeT::Notify2_2 && self.notify2_2(state, data)){ continue; }
                 NodeT::Notify2_2 => { self.notify2_2(state, data); }
-                NodeT::Range3_0 => { self.range3_0(state, data); }
-                NodeT::Func3_1 => { self.func3_1(state, data); }
+                NodeT::Range3_0 => if self.range3_0(state, data) &&
+                        (state.node == NodeT::Func3_1 && self.func3_1(state, data)) &&
+                        (state.node == NodeT::Notify3_2 && self.notify3_2(state, data)){ continue; }
+                NodeT::Func3_1 => if self.func3_1(state, data) &&
+                        (state.node == NodeT::Notify3_2 && self.notify3_2(state, data)){ continue; }
                 NodeT::Notify3_2 => { self.notify3_2(state, data); }
-                NodeT::Text4_0 => { self.text4_0(state, data); }
-                NodeT::Vector4_1 => { self.vector4_1(state, data); }
-                NodeT::Text4_2 => { self.text4_2(state, data); }
-                NodeT::Range4_3 => { self.range4_3(state, data); }
+                NodeT::Text4_0 => if self.text4_0(state, data) &&
+                        (state.node == NodeT::Vector4_1 && self.vector4_1(state, data)) &&
+                        (state.node == NodeT::Text4_2 && self.text4_2(state, data)) &&
+                        (state.node == NodeT::Range4_3 && self.range4_3(state, data)) &&
+                        (state.node == NodeT::Cases4_4 && self.cases4_4(state, data)){ continue; }
+                NodeT::Vector4_1 => if self.vector4_1(state, data) &&
+                        (state.node == NodeT::Text4_2 && self.text4_2(state, data)) &&
+                        (state.node == NodeT::Range4_3 && self.range4_3(state, data)) &&
+                        (state.node == NodeT::Cases4_4 && self.cases4_4(state, data)){ continue; }
+                NodeT::Text4_2 => if self.text4_2(state, data) &&
+                        (state.node == NodeT::Range4_3 && self.range4_3(state, data)) &&
+                        (state.node == NodeT::Cases4_4 && self.cases4_4(state, data)){ continue; }
+                NodeT::Range4_3 => if self.range4_3(state, data) &&
+                        (state.node == NodeT::Cases4_4 && self.cases4_4(state, data)){ continue; }
                 NodeT::Cases4_4 => { self.cases4_4(state, data); }
-                NodeT::Text5_0 => { self.text5_0(state, data); }
-                NodeT::Range5_1 => { self.range5_1(state, data); }
+                NodeT::Text5_0 => if self.text5_0(state, data) &&
+                        (state.node == NodeT::Range5_1 && self.range5_1(state, data)) &&
+                        (state.node == NodeT::Cases5_2 && self.cases5_2(state, data)){ continue; }
+                NodeT::Range5_1 => if self.range5_1(state, data) &&
+                        (state.node == NodeT::Cases5_2 && self.cases5_2(state, data)){ continue; }
                 NodeT::Cases5_2 => { self.cases5_2(state, data); }
-                NodeT::Text6_0 => { self.text6_0(state, data); }
-                NodeT::Vector6_1 => { self.vector6_1(state, data); }
-                NodeT::Text6_2 => { self.text6_2(state, data); }
+                NodeT::Text6_0 => if self.text6_0(state, data) &&
+                        (state.node == NodeT::Vector6_1 && self.vector6_1(state, data)) &&
+                        (state.node == NodeT::Text6_2 && self.text6_2(state, data)) &&
+                        (state.node == NodeT::Notify6_3 && self.notify6_3(state, data)){ continue; }
+                NodeT::Vector6_1 => if self.vector6_1(state, data) &&
+                        (state.node == NodeT::Text6_2 && self.text6_2(state, data)) &&
+                        (state.node == NodeT::Notify6_3 && self.notify6_3(state, data)){ continue; }
+                NodeT::Text6_2 => if self.text6_2(state, data) &&
+                        (state.node == NodeT::Notify6_3 && self.notify6_3(state, data)){ continue; }
                 NodeT::Notify6_3 => { self.notify6_3(state, data); }
-                NodeT::Vector7_0 => { self.vector7_0(state, data); }
+                NodeT::Vector7_0 => if self.vector7_0(state, data) &&
+                        (state.node == NodeT::Notify7_1 && self.notify7_1(state, data)){ continue; }
                 NodeT::Notify7_1 => { self.notify7_1(state, data); }
-                NodeT::Range8_0 => { self.range8_0(state, data); }
-                NodeT::Func8_1 => { self.func8_1(state, data); }
+                NodeT::Range8_0 => if self.range8_0(state, data) &&
+                        (state.node == NodeT::Func8_1 && self.func8_1(state, data)) &&
+                        (state.node == NodeT::Notify8_2 && self.notify8_2(state, data)){ continue; }
+                NodeT::Func8_1 => if self.func8_1(state, data) &&
+                        (state.node == NodeT::Notify8_2 && self.notify8_2(state, data)){ continue; }
                 NodeT::Notify8_2 => { self.notify8_2(state, data); }
-                NodeT::Text9_0 => { self.text9_0(state, data); }
-                NodeT::Func9_1 => { self.func9_1(state, data); }
+                NodeT::Text9_0 => if self.text9_0(state, data) &&
+                        (state.node == NodeT::Func9_1 && self.func9_1(state, data)) &&
+                        (state.node == NodeT::Notify9_2 && self.notify9_2(state, data)){ continue; }
+                NodeT::Func9_1 => if self.func9_1(state, data) &&
+                        (state.node == NodeT::Notify9_2 && self.notify9_2(state, data)){ continue; }
                 NodeT::Notify9_2 => { self.notify9_2(state, data); }
-                NodeT::Range10_0 => { self.range10_0(state, data); }
-                NodeT::Func10_1 => { self.func10_1(state, data); }
-                NodeT::Notify10_2 => { self.notify10_2(state, data); }
+                NodeT::Range10_0 => if self.range10_0(state, data) &&
+                        (state.node == NodeT::Func10_1 && self.func10_1(state, data)) &&
+                        (state.node == NodeT::Notify10_2 && self.notify10_2(state, data)) &&
+                        (state.node == NodeT::Cases10_3 && self.cases10_3(state, data)){ continue; }
+                NodeT::Func10_1 => if self.func10_1(state, data) &&
+                        (state.node == NodeT::Notify10_2 && self.notify10_2(state, data)) &&
+                        (state.node == NodeT::Cases10_3 && self.cases10_3(state, data)){ continue; }
+                NodeT::Notify10_2 => if self.notify10_2(state, data) &&
+                        (state.node == NodeT::Cases10_3 && self.cases10_3(state, data)){ continue; }
                 NodeT::Cases10_3 => { self.cases10_3(state, data); }
-                NodeT::Func11_0 => { self.func11_0(state, data); }
+                NodeT::Func11_0 => if self.func11_0(state, data) &&
+                        (state.node == NodeT::Notify11_1 && self.notify11_1(state, data)){ continue; }
                 NodeT::Notify11_1 => { self.notify11_1(state, data); }
-                NodeT::Vector12_0 => { self.vector12_0(state, data); }
+                NodeT::Vector12_0 => if self.vector12_0(state, data) &&
+                        (state.node == NodeT::Notify12_1 && self.notify12_1(state, data)){ continue; }
                 NodeT::Notify12_1 => { self.notify12_1(state, data); }
                 NodeT::Loop14_0 => { self.loop14_0(state, data); }
                 NodeT::Uint14_0 => { self.uint14_0(state, data); }
@@ -205,7 +245,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
             }
         } // loop
     }
-    fn loop1_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn loop1_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos == data.len() {
             return true;
         }
@@ -227,7 +267,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return true;
     }
-    fn range1_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range1_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -296,7 +336,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range1_0;
         return true;
     }
-    fn range2_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range2_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -331,7 +371,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range2_0;
         return true;
     }
-    fn func2_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn func2_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if self.output._func2_1() {
             state.node = NodeT::Notify2_2;
             return true;
@@ -339,12 +379,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify2_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify2_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.pushDepth();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn range3_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range3_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -379,7 +419,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range3_0;
         return true;
     }
-    fn func3_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn func3_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if self.output._func3_1() {
             state.node = NodeT::Notify3_2;
             return true;
@@ -387,12 +427,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify3_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify3_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.popDepth();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn text4_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn text4_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos < data.len() {
             if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
@@ -406,7 +446,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text4_0;
         return true;
     }
-    fn _vector4_1(&mut self, state: &mut StateT, data: &[u8]) {
+    #[inline(always)] fn _vector4_1(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             self.output.key().clear();
         }
@@ -414,7 +454,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         self.output.key().extend_from_slice(&data[0 .. len]);
         state.consumed += data.len();
     }
-    fn vector4_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn vector4_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         let is_avx2 = is_x86_feature_detected!("avx2");
         let is_sse2 = is_x86_feature_detected!("sse2");
@@ -494,7 +534,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Vector4_1;
         return true;
     }
-    fn text4_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn text4_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos < data.len() {
             if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
@@ -508,7 +548,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text4_2;
         return true;
     }
-    fn range4_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range4_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -571,7 +611,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range4_3;
         return true;
     }
-    fn cases4_4(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn cases4_4(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos == data.len() {
             return true;
         }
@@ -587,7 +627,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return true;
     }
-    fn text5_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn text5_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos < data.len() {
             if 0x3A != data[state.pos] {
                 state.node = NodeT::NoState;
@@ -601,7 +641,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text5_0;
         return true;
     }
-    fn range5_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range5_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -664,7 +704,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range5_1;
         return true;
     }
-    fn cases5_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn cases5_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos == data.len() {
             return true;
         }
@@ -680,7 +720,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return true;
     }
-    fn text6_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn text6_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos < data.len() {
             if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
@@ -694,7 +734,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text6_0;
         return true;
     }
-    fn _vector6_1(&mut self, state: &mut StateT, data: &[u8]) {
+    #[inline(always)] fn _vector6_1(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             self.output.value().clear();
         }
@@ -702,7 +742,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         self.output.value().extend_from_slice(&data[0 .. len]);
         state.consumed += data.len();
     }
-    fn vector6_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn vector6_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         let is_avx2 = is_x86_feature_detected!("avx2");
         let is_sse2 = is_x86_feature_detected!("sse2");
@@ -782,7 +822,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Vector6_1;
         return true;
     }
-    fn text6_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn text6_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos < data.len() {
             if 0x22 != data[state.pos] {
                 state.node = NodeT::NoState;
@@ -796,12 +836,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text6_2;
         return true;
     }
-    fn notify6_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify6_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotKV();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn _vector7_0(&mut self, state: &mut StateT, data: &[u8]) {
+    #[inline(always)] fn _vector7_0(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             self.output.value().clear();
         }
@@ -809,7 +849,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         self.output.value().extend_from_slice(&data[0 .. len]);
         state.consumed += data.len();
     }
-    fn vector7_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn vector7_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -884,12 +924,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Vector7_0;
         return true;
     }
-    fn notify7_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify7_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotKV();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn range8_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range8_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -924,7 +964,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range8_0;
         return true;
     }
-    fn func8_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn func8_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if self.output._func8_1() {
             state.node = NodeT::Notify8_2;
             return true;
@@ -932,12 +972,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify8_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify8_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.pushDepth();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn text9_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn text9_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if state.pos < data.len() {
             if 0x2C != data[state.pos] {
                 state.node = NodeT::NoState;
@@ -951,7 +991,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Text9_0;
         return true;
     }
-    fn func9_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn func9_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if self.output._func9_1() {
             state.node = NodeT::Notify9_2;
             return true;
@@ -959,12 +999,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify9_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify9_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotVal();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn range10_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn range10_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -999,7 +1039,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Range10_0;
         return true;
     }
-    fn func10_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn func10_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if self.output._func10_1() {
             state.node = NodeT::Notify10_2;
             return true;
@@ -1007,15 +1047,15 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify10_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify10_2(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotVal();
         state.node = NodeT::Cases10_3;
         return true;
     }
-    fn cases10_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn cases10_3(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         return self.func11_0(state, data);
     }
-    fn func11_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn func11_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         if self.output._func11_0() {
             state.node = NodeT::Notify11_1;
             return true;
@@ -1023,12 +1063,12 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::NoState;
         return false;
     }
-    fn notify11_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify11_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.popDepth();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn _vector12_0(&mut self, state: &mut StateT, data: &[u8]) {
+    #[inline(always)] fn _vector12_0(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             self.output.value().clear();
         }
@@ -1036,7 +1076,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         self.output.value().extend_from_slice(&data[0 .. len]);
         state.consumed += data.len();
     }
-    fn vector12_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn vector12_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1111,15 +1151,15 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Vector12_0;
         return true;
     }
-    fn notify12_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn notify12_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         self.output.gotVal();
         state.node = NodeT::Loop1_0;
         return true;
     }
-    fn loop14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn loop14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         return self.uint14_0(state, data);
     }
-    fn _uint14_0(&mut self, state: &mut StateT, data: &[u8]) {
+    #[inline(always)] fn _uint14_0(&mut self, state: &mut StateT, data: &[u8]) {
         if state.consumed == 0 {
             *self.output.depth() = 0;
         }
@@ -1127,7 +1167,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
             *self.output.depth() = *self.output.depth()*10 + u32::from(*x - b'0');
         }
     }
-    fn uint14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn uint14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         static TERMINATOR:[bool;256] = [
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
@@ -1202,7 +1242,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
         state.node = NodeT::Uint14_0;
         return true;
     }
-    fn loop16_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
+    #[inline(always)] fn loop16_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         state.node = NodeT::NoState;
         return true;
     }
