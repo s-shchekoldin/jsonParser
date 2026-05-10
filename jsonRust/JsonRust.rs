@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-06 08:57:59 GMT
-// Generated using vProto(2026.05.06)        https://www.cgen.dev
+// Date: 2026-05-10 21:07:38 GMT
+// Generated using vProto(2026.05.10)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -327,10 +327,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
             if total >= 1 {
                 state.node = NodeT::Loop1_0;
                 return true;
-            } else {
-                state.node = NodeT::NoState;
-                return false;
             }
+            state.node = NodeT::NoState;
+            return false;
         }
         state.consumed += state.pos - datastart;
         state.node = NodeT::Range1_0;
@@ -422,36 +421,46 @@ impl <T: JsonRustTrait> JsonRust<T> {
     }
     #[inline(always)] fn vector4_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
-        let is_avx2 = is_x86_feature_detected!("avx2");
-        let is_sse2 = is_x86_feature_detected!("sse2");
-        while state.pos < data.len() {
-            if is_avx2 && (state.pos + 32) <= data.len() {
+        if is_x86_feature_detected!("avx2") {
+            while (state.pos + 32) <= data.len() {
                 unsafe {
                     let d = _mm256_lddqu_si256(data.as_ptr().add(state.pos) as *const __m256i);
                     let m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
                     let r: u32 = _mm256_movemask_epi8(m) as u32;
                     if r > 0 {
                         state.pos += r.trailing_zeros() as usize;
+                        let pos = state.pos;
+                        self._vector4_1(state, &data[datastart .. pos]);
+                        state.consumed = 0;
+                        state.node = NodeT::Text4_2;
+                        return true;
                     } else {
                         state.pos += 32;
-                        continue;
                     }
                 }
             }
-            else if is_sse2 && (state.pos + 16) <= data.len() {
+        }
+        if is_x86_feature_detected!("sse2") {
+            while (state.pos + 16) <= data.len() {
                 unsafe {
                     let d = _mm_loadu_si128(data.as_ptr().add(state.pos) as *const __m128i);
                     let m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
                     let r: u16 = _mm_movemask_epi8(m) as u16;
                     if r > 0 {
                         state.pos += r.trailing_zeros() as usize;
+                        let pos = state.pos;
+                        self._vector4_1(state, &data[datastart .. pos]);
+                        state.consumed = 0;
+                        state.node = NodeT::Text4_2;
+                        return true;
                     } else {
                         state.pos += 16;
-                        continue;
                     }
                 }
             }
-            else if (state.pos + 8) <= data.len() {
+        }
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
                 if data[state.pos] == 0x22 {
                     state.pos += 0;
                 }
@@ -710,36 +719,46 @@ impl <T: JsonRustTrait> JsonRust<T> {
     }
     #[inline(always)] fn vector6_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
-        let is_avx2 = is_x86_feature_detected!("avx2");
-        let is_sse2 = is_x86_feature_detected!("sse2");
-        while state.pos < data.len() {
-            if is_avx2 && (state.pos + 32) <= data.len() {
+        if is_x86_feature_detected!("avx2") {
+            while (state.pos + 32) <= data.len() {
                 unsafe {
                     let d = _mm256_lddqu_si256(data.as_ptr().add(state.pos) as *const __m256i);
                     let m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
                     let r: u32 = _mm256_movemask_epi8(m) as u32;
                     if r > 0 {
                         state.pos += r.trailing_zeros() as usize;
+                        let pos = state.pos;
+                        self._vector6_1(state, &data[datastart .. pos]);
+                        state.consumed = 0;
+                        state.node = NodeT::Text6_2;
+                        return true;
                     } else {
                         state.pos += 32;
-                        continue;
                     }
                 }
             }
-            else if is_sse2 && (state.pos + 16) <= data.len() {
+        }
+        if is_x86_feature_detected!("sse2") {
+            while (state.pos + 16) <= data.len() {
                 unsafe {
                     let d = _mm_loadu_si128(data.as_ptr().add(state.pos) as *const __m128i);
                     let m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
                     let r: u16 = _mm_movemask_epi8(m) as u16;
                     if r > 0 {
                         state.pos += r.trailing_zeros() as usize;
+                        let pos = state.pos;
+                        self._vector6_1(state, &data[datastart .. pos]);
+                        state.consumed = 0;
+                        state.node = NodeT::Text6_2;
+                        return true;
                     } else {
                         state.pos += 16;
-                        continue;
                     }
                 }
             }
-            else if (state.pos + 8) <= data.len() {
+        }
+        while state.pos < data.len() {
+            if (state.pos + 8) <= data.len() {
                 if data[state.pos] == 0x22 {
                     state.pos += 0;
                 }
@@ -877,10 +896,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
             if total >= 1 {
                 state.node = NodeT::Notify7_1;
                 return true;
-            } else {
-                state.node = NodeT::NoState;
-                return false;
             }
+            state.node = NodeT::NoState;
+            return false;
         }
         if datastart < state.pos {
             let pos = state.pos;
@@ -1070,10 +1088,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
             if total >= 1 {
                 state.node = NodeT::Notify12_1;
                 return true;
-            } else {
-                state.node = NodeT::NoState;
-                return false;
             }
+            state.node = NodeT::NoState;
+            return false;
         }
         if datastart < state.pos {
             let pos = state.pos;
@@ -1161,10 +1178,9 @@ impl <T: JsonRustTrait> JsonRust<T> {
             if total >= 1 {
                 state.node = NodeT::Loop14_0;
                 return true;
-            } else {
-                state.node = NodeT::NoState;
-                return false;
             }
+            state.node = NodeT::NoState;
+            return false;
         }
         if datastart < state.pos {
             let pos = state.pos;
