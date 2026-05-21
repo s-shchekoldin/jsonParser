@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-12 19:57:21 GMT
-// Generated using vProto(2026.05.12)        https://www.cgen.dev
+// Date: 2026-05-21 21:55:09 GMT
+// Generated using vProto(2026.05.21)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
@@ -32,226 +32,1056 @@ ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
 ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
 #endif
 
-void json::parse(StateT & state)
-{
-    while(true)
-    {
 #ifdef DEBUG_MODE
-        printf("State%s: %s data: [%x, %x, %x, %x, %x]=%.*s\n", &state == &mstate ? "" : "*", state.name(),
-            uint8_t(&state.data[0] < state.end ? state.data[0] : 0),
-            uint8_t(&state.data[1] < state.end ? state.data[1] : 0),
-            uint8_t(&state.data[2] < state.end ? state.data[2] : 0),
-            uint8_t(&state.data[3] < state.end ? state.data[3] : 0),
-            uint8_t(&state.data[4] < state.end ? state.data[4] : 0),
-            10, state.data);
+#define PRINT_DEBUG(name) \
+    printf("State%s: %s data: [%x, %x, %x, %x, %x]=%.*s\n", &state == &mstate ? "" : "*", #name, \
+        uint8_t(&data[0] < end ? data[0] : 0), \
+        uint8_t(&data[1] < end ? data[1] : 0), \
+        uint8_t(&data[2] < end ? data[2] : 0), \
+        uint8_t(&data[3] < end ? data[3] : 0), \
+        uint8_t(&data[4] < end ? data[4] : 0), \
+        std::min(10, int(end - data)), data);
+#else
+#define PRINT_DEBUG(name)
 #endif
-        NodeT n = state.node;
-        const char * d = state.data;
+void json::parse(StateT & state, const char *& data, const char * end)
+{
+    PRINT_DEBUG(PARSE)
+    goto Switch;
+    Switch:
+    {
         switch(state.node)
         {
-            case NodeT::Loop1_0: loop1_0(state); break;
-            case NodeT::Range1_0: range1_0(state); break;
-            case NodeT::Range2_0: if (!range2_0(state) || state.node != NodeT::Func2_1) break; [[fallthrough]];
-            case NodeT::Func2_1: if (!func2_1(state) || state.node != NodeT::Notify2_2) break; [[fallthrough]];
-            case NodeT::Notify2_2: notify2_2(state); break;
-            case NodeT::Range3_0: if (!range3_0(state) || state.node != NodeT::Func3_1) break; [[fallthrough]];
-            case NodeT::Func3_1: if (!func3_1(state) || state.node != NodeT::Notify3_2) break; [[fallthrough]];
-            case NodeT::Notify3_2: notify3_2(state); break;
-            case NodeT::Text4_0: if (!text4_0(state) || state.node != NodeT::String4_1) break; [[fallthrough]];
-            case NodeT::String4_1: if (!string4_1(state) || state.node != NodeT::Text4_2) break; [[fallthrough]];
-            case NodeT::Text4_2: if (!text4_2(state) || state.node != NodeT::Range4_3) break; [[fallthrough]];
-            case NodeT::Range4_3: if (!range4_3(state) || state.node != NodeT::Cases4_4) break; [[fallthrough]];
-            case NodeT::Cases4_4: cases4_4(state); break;
-            case NodeT::Text5_0: if (!text5_0(state) || state.node != NodeT::Range5_1) break; [[fallthrough]];
-            case NodeT::Range5_1: if (!range5_1(state) || state.node != NodeT::Cases5_2) break; [[fallthrough]];
-            case NodeT::Cases5_2: cases5_2(state); break;
-            case NodeT::Text6_0: if (!text6_0(state) || state.node != NodeT::String6_1) break; [[fallthrough]];
-            case NodeT::String6_1: if (!string6_1(state) || state.node != NodeT::Text6_2) break; [[fallthrough]];
-            case NodeT::Text6_2: if (!text6_2(state) || state.node != NodeT::Notify6_3) break; [[fallthrough]];
-            case NodeT::Notify6_3: notify6_3(state); break;
-            case NodeT::String7_0: if (!string7_0(state) || state.node != NodeT::Notify7_1) break; [[fallthrough]];
-            case NodeT::Notify7_1: notify7_1(state); break;
-            case NodeT::Range8_0: if (!range8_0(state) || state.node != NodeT::Func8_1) break; [[fallthrough]];
-            case NodeT::Func8_1: if (!func8_1(state) || state.node != NodeT::Notify8_2) break; [[fallthrough]];
-            case NodeT::Notify8_2: notify8_2(state); break;
-            case NodeT::Text9_0: if (!text9_0(state) || state.node != NodeT::Func9_1) break; [[fallthrough]];
-            case NodeT::Func9_1: if (!func9_1(state) || state.node != NodeT::Notify9_2) break; [[fallthrough]];
-            case NodeT::Notify9_2: notify9_2(state); break;
-            case NodeT::Range10_0: if (!range10_0(state) || state.node != NodeT::Func10_1) break; [[fallthrough]];
-            case NodeT::Func10_1: if (!func10_1(state) || state.node != NodeT::Notify10_2) break; [[fallthrough]];
-            case NodeT::Notify10_2: if (!notify10_2(state) || state.node != NodeT::Cases10_3) break; [[fallthrough]];
-            case NodeT::Cases10_3: cases10_3(state); break;
-            case NodeT::Func11_0: if (!func11_0(state) || state.node != NodeT::Notify11_1) break; [[fallthrough]];
-            case NodeT::Notify11_1: notify11_1(state); break;
-            case NodeT::String12_0: if (!string12_0(state) || state.node != NodeT::Notify12_1) break; [[fallthrough]];
-            case NodeT::Notify12_1: notify12_1(state); break;
-            case NodeT::Loop14_0: loop14_0(state); break;
-            case NodeT::Uint14_0: uint14_0(state); break;
-            case NodeT::Loop16_0: loop16_0(state); break;
+            case NodeT::Loop1_0: goto Loop1_0;
+            case NodeT::Range1_0: goto Range1_0;
+            case NodeT::Range2_0: goto Range2_0;
+            case NodeT::Func2_1: goto Func2_1;
+            case NodeT::Notify2_2: goto Notify2_2;
+            case NodeT::Range3_0: goto Range3_0;
+            case NodeT::Func3_1: goto Func3_1;
+            case NodeT::Notify3_2: goto Notify3_2;
+            case NodeT::Text4_0: goto Text4_0;
+            case NodeT::String4_1: goto String4_1;
+            case NodeT::Text4_2: goto Text4_2;
+            case NodeT::Range4_3: goto Range4_3;
+            case NodeT::Cases4_4: goto Cases4_4;
+            case NodeT::Text5_0: goto Text5_0;
+            case NodeT::Range5_1: goto Range5_1;
+            case NodeT::Cases5_2: goto Cases5_2;
+            case NodeT::Text6_0: goto Text6_0;
+            case NodeT::String6_1: goto String6_1;
+            case NodeT::Text6_2: goto Text6_2;
+            case NodeT::Notify6_3: goto Notify6_3;
+            case NodeT::String7_0: goto String7_0;
+            case NodeT::Notify7_1: goto Notify7_1;
+            case NodeT::Range8_0: goto Range8_0;
+            case NodeT::Func8_1: goto Func8_1;
+            case NodeT::Notify8_2: goto Notify8_2;
+            case NodeT::Text9_0: goto Text9_0;
+            case NodeT::Func9_1: goto Func9_1;
+            case NodeT::Notify9_2: goto Notify9_2;
+            case NodeT::Range10_0: goto Range10_0;
+            case NodeT::Func10_1: goto Func10_1;
+            case NodeT::Notify10_2: goto Notify10_2;
+            case NodeT::Cases10_3: goto Cases10_3;
+            case NodeT::Func11_0: goto Func11_0;
+            case NodeT::Notify11_1: goto Notify11_1;
+            case NodeT::String12_0: goto String12_0;
+            case NodeT::Notify12_1: goto Notify12_1;
+            case NodeT::Loop14_0: goto Loop14_0;
+            case NodeT::Uint14_0: goto Uint14_0;
+            case NodeT::Loop16_0: goto Loop16_0;
             case NodeT::NoState:
             default: return;
-        }; // switch
-        if (d == state.data && n == state.node) [[unlikely]]
-            break;
+        };
     }
-}
 
-bool json::parse(const char * data, unsigned len)
-{
-    mstate.data = data;
-    mstate.end = &data[len];
-    parse(mstate);
-    return !empty();
-}
-
-ALWAYS_INLINE bool json::loop1_0(StateT & state)
-{
-    if (state.data == state.end)
-        return true;
-    if (range1_0(state)) // case_1
-        return true;
-    if (range2_0(state)) // case_2
-        return true;
-    if (range3_0(state)) // case_3
-        return true;
-    if (text4_0(state)) // case_4
-        return true;
-    if (string12_0(state)) // case_5
-        return true;
-    state.node = NodeT::NoState;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range1_0(StateT & state) const
-{
-    const static std::array<bool, 256> terminator = {
-         true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-        false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x9-0xa][0xd][0x20][0x2c]
-    const char * datastart = state.data;
-    while(state.data < state.end) [[likely]]
+    Loop1_0:
     {
-        if(&state.data[8] <= state.end)
-        {
-            if (terminator[uint8_t(state.data[0])]) [[unlikely]]
-                state.data += 0;
-            else if (terminator[uint8_t(state.data[1])]) [[unlikely]]
-                state.data += 1;
-            else if (terminator[uint8_t(state.data[2])]) [[unlikely]]
-                state.data += 2;
-            else if (terminator[uint8_t(state.data[3])]) [[unlikely]]
-                state.data += 3;
-            else if (terminator[uint8_t(state.data[4])]) [[unlikely]]
-                state.data += 4;
-            else if (terminator[uint8_t(state.data[5])]) [[unlikely]]
-                state.data += 5;
-            else if (terminator[uint8_t(state.data[6])]) [[unlikely]]
-                state.data += 6;
-            else if (terminator[uint8_t(state.data[7])]) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(terminator[uint8_t(state.data[0])])) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        uint64_t total = state.consumed + unsigned(state.data - datastart);
-        state.consumed = 0;
-        if (total >= 1)
+        PRINT_DEBUG(Loop1_0)
+        if (data == end)
         {
             state.node = NodeT::Loop1_0;
-            return true;
+            return;
         }
-        state.node = NodeT::NoState;
-        return false;
-    }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range2_0(StateT & state) const
-{
-    const char * datastart = state.data;
-    while(state.data < state.end)
-    {
-        if (uint8_t(state.data[0]) != uint8_t(0x5b) && uint8_t(state.data[0]) != uint8_t(0x7b)) [[unlikely]]
+        if ((uint8_t(data[0]) >= uint8_t(0x09) && uint8_t(data[0]) <= uint8_t(0x0a)) || (uint8_t(data[0]) == uint8_t(0x0d)) || (uint8_t(data[0]) == uint8_t(0x20)) || (uint8_t(data[0]) == uint8_t(0x2c)))
         {
-            state.consumed += unsigned(state.data - datastart);
-            state.node = (state.consumed >= 1) ? NodeT::Func2_1 : NodeT::NoState;
-            bool ret = (state.node == NodeT::Func2_1);
-            state.consumed = 0;
-            return ret;
+            goto Range1_0;
         }
-        state.data++;
-        state.node = NodeT::Func2_1;
-        return true;
+        if ((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))
+        {
+            goto Range2_0;
+        }
+        if ((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))
+        {
+            goto Range3_0;
+        }
+        if (uint8_t(data[0]) == uint8_t(0x22))
+        {
+            goto Text4_0;
+        }
+        if (!((uint8_t(data[0]) <= uint8_t(0x2c)) || (uint8_t(data[0]) == uint8_t(0x2f)) || (uint8_t(data[0]) >= uint8_t(0x3a) && uint8_t(data[0]) <= uint8_t(0x40)) || (uint8_t(data[0]) >= uint8_t(0x5b) && uint8_t(data[0]) <= uint8_t(0x5e)) || (uint8_t(data[0]) == uint8_t(0x60)) || (uint8_t(data[0]) >= uint8_t(0x7b))))
+        {
+            goto String12_0;
+        }
+        goto NoState;
     }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range2_0;
-    return true;
+
+    Range1_0:
+    {
+        PRINT_DEBUG(Range1_0)
+        const static std::array<bool, 256> terminator = {
+             true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+            false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x9-0xa][0xd][0x20][0x2c]
+        const char * datastart = data;
+        const size_t min = 1;
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (terminator[uint8_t(data[0])]) [[unlikely]]
+                    data += 0;
+                else if (terminator[uint8_t(data[1])]) [[unlikely]]
+                    data += 1;
+                else if (terminator[uint8_t(data[2])]) [[unlikely]]
+                    data += 2;
+                else if (terminator[uint8_t(data[3])]) [[unlikely]]
+                    data += 3;
+                else if (terminator[uint8_t(data[4])]) [[unlikely]]
+                    data += 4;
+                else if (terminator[uint8_t(data[5])]) [[unlikely]]
+                    data += 5;
+                else if (terminator[uint8_t(data[6])]) [[unlikely]]
+                    data += 6;
+                else if (terminator[uint8_t(data[7])]) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(terminator[uint8_t(data[0])]))
+            {
+                data++;
+                continue;
+            }
+            size_t total = state.consumed + size_t(data - datastart);
+            state.consumed = 0;
+            if (total >= min)
+            {
+                goto Loop1_0;
+            }
+            goto NoState;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range1_0;
+        return;
+    }
+
+    Range2_0:
+    {
+        PRINT_DEBUG(Range2_0)
+        const char * datastart = data;
+        const size_t min = 1;
+        if(data < end)
+        {
+            if (!((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))) [[unlikely]]
+            {
+                size_t total = state.consumed + size_t(data - datastart);
+                state.consumed = 0;
+                if (total >= min)
+                {
+                    goto Func2_1;
+                }
+                goto NoState;
+            }
+            data++;
+            state.consumed = 0;
+            goto Func2_1;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range2_0;
+        return;
+    }
+
+    Func2_1:
+    {
+        PRINT_DEBUG(Func2_1)
+        if (func2_1())
+        {
+            goto Notify2_2;
+        }
+        goto NoState;
+    }
+
+    Notify2_2:
+    {
+        PRINT_DEBUG(Notify2_2)
+        pushDepth();
+        goto Loop1_0;
+    }
+
+    Range3_0:
+    {
+        PRINT_DEBUG(Range3_0)
+        const char * datastart = data;
+        const size_t min = 1;
+        if(data < end)
+        {
+            if (!((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))) [[unlikely]]
+            {
+                size_t total = state.consumed + size_t(data - datastart);
+                state.consumed = 0;
+                if (total >= min)
+                {
+                    goto Func3_1;
+                }
+                goto NoState;
+            }
+            data++;
+            state.consumed = 0;
+            goto Func3_1;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range3_0;
+        return;
+    }
+
+    Func3_1:
+    {
+        PRINT_DEBUG(Func3_1)
+        if (func3_1())
+        {
+            goto Notify3_2;
+        }
+        goto NoState;
+    }
+
+    Notify3_2:
+    {
+        PRINT_DEBUG(Notify3_2)
+        popDepth();
+        goto Loop1_0;
+    }
+
+    Text4_0:
+    {
+        PRINT_DEBUG(Text4_0)
+        if(data < end)
+        {
+            if (uint8_t(0x22) != uint8_t(data[0]))
+            {
+                goto NoState;
+            } else {
+                data++;
+                goto String4_1;
+            }
+        }
+        state.node = NodeT::Text4_0;
+        return;
+    }
+
+    String4_1:
+    {
+        PRINT_DEBUG(String4_1)
+        const char * datastart = data;
+        #if defined(__AVX2__)
+        while(data + 32 <= end) [[likely]]
+        {
+            const __m256i d = _mm256_lddqu_si256((const __m256i *)data);
+            __m256i m = _mm256_cmpeq_epi8(_mm256_set1_epi8(char(0x22)), d);
+            uint32_t r = _mm256_movemask_epi8(m);
+            if(r) [[unlikely]]
+            {
+                data += __ctz32(r);
+                string4_1(datastart, size_t(data - datastart), state.consumed);
+                state.consumed = 0;
+                goto Text4_2;
+            }
+            else
+                data += 32;
+        }
+        #endif
+        #if defined(__SSE2__)
+        while(data + 16 <= end) [[likely]]
+        {
+            const __m128i d = _mm_loadu_si128((const __m128i *)data);
+            __m128i m = _mm_cmpeq_epi8(_mm_set1_epi8(char(0x22)), d);
+            uint16_t r = _mm_movemask_epi8(m);
+            if(r) [[unlikely]]
+            {
+                data += __ctz32(r);
+                string4_1(datastart, size_t(data - datastart), state.consumed);
+                state.consumed = 0;
+                goto Text4_2;
+            }
+            else
+                data += 16;
+        }
+        #endif
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (uint8_t(data[0]) == uint8_t(0x22)) [[unlikely]]
+                    data += 0;
+                else if (uint8_t(data[1]) == uint8_t(0x22)) [[unlikely]]
+                    data += 1;
+                else if (uint8_t(data[2]) == uint8_t(0x22)) [[unlikely]]
+                    data += 2;
+                else if (uint8_t(data[3]) == uint8_t(0x22)) [[unlikely]]
+                    data += 3;
+                else if (uint8_t(data[4]) == uint8_t(0x22)) [[unlikely]]
+                    data += 4;
+                else if (uint8_t(data[5]) == uint8_t(0x22)) [[unlikely]]
+                    data += 5;
+                else if (uint8_t(data[6]) == uint8_t(0x22)) [[unlikely]]
+                    data += 6;
+                else if (uint8_t(data[7]) == uint8_t(0x22)) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(uint8_t(data[0]) == uint8_t(0x22)))
+            {
+                data++;
+                continue;
+            }
+            string4_1(datastart, size_t(data - datastart), state.consumed);
+            state.consumed = 0;
+            goto Text4_2;
+        }
+        if (datastart < data)
+            string4_1(datastart, size_t(data - datastart), state.consumed);
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::String4_1;
+        return;
+    }
+
+    Text4_2:
+    {
+        PRINT_DEBUG(Text4_2)
+        if(data < end)
+        {
+            if (uint8_t(0x22) != uint8_t(data[0]))
+            {
+                goto NoState;
+            } else {
+                data++;
+                goto Range4_3;
+            }
+        }
+        state.node = NodeT::Text4_2;
+        return;
+    }
+
+    Range4_3:
+    {
+        PRINT_DEBUG(Range4_3)
+        const static std::array<bool, 256> terminator = {
+             true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+            false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x9-0xa][0xd][0x20]
+        const char * datastart = data;
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (terminator[uint8_t(data[0])]) [[unlikely]]
+                    data += 0;
+                else if (terminator[uint8_t(data[1])]) [[unlikely]]
+                    data += 1;
+                else if (terminator[uint8_t(data[2])]) [[unlikely]]
+                    data += 2;
+                else if (terminator[uint8_t(data[3])]) [[unlikely]]
+                    data += 3;
+                else if (terminator[uint8_t(data[4])]) [[unlikely]]
+                    data += 4;
+                else if (terminator[uint8_t(data[5])]) [[unlikely]]
+                    data += 5;
+                else if (terminator[uint8_t(data[6])]) [[unlikely]]
+                    data += 6;
+                else if (terminator[uint8_t(data[7])]) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(terminator[uint8_t(data[0])]))
+            {
+                data++;
+                continue;
+            }
+            state.consumed = 0;
+            goto Cases4_4;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range4_3;
+        return;
+    }
+
+    Cases4_4:
+    {
+        PRINT_DEBUG(Cases4_4)
+        if (data == end)
+        {
+            state.node = NodeT::Cases4_4;
+            return;
+        }
+        if (uint8_t(data[0]) == uint8_t(0x3a))
+        {
+            goto Text5_0;
+        }
+        if (uint8_t(data[0]) == uint8_t(0x2c))
+        {
+            goto Text9_0;
+        }
+        if ((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))
+        {
+            goto Range10_0;
+        }
+        goto NoState;
+    }
+
+    Text5_0:
+    {
+        PRINT_DEBUG(Text5_0)
+        if(data < end)
+        {
+            if (uint8_t(0x3A) != uint8_t(data[0]))
+            {
+                goto NoState;
+            } else {
+                data++;
+                goto Range5_1;
+            }
+        }
+        state.node = NodeT::Text5_0;
+        return;
+    }
+
+    Range5_1:
+    {
+        PRINT_DEBUG(Range5_1)
+        const static std::array<bool, 256> terminator = {
+             true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+            false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x9-0xa][0xd][0x20]
+        const char * datastart = data;
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (terminator[uint8_t(data[0])]) [[unlikely]]
+                    data += 0;
+                else if (terminator[uint8_t(data[1])]) [[unlikely]]
+                    data += 1;
+                else if (terminator[uint8_t(data[2])]) [[unlikely]]
+                    data += 2;
+                else if (terminator[uint8_t(data[3])]) [[unlikely]]
+                    data += 3;
+                else if (terminator[uint8_t(data[4])]) [[unlikely]]
+                    data += 4;
+                else if (terminator[uint8_t(data[5])]) [[unlikely]]
+                    data += 5;
+                else if (terminator[uint8_t(data[6])]) [[unlikely]]
+                    data += 6;
+                else if (terminator[uint8_t(data[7])]) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(terminator[uint8_t(data[0])]))
+            {
+                data++;
+                continue;
+            }
+            state.consumed = 0;
+            goto Cases5_2;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range5_1;
+        return;
+    }
+
+    Cases5_2:
+    {
+        PRINT_DEBUG(Cases5_2)
+        if (data == end)
+        {
+            state.node = NodeT::Cases5_2;
+            return;
+        }
+        if (uint8_t(data[0]) == uint8_t(0x22))
+        {
+            goto Text6_0;
+        }
+        if (!((uint8_t(data[0]) <= uint8_t(0x2c)) || (uint8_t(data[0]) == uint8_t(0x2f)) || (uint8_t(data[0]) >= uint8_t(0x3a) && uint8_t(data[0]) <= uint8_t(0x40)) || (uint8_t(data[0]) >= uint8_t(0x5b) && uint8_t(data[0]) <= uint8_t(0x60)) || (uint8_t(data[0]) >= uint8_t(0x7b))))
+        {
+            goto String7_0;
+        }
+        if ((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))
+        {
+            goto Range8_0;
+        }
+        goto NoState;
+    }
+
+    Text6_0:
+    {
+        PRINT_DEBUG(Text6_0)
+        if(data < end)
+        {
+            if (uint8_t(0x22) != uint8_t(data[0]))
+            {
+                goto NoState;
+            } else {
+                data++;
+                goto String6_1;
+            }
+        }
+        state.node = NodeT::Text6_0;
+        return;
+    }
+
+    String6_1:
+    {
+        PRINT_DEBUG(String6_1)
+        const char * datastart = data;
+        #if defined(__AVX2__)
+        while(data + 32 <= end) [[likely]]
+        {
+            const __m256i d = _mm256_lddqu_si256((const __m256i *)data);
+            __m256i m = _mm256_cmpeq_epi8(_mm256_set1_epi8(char(0x22)), d);
+            uint32_t r = _mm256_movemask_epi8(m);
+            if(r) [[unlikely]]
+            {
+                data += __ctz32(r);
+                string6_1(datastart, size_t(data - datastart), state.consumed);
+                state.consumed = 0;
+                goto Text6_2;
+            }
+            else
+                data += 32;
+        }
+        #endif
+        #if defined(__SSE2__)
+        while(data + 16 <= end) [[likely]]
+        {
+            const __m128i d = _mm_loadu_si128((const __m128i *)data);
+            __m128i m = _mm_cmpeq_epi8(_mm_set1_epi8(char(0x22)), d);
+            uint16_t r = _mm_movemask_epi8(m);
+            if(r) [[unlikely]]
+            {
+                data += __ctz32(r);
+                string6_1(datastart, size_t(data - datastart), state.consumed);
+                state.consumed = 0;
+                goto Text6_2;
+            }
+            else
+                data += 16;
+        }
+        #endif
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (uint8_t(data[0]) == uint8_t(0x22)) [[unlikely]]
+                    data += 0;
+                else if (uint8_t(data[1]) == uint8_t(0x22)) [[unlikely]]
+                    data += 1;
+                else if (uint8_t(data[2]) == uint8_t(0x22)) [[unlikely]]
+                    data += 2;
+                else if (uint8_t(data[3]) == uint8_t(0x22)) [[unlikely]]
+                    data += 3;
+                else if (uint8_t(data[4]) == uint8_t(0x22)) [[unlikely]]
+                    data += 4;
+                else if (uint8_t(data[5]) == uint8_t(0x22)) [[unlikely]]
+                    data += 5;
+                else if (uint8_t(data[6]) == uint8_t(0x22)) [[unlikely]]
+                    data += 6;
+                else if (uint8_t(data[7]) == uint8_t(0x22)) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(uint8_t(data[0]) == uint8_t(0x22)))
+            {
+                data++;
+                continue;
+            }
+            string6_1(datastart, size_t(data - datastart), state.consumed);
+            state.consumed = 0;
+            goto Text6_2;
+        }
+        if (datastart < data)
+            string6_1(datastart, size_t(data - datastart), state.consumed);
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::String6_1;
+        return;
+    }
+
+    Text6_2:
+    {
+        PRINT_DEBUG(Text6_2)
+        if(data < end)
+        {
+            if (uint8_t(0x22) != uint8_t(data[0]))
+            {
+                goto NoState;
+            } else {
+                data++;
+                goto Notify6_3;
+            }
+        }
+        state.node = NodeT::Text6_2;
+        return;
+    }
+
+    Notify6_3:
+    {
+        PRINT_DEBUG(Notify6_3)
+        gotKV();
+        goto Loop1_0;
+    }
+
+    String7_0:
+    {
+        PRINT_DEBUG(String7_0)
+        const static std::array<bool, 256> terminator = {
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true, 
+            false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true,  true, 
+             true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true, 
+             true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // ^[0-0x2c][0x2f][0x3a-0x40][0x5b-0x60][0x7b-0xff]
+        const char * datastart = data;
+        const size_t min = 1;
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (terminator[uint8_t(data[0])]) [[unlikely]]
+                    data += 0;
+                else if (terminator[uint8_t(data[1])]) [[unlikely]]
+                    data += 1;
+                else if (terminator[uint8_t(data[2])]) [[unlikely]]
+                    data += 2;
+                else if (terminator[uint8_t(data[3])]) [[unlikely]]
+                    data += 3;
+                else if (terminator[uint8_t(data[4])]) [[unlikely]]
+                    data += 4;
+                else if (terminator[uint8_t(data[5])]) [[unlikely]]
+                    data += 5;
+                else if (terminator[uint8_t(data[6])]) [[unlikely]]
+                    data += 6;
+                else if (terminator[uint8_t(data[7])]) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(terminator[uint8_t(data[0])]))
+            {
+                data++;
+                continue;
+            }
+            string7_0(datastart, size_t(data - datastart), state.consumed);
+            size_t total = state.consumed + size_t(data - datastart);
+            state.consumed = 0;
+            if (total >= min)
+            {
+                goto Notify7_1;
+            }
+            goto NoState;
+        }
+        if (datastart < data)
+            string7_0(datastart, size_t(data - datastart), state.consumed);
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::String7_0;
+        return;
+    }
+
+    Notify7_1:
+    {
+        PRINT_DEBUG(Notify7_1)
+        gotKV();
+        goto Loop1_0;
+    }
+
+    Range8_0:
+    {
+        PRINT_DEBUG(Range8_0)
+        const char * datastart = data;
+        const size_t min = 1;
+        if(data < end)
+        {
+            if (!((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))) [[unlikely]]
+            {
+                size_t total = state.consumed + size_t(data - datastart);
+                state.consumed = 0;
+                if (total >= min)
+                {
+                    goto Func8_1;
+                }
+                goto NoState;
+            }
+            data++;
+            state.consumed = 0;
+            goto Func8_1;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range8_0;
+        return;
+    }
+
+    Func8_1:
+    {
+        PRINT_DEBUG(Func8_1)
+        if (func8_1())
+        {
+            goto Notify8_2;
+        }
+        goto NoState;
+    }
+
+    Notify8_2:
+    {
+        PRINT_DEBUG(Notify8_2)
+        pushDepth();
+        goto Loop1_0;
+    }
+
+    Text9_0:
+    {
+        PRINT_DEBUG(Text9_0)
+        if(data < end)
+        {
+            if (uint8_t(0x2C) != uint8_t(data[0]))
+            {
+                goto NoState;
+            } else {
+                data++;
+                goto Func9_1;
+            }
+        }
+        state.node = NodeT::Text9_0;
+        return;
+    }
+
+    Func9_1:
+    {
+        PRINT_DEBUG(Func9_1)
+        if (func9_1())
+        {
+            goto Notify9_2;
+        }
+        goto NoState;
+    }
+
+    Notify9_2:
+    {
+        PRINT_DEBUG(Notify9_2)
+        gotVal();
+        goto Loop1_0;
+    }
+
+    Range10_0:
+    {
+        PRINT_DEBUG(Range10_0)
+        const char * datastart = data;
+        const size_t min = 1;
+        if(data < end)
+        {
+            if (!((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))) [[unlikely]]
+            {
+                size_t total = state.consumed + size_t(data - datastart);
+                state.consumed = 0;
+                if (total >= min)
+                {
+                    goto Func10_1;
+                }
+                goto NoState;
+            }
+            data++;
+            state.consumed = 0;
+            goto Func10_1;
+        }
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Range10_0;
+        return;
+    }
+
+    Func10_1:
+    {
+        PRINT_DEBUG(Func10_1)
+        if (func10_1())
+        {
+            goto Notify10_2;
+        }
+        goto NoState;
+    }
+
+    Notify10_2:
+    {
+        PRINT_DEBUG(Notify10_2)
+        gotVal();
+        goto Cases10_3;
+    }
+
+    Cases10_3:
+    {
+        PRINT_DEBUG(Cases10_3)
+        goto Func11_0;
+    }
+
+    Func11_0:
+    {
+        PRINT_DEBUG(Func11_0)
+        if (func11_0())
+        {
+            goto Notify11_1;
+        }
+        goto NoState;
+    }
+
+    Notify11_1:
+    {
+        PRINT_DEBUG(Notify11_1)
+        popDepth();
+        goto Loop1_0;
+    }
+
+    String12_0:
+    {
+        PRINT_DEBUG(String12_0)
+        const static std::array<bool, 256> terminator = {
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true, 
+            false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true,  true, 
+             true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true, false, 
+             true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
+            false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // ^[0-0x2c][0x2f][0x3a-0x40][0x5b-0x5e][0x60][0x7b-0xff]
+        const char * datastart = data;
+        const size_t min = 1;
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if (terminator[uint8_t(data[0])]) [[unlikely]]
+                    data += 0;
+                else if (terminator[uint8_t(data[1])]) [[unlikely]]
+                    data += 1;
+                else if (terminator[uint8_t(data[2])]) [[unlikely]]
+                    data += 2;
+                else if (terminator[uint8_t(data[3])]) [[unlikely]]
+                    data += 3;
+                else if (terminator[uint8_t(data[4])]) [[unlikely]]
+                    data += 4;
+                else if (terminator[uint8_t(data[5])]) [[unlikely]]
+                    data += 5;
+                else if (terminator[uint8_t(data[6])]) [[unlikely]]
+                    data += 6;
+                else if (terminator[uint8_t(data[7])]) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!(terminator[uint8_t(data[0])]))
+            {
+                data++;
+                continue;
+            }
+            string12_0(datastart, size_t(data - datastart), state.consumed);
+            size_t total = state.consumed + size_t(data - datastart);
+            state.consumed = 0;
+            if (total >= min)
+            {
+                goto Notify12_1;
+            }
+            goto NoState;
+        }
+        if (datastart < data)
+            string12_0(datastart, size_t(data - datastart), state.consumed);
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::String12_0;
+        return;
+    }
+
+    Notify12_1:
+    {
+        PRINT_DEBUG(Notify12_1)
+        gotVal();
+        goto Loop1_0;
+    }
+
+    Loop14_0:
+    {
+        PRINT_DEBUG(Loop14_0)
+        goto Uint14_0;
+    }
+
+    Uint14_0:
+    {
+        PRINT_DEBUG(Uint14_0)
+        const char * datastart = data;
+        const size_t min = 1;
+        while(true)
+        {
+            if(data + 8 <= end)
+            {
+                if ((uint8_t(data[0]) <= uint8_t(0x2f)) || (uint8_t(data[0]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 0;
+                else if ((uint8_t(data[1]) <= uint8_t(0x2f)) || (uint8_t(data[1]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 1;
+                else if ((uint8_t(data[2]) <= uint8_t(0x2f)) || (uint8_t(data[2]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 2;
+                else if ((uint8_t(data[3]) <= uint8_t(0x2f)) || (uint8_t(data[3]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 3;
+                else if ((uint8_t(data[4]) <= uint8_t(0x2f)) || (uint8_t(data[4]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 4;
+                else if ((uint8_t(data[5]) <= uint8_t(0x2f)) || (uint8_t(data[5]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 5;
+                else if ((uint8_t(data[6]) <= uint8_t(0x2f)) || (uint8_t(data[6]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 6;
+                else if ((uint8_t(data[7]) <= uint8_t(0x2f)) || (uint8_t(data[7]) >= uint8_t(0x3a))) [[unlikely]]
+                    data += 7;
+                else
+                {
+                    data += 8;
+                    continue;
+                }
+            }
+            else if (data >= end)
+                break;
+            else if (!((uint8_t(data[0]) <= uint8_t(0x2f)) || (uint8_t(data[0]) >= uint8_t(0x3a))))
+            {
+                data++;
+                continue;
+            }
+            uint14_0(datastart, size_t(data - datastart), state.consumed);
+            size_t total = state.consumed + size_t(data - datastart);
+            state.consumed = 0;
+            if (total >= min)
+            {
+                goto Loop14_0;
+            }
+            goto NoState;
+        }
+        if (datastart < data)
+            uint14_0(datastart, size_t(data - datastart), state.consumed);
+        state.consumed += size_t(data - datastart);
+        state.node = NodeT::Uint14_0;
+        return;
+    }
+
+    Loop16_0:
+    {
+        PRINT_DEBUG(Loop16_0)
+        goto NoState;
+    }
+
+    NoState:
+    {
+        state.node = NodeT::NoState;
+        return;
+    }
 }
 
 ALWAYS_INLINE bool json::func2_1()
 {
      depth++; key = ""; 
-    return true;
-}
-ALWAYS_INLINE bool json::func2_1(StateT & state)
-{
-    if (func2_1())
-    {
-        state.node = NodeT::Notify2_2;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
-
-ALWAYS_INLINE bool json::notify2_2(StateT & state)
-{
-    pushDepth();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range3_0(StateT & state) const
-{
-    const char * datastart = state.data;
-    while(state.data < state.end)
-    {
-        if (uint8_t(state.data[0]) != uint8_t(0x5d) && uint8_t(state.data[0]) != uint8_t(0x7d)) [[unlikely]]
-        {
-            state.consumed += unsigned(state.data - datastart);
-            state.node = (state.consumed >= 1) ? NodeT::Func3_1 : NodeT::NoState;
-            bool ret = (state.node == NodeT::Func3_1);
-            state.consumed = 0;
-            return ret;
-        }
-        state.data++;
-        state.node = NodeT::Func3_1;
-        return true;
-    }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range3_0;
     return true;
 }
 
@@ -260,43 +1090,8 @@ ALWAYS_INLINE bool json::func3_1()
      return depth--; 
     return true;
 }
-ALWAYS_INLINE bool json::func3_1(StateT & state)
-{
-    if (func3_1())
-    {
-        state.node = NodeT::Notify3_2;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
 
-ALWAYS_INLINE bool json::notify3_2(StateT & state)
-{
-    popDepth();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::text4_0(StateT & state) const
-{
-    if(state.data < state.end)
-    {
-        if (uint8_t(0x22) != uint8_t(state.data[0]))
-        {
-            state.node = NodeT::NoState;
-            return false;
-        } else {
-            state.data++;
-            state.node = NodeT::String4_1;
-            return true;
-        }
-    }
-    state.node = NodeT::Text4_0;
-    return true;
-}
-
-void json::string4_1(const char * data, unsigned len, uint64_t consumed)
+void json::string4_1(const char * data, size_t len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::key.clear();
@@ -305,289 +1100,8 @@ void json::string4_1(const char * data, unsigned len, uint64_t consumed)
     jsonResult::key.append(data, len);
 }
 
-ALWAYS_INLINE bool json::string4_1(StateT & state)
-{
-    const char * datastart = state.data;
-#if defined(__AVX2__)
-    while(&state.data[32] <= state.end) [[likely]]
-    {
-        const __m256i d = _mm256_lddqu_si256((const __m256i *)state.data);
-        __m256i m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
-        uint32_t r = _mm256_movemask_epi8(m);
-        if (r) [[unlikely]]
-        {
-            state.data += __ctz32(r);
-            string4_1(datastart, unsigned(state.data - datastart), state.consumed);
-            state.consumed = 0;
-            state.node = NodeT::Text4_2;
-            return true;
-        } else
-            state.data += 32;
-    }
-#endif
-#if defined(__SSE2__)
-    while(&state.data[16] <= state.end) [[likely]]
-    {
-        const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
-        __m128i m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
-        uint16_t r = _mm_movemask_epi8(m);
-        if (r) [[unlikely]]
-        {
-            state.data += __ctz32(r);
-            string4_1(datastart, unsigned(state.data - datastart), state.consumed);
-            state.consumed = 0;
-            state.node = NodeT::Text4_2;
-            return true;
-        } else
-            state.data += 16;
-    }
-#endif
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (uint8_t(state.data[0]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 0;
-            else if (uint8_t(state.data[1]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 1;
-            else if (uint8_t(state.data[2]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 2;
-            else if (uint8_t(state.data[3]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 3;
-            else if (uint8_t(state.data[4]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 4;
-            else if (uint8_t(state.data[5]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 5;
-            else if (uint8_t(state.data[6]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 6;
-            else if (uint8_t(state.data[7]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(uint8_t(state.data[0]) == uint8_t(0x22))) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        string4_1(datastart, unsigned(state.data - datastart), state.consumed);
-        state.consumed = 0;
-        state.node = NodeT::Text4_2;
-        return true;
-    }
-    if (datastart < state.data)
-        string4_1(datastart, unsigned(state.data - datastart), state.consumed);
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::String4_1;
-    return true;
-}
 
-ALWAYS_INLINE bool json::text4_2(StateT & state) const
-{
-    if(state.data < state.end)
-    {
-        if (uint8_t(0x22) != uint8_t(state.data[0]))
-        {
-            state.node = NodeT::NoState;
-            return false;
-        } else {
-            state.data++;
-            state.node = NodeT::Range4_3;
-            return true;
-        }
-    }
-    state.node = NodeT::Text4_2;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range4_3(StateT & state) const
-{
-    const static std::array<bool, 256> terminator = {
-         true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-        false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x9-0xa][0xd][0x20]
-    const char * datastart = state.data;
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (terminator[uint8_t(state.data[0])]) [[unlikely]]
-                state.data += 0;
-            else if (terminator[uint8_t(state.data[1])]) [[unlikely]]
-                state.data += 1;
-            else if (terminator[uint8_t(state.data[2])]) [[unlikely]]
-                state.data += 2;
-            else if (terminator[uint8_t(state.data[3])]) [[unlikely]]
-                state.data += 3;
-            else if (terminator[uint8_t(state.data[4])]) [[unlikely]]
-                state.data += 4;
-            else if (terminator[uint8_t(state.data[5])]) [[unlikely]]
-                state.data += 5;
-            else if (terminator[uint8_t(state.data[6])]) [[unlikely]]
-                state.data += 6;
-            else if (terminator[uint8_t(state.data[7])]) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(terminator[uint8_t(state.data[0])])) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        state.consumed = 0;
-        state.node = NodeT::Cases4_4;
-        return true;
-    }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range4_3;
-    return true;
-}
-
-ALWAYS_INLINE bool json::cases4_4(StateT & state) const
-{
-    if (state.data == state.end)
-        return true;
-    if (text5_0(state)) // case_1
-        return true;
-    if (text9_0(state)) // case_2
-        return true;
-    if (range10_0(state)) // case_3
-        return true;
-    state.node = NodeT::NoState;
-    return true;
-}
-
-ALWAYS_INLINE bool json::text5_0(StateT & state) const
-{
-    if(state.data < state.end)
-    {
-        if (uint8_t(0x3A) != uint8_t(state.data[0]))
-        {
-            state.node = NodeT::NoState;
-            return false;
-        } else {
-            state.data++;
-            state.node = NodeT::Range5_1;
-            return true;
-        }
-    }
-    state.node = NodeT::Text5_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range5_1(StateT & state) const
-{
-    const static std::array<bool, 256> terminator = {
-         true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true,  true, false,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-        false,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x9-0xa][0xd][0x20]
-    const char * datastart = state.data;
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (terminator[uint8_t(state.data[0])]) [[unlikely]]
-                state.data += 0;
-            else if (terminator[uint8_t(state.data[1])]) [[unlikely]]
-                state.data += 1;
-            else if (terminator[uint8_t(state.data[2])]) [[unlikely]]
-                state.data += 2;
-            else if (terminator[uint8_t(state.data[3])]) [[unlikely]]
-                state.data += 3;
-            else if (terminator[uint8_t(state.data[4])]) [[unlikely]]
-                state.data += 4;
-            else if (terminator[uint8_t(state.data[5])]) [[unlikely]]
-                state.data += 5;
-            else if (terminator[uint8_t(state.data[6])]) [[unlikely]]
-                state.data += 6;
-            else if (terminator[uint8_t(state.data[7])]) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(terminator[uint8_t(state.data[0])])) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        state.consumed = 0;
-        state.node = NodeT::Cases5_2;
-        return true;
-    }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range5_1;
-    return true;
-}
-
-ALWAYS_INLINE bool json::cases5_2(StateT & state)
-{
-    if (state.data == state.end)
-        return true;
-    if (text6_0(state)) // case_1
-        return true;
-    if (string7_0(state)) // case_2
-        return true;
-    if (range8_0(state)) // case_3
-        return true;
-    state.node = NodeT::NoState;
-    return true;
-}
-
-ALWAYS_INLINE bool json::text6_0(StateT & state) const
-{
-    if(state.data < state.end)
-    {
-        if (uint8_t(0x22) != uint8_t(state.data[0]))
-        {
-            state.node = NodeT::NoState;
-            return false;
-        } else {
-            state.data++;
-            state.node = NodeT::String6_1;
-            return true;
-        }
-    }
-    state.node = NodeT::Text6_0;
-    return true;
-}
-
-void json::string6_1(const char * data, unsigned len, uint64_t consumed)
+void json::string6_1(const char * data, size_t len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -596,112 +1110,8 @@ void json::string6_1(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value.append(data, len);
 }
 
-ALWAYS_INLINE bool json::string6_1(StateT & state)
-{
-    const char * datastart = state.data;
-#if defined(__AVX2__)
-    while(&state.data[32] <= state.end) [[likely]]
-    {
-        const __m256i d = _mm256_lddqu_si256((const __m256i *)state.data);
-        __m256i m = _mm256_cmpeq_epi8(_mm256_set1_epi8(0x22), d);
-        uint32_t r = _mm256_movemask_epi8(m);
-        if (r) [[unlikely]]
-        {
-            state.data += __ctz32(r);
-            string6_1(datastart, unsigned(state.data - datastart), state.consumed);
-            state.consumed = 0;
-            state.node = NodeT::Text6_2;
-            return true;
-        } else
-            state.data += 32;
-    }
-#endif
-#if defined(__SSE2__)
-    while(&state.data[16] <= state.end) [[likely]]
-    {
-        const __m128i d = _mm_loadu_si128((const __m128i *)state.data);
-        __m128i m = _mm_cmpeq_epi8(_mm_set1_epi8(0x22), d);
-        uint16_t r = _mm_movemask_epi8(m);
-        if (r) [[unlikely]]
-        {
-            state.data += __ctz32(r);
-            string6_1(datastart, unsigned(state.data - datastart), state.consumed);
-            state.consumed = 0;
-            state.node = NodeT::Text6_2;
-            return true;
-        } else
-            state.data += 16;
-    }
-#endif
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (uint8_t(state.data[0]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 0;
-            else if (uint8_t(state.data[1]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 1;
-            else if (uint8_t(state.data[2]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 2;
-            else if (uint8_t(state.data[3]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 3;
-            else if (uint8_t(state.data[4]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 4;
-            else if (uint8_t(state.data[5]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 5;
-            else if (uint8_t(state.data[6]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 6;
-            else if (uint8_t(state.data[7]) == uint8_t(0x22)) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(uint8_t(state.data[0]) == uint8_t(0x22))) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        string6_1(datastart, unsigned(state.data - datastart), state.consumed);
-        state.consumed = 0;
-        state.node = NodeT::Text6_2;
-        return true;
-    }
-    if (datastart < state.data)
-        string6_1(datastart, unsigned(state.data - datastart), state.consumed);
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::String6_1;
-    return true;
-}
 
-ALWAYS_INLINE bool json::text6_2(StateT & state) const
-{
-    if(state.data < state.end)
-    {
-        if (uint8_t(0x22) != uint8_t(state.data[0]))
-        {
-            state.node = NodeT::NoState;
-            return false;
-        } else {
-            state.data++;
-            state.node = NodeT::Notify6_3;
-            return true;
-        }
-    }
-    state.node = NodeT::Text6_2;
-    return true;
-}
-
-ALWAYS_INLINE bool json::notify6_3(StateT & state)
-{
-    gotKV();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-void json::string7_0(const char * data, unsigned len, uint64_t consumed)
+void json::string7_0(const char * data, size_t len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -710,142 +1120,10 @@ void json::string7_0(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value.append(data, len);
 }
 
-ALWAYS_INLINE bool json::string7_0(StateT & state)
-{
-    const static std::array<bool, 256> terminator = {
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true, 
-        false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true,  true, 
-         true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true, 
-         true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x2d-0x2e][0-9][A-Z][a-z]
-    const char * datastart = state.data;
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (terminator[uint8_t(state.data[0])]) [[unlikely]]
-                state.data += 0;
-            else if (terminator[uint8_t(state.data[1])]) [[unlikely]]
-                state.data += 1;
-            else if (terminator[uint8_t(state.data[2])]) [[unlikely]]
-                state.data += 2;
-            else if (terminator[uint8_t(state.data[3])]) [[unlikely]]
-                state.data += 3;
-            else if (terminator[uint8_t(state.data[4])]) [[unlikely]]
-                state.data += 4;
-            else if (terminator[uint8_t(state.data[5])]) [[unlikely]]
-                state.data += 5;
-            else if (terminator[uint8_t(state.data[6])]) [[unlikely]]
-                state.data += 6;
-            else if (terminator[uint8_t(state.data[7])]) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(terminator[uint8_t(state.data[0])])) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        string7_0(datastart, unsigned(state.data - datastart), state.consumed);
-        uint64_t total = state.consumed + unsigned(state.data - datastart);
-        state.consumed = 0;
-        if (total >= 1)
-        {
-            state.node = NodeT::Notify7_1;
-            return true;
-        }
-        state.node = NodeT::NoState;
-        return false;
-    }
-    if (datastart < state.data)
-        string7_0(datastart, unsigned(state.data - datastart), state.consumed);
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::String7_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::notify7_1(StateT & state)
-{
-    gotKV();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range8_0(StateT & state) const
-{
-    const char * datastart = state.data;
-    while(state.data < state.end)
-    {
-        if (uint8_t(state.data[0]) != uint8_t(0x5b) && uint8_t(state.data[0]) != uint8_t(0x7b)) [[unlikely]]
-        {
-            state.consumed += unsigned(state.data - datastart);
-            state.node = (state.consumed >= 1) ? NodeT::Func8_1 : NodeT::NoState;
-            bool ret = (state.node == NodeT::Func8_1);
-            state.consumed = 0;
-            return ret;
-        }
-        state.data++;
-        state.node = NodeT::Func8_1;
-        return true;
-    }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range8_0;
-    return true;
-}
 
 ALWAYS_INLINE bool json::func8_1()
 {
      depth++; 
-    return true;
-}
-ALWAYS_INLINE bool json::func8_1(StateT & state)
-{
-    if (func8_1())
-    {
-        state.node = NodeT::Notify8_2;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
-
-ALWAYS_INLINE bool json::notify8_2(StateT & state)
-{
-    pushDepth();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::text9_0(StateT & state) const
-{
-    if(state.data < state.end)
-    {
-        if (uint8_t(0x2C) != uint8_t(state.data[0]))
-        {
-            state.node = NodeT::NoState;
-            return false;
-        } else {
-            state.data++;
-            state.node = NodeT::Func9_1;
-            return true;
-        }
-    }
-    state.node = NodeT::Text9_0;
     return true;
 }
 
@@ -854,72 +1132,11 @@ ALWAYS_INLINE bool json::func9_1()
      value.swap(key); 
     return true;
 }
-ALWAYS_INLINE bool json::func9_1(StateT & state)
-{
-    if (func9_1())
-    {
-        state.node = NodeT::Notify9_2;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
-
-ALWAYS_INLINE bool json::notify9_2(StateT & state)
-{
-    gotVal();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::range10_0(StateT & state) const
-{
-    const char * datastart = state.data;
-    while(state.data < state.end)
-    {
-        if (uint8_t(state.data[0]) != uint8_t(0x5d) && uint8_t(state.data[0]) != uint8_t(0x7d)) [[unlikely]]
-        {
-            state.consumed += unsigned(state.data - datastart);
-            state.node = (state.consumed >= 1) ? NodeT::Func10_1 : NodeT::NoState;
-            bool ret = (state.node == NodeT::Func10_1);
-            state.consumed = 0;
-            return ret;
-        }
-        state.data++;
-        state.node = NodeT::Func10_1;
-        return true;
-    }
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Range10_0;
-    return true;
-}
 
 ALWAYS_INLINE bool json::func10_1()
 {
      value.swap(key); 
     return true;
-}
-ALWAYS_INLINE bool json::func10_1(StateT & state)
-{
-    if (func10_1())
-    {
-        state.node = NodeT::Notify10_2;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
-
-ALWAYS_INLINE bool json::notify10_2(StateT & state)
-{
-    gotVal();
-    state.node = NodeT::Cases10_3;
-    return true;
-}
-
-ALWAYS_INLINE bool json::cases10_3(StateT & state)
-{
-    return func11_0(state);
 }
 
 ALWAYS_INLINE bool json::func11_0()
@@ -927,25 +1144,8 @@ ALWAYS_INLINE bool json::func11_0()
      return depth--; 
     return true;
 }
-ALWAYS_INLINE bool json::func11_0(StateT & state)
-{
-    if (func11_0())
-    {
-        state.node = NodeT::Notify11_1;
-        return true;
-    }
-    state.node = NodeT::NoState;
-    return false;
-}
 
-ALWAYS_INLINE bool json::notify11_1(StateT & state)
-{
-    popDepth();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-void json::string12_0(const char * data, unsigned len, uint64_t consumed)
+void json::string12_0(const char * data, size_t len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -954,88 +1154,8 @@ void json::string12_0(const char * data, unsigned len, uint64_t consumed)
     jsonResult::value.append(data, len);
 }
 
-ALWAYS_INLINE bool json::string12_0(StateT & state)
-{
-    const static std::array<bool, 256> terminator = {
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, false, false,  true, 
-        false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true,  true, 
-         true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true, false, 
-         true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, 
-        false, false, false, false, false, false, false, false, false, false, false,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true}; // [0x2d-0x2e][0-9][A-Z][_][a-z]
-    const char * datastart = state.data;
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (terminator[uint8_t(state.data[0])]) [[unlikely]]
-                state.data += 0;
-            else if (terminator[uint8_t(state.data[1])]) [[unlikely]]
-                state.data += 1;
-            else if (terminator[uint8_t(state.data[2])]) [[unlikely]]
-                state.data += 2;
-            else if (terminator[uint8_t(state.data[3])]) [[unlikely]]
-                state.data += 3;
-            else if (terminator[uint8_t(state.data[4])]) [[unlikely]]
-                state.data += 4;
-            else if (terminator[uint8_t(state.data[5])]) [[unlikely]]
-                state.data += 5;
-            else if (terminator[uint8_t(state.data[6])]) [[unlikely]]
-                state.data += 6;
-            else if (terminator[uint8_t(state.data[7])]) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(terminator[uint8_t(state.data[0])])) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        string12_0(datastart, unsigned(state.data - datastart), state.consumed);
-        uint64_t total = state.consumed + unsigned(state.data - datastart);
-        state.consumed = 0;
-        if (total >= 1)
-        {
-            state.node = NodeT::Notify12_1;
-            return true;
-        }
-        state.node = NodeT::NoState;
-        return false;
-    }
-    if (datastart < state.data)
-        string12_0(datastart, unsigned(state.data - datastart), state.consumed);
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::String12_0;
-    return true;
-}
 
-ALWAYS_INLINE bool json::notify12_1(StateT & state)
-{
-    gotVal();
-    state.node = NodeT::Loop1_0;
-    return true;
-}
-
-ALWAYS_INLINE bool json::loop14_0(StateT & state)
-{
-    return uint14_0(state);
-}
-
-void json::uint14_0(const char * data, unsigned len, uint64_t consumed)
+void json::uint14_0(const char * data, size_t len, uint64_t consumed)
 {
     if (!consumed)
         jsonResult::depth = 0;
@@ -1043,62 +1163,11 @@ void json::uint14_0(const char * data, unsigned len, uint64_t consumed)
         jsonResult::depth = jsonResult::depth*10 + *data - '0';
 }
 
-ALWAYS_INLINE bool json::uint14_0(StateT & state)
-{
-    const char * datastart = state.data;
-    while(state.data < state.end) [[likely]]
-    {
-        if(&state.data[8] <= state.end)
-        {
-            if (!((uint8_t(state.data[0]) >= uint8_t(0x30) && uint8_t(state.data[0]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 0;
-            else if (!((uint8_t(state.data[1]) >= uint8_t(0x30) && uint8_t(state.data[1]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 1;
-            else if (!((uint8_t(state.data[2]) >= uint8_t(0x30) && uint8_t(state.data[2]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 2;
-            else if (!((uint8_t(state.data[3]) >= uint8_t(0x30) && uint8_t(state.data[3]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 3;
-            else if (!((uint8_t(state.data[4]) >= uint8_t(0x30) && uint8_t(state.data[4]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 4;
-            else if (!((uint8_t(state.data[5]) >= uint8_t(0x30) && uint8_t(state.data[5]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 5;
-            else if (!((uint8_t(state.data[6]) >= uint8_t(0x30) && uint8_t(state.data[6]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 6;
-            else if (!((uint8_t(state.data[7]) >= uint8_t(0x30) && uint8_t(state.data[7]) < uint8_t(0x3a)))) [[unlikely]]
-                state.data += 7;
-            else
-            {
-                state.data += 8;
-                continue;
-            }
-        }
-        else if (!(!((uint8_t(state.data[0]) >= uint8_t(0x30) && uint8_t(state.data[0]) < uint8_t(0x3a))))) [[unlikely]]
-        {
-            state.data++;
-            continue;
-        }
-        uint14_0(datastart, unsigned(state.data - datastart), state.consumed);
-        uint64_t total = state.consumed + unsigned(state.data - datastart);
-        state.consumed = 0;
-        if (total >= 1)
-        {
-            state.node = NodeT::Loop14_0;
-            return true;
-        }
-        state.node = NodeT::NoState;
-        return false;
-    }
-    if (datastart < state.data)
-        uint14_0(datastart, unsigned(state.data - datastart), state.consumed);
-    state.consumed += unsigned(state.data - datastart);
-    state.node = NodeT::Uint14_0;
-    return true;
-}
 
-ALWAYS_INLINE bool json::loop16_0(StateT & state) const
+bool json::parse(const char * data, const char * end)
 {
-    state.node = NodeT::NoState;
-    return true;
+    parse(mstate, data, end);
+    return !empty();
 }
 
 void json::reset()

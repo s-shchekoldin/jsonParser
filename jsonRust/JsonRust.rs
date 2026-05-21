@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-12 19:57:21 GMT
-// Generated using vProto(2026.05.12)        https://www.cgen.dev
+// Date: 2026-05-21 21:55:10 GMT
+// Generated using vProto(2026.05.21)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -338,7 +338,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range2_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if data[state.pos] != 0x5b && data[state.pos] != 0x7b {
+            if !((data[state.pos] == 0x5b) || (data[state.pos] == 0x7b)) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func2_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func2_1;
@@ -369,7 +369,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range3_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if data[state.pos] != 0x5d && data[state.pos] != 0x7d {
+            if !((data[state.pos] == 0x5d) || (data[state.pos] == 0x7d)) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func3_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func3_1;
@@ -851,7 +851,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x2d-0x2e][0-9][A-Z][a-z]
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // ^[0-0x2c][0x2f][0x3a-0x40][0x5b-0x60][0x7b-0xff]
         let datastart = state.pos;
         while state.pos < data.len() {
             if (state.pos + 8) <= data.len() {
@@ -916,7 +916,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range8_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if data[state.pos] != 0x5b && data[state.pos] != 0x7b {
+            if !((data[state.pos] == 0x5b) || (data[state.pos] == 0x7b)) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func8_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func8_1;
@@ -974,7 +974,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range10_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if data[state.pos] != 0x5d && data[state.pos] != 0x7d {
+            if !((data[state.pos] == 0x5d) || (data[state.pos] == 0x7d)) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func10_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func10_1;
@@ -1043,7 +1043,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
              true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true, 
-             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // [0x2d-0x2e][0-9][A-Z][_][a-z]
+             true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true]; // ^[0-0x2c][0x2f][0x3a-0x40][0x5b-0x5e][0x60][0x7b-0xff]
         let datastart = state.pos;
         while state.pos < data.len() {
             if (state.pos + 8) <= data.len() {
@@ -1120,28 +1120,28 @@ impl <T: JsonRustTrait> JsonRust<T> {
         let datastart = state.pos;
         while state.pos < data.len() {
             if (state.pos + 8) <= data.len() {
-                if !((data[state.pos] >= 0x30 && data[state.pos] < 0x3a)) {
+                if (data[state.pos] <= 0x2f) || (data[state.pos] >= 0x3a) {
                     state.pos += 0;
                 }
-                else if !((data[state.pos + 1] >= 0x30 && data[state.pos + 1] < 0x3a)) {
+                else if (data[state.pos + 1] <= 0x2f) || (data[state.pos + 1] >= 0x3a) {
                     state.pos += 1;
                 }
-                else if !((data[state.pos + 2] >= 0x30 && data[state.pos + 2] < 0x3a)) {
+                else if (data[state.pos + 2] <= 0x2f) || (data[state.pos + 2] >= 0x3a) {
                     state.pos += 2;
                 }
-                else if !((data[state.pos + 3] >= 0x30 && data[state.pos + 3] < 0x3a)) {
+                else if (data[state.pos + 3] <= 0x2f) || (data[state.pos + 3] >= 0x3a) {
                     state.pos += 3;
                 }
-                else if !((data[state.pos + 4] >= 0x30 && data[state.pos + 4] < 0x3a)) {
+                else if (data[state.pos + 4] <= 0x2f) || (data[state.pos + 4] >= 0x3a) {
                     state.pos += 4;
                 }
-                else if !((data[state.pos + 5] >= 0x30 && data[state.pos + 5] < 0x3a)) {
+                else if (data[state.pos + 5] <= 0x2f) || (data[state.pos + 5] >= 0x3a) {
                     state.pos += 5;
                 }
-                else if !((data[state.pos + 6] >= 0x30 && data[state.pos + 6] < 0x3a)) {
+                else if (data[state.pos + 6] <= 0x2f) || (data[state.pos + 6] >= 0x3a) {
                     state.pos += 6;
                 }
-                else if !((data[state.pos + 7] >= 0x30 && data[state.pos + 7] < 0x3a)) {
+                else if (data[state.pos + 7] <= 0x2f) || (data[state.pos + 7] >= 0x3a) {
                     state.pos += 7;
                 }
                 else
@@ -1150,7 +1150,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
                     continue;
                 }
             }
-            else if !(!((data[state.pos] >= 0x30 && data[state.pos] < 0x3a))) {
+            else if !((data[state.pos] <= 0x2f) || (data[state.pos] >= 0x3a)) {
                 state.pos += 1;
                 continue;
             }
