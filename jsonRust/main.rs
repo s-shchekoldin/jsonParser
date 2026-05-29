@@ -3,6 +3,7 @@ use std::fs;
 #[allow(non_snake_case)]
 mod JsonRust;
 
+#[derive(Default)]
 pub struct JsonResult2
 {
     key: Vec<u8>,
@@ -12,7 +13,6 @@ pub struct JsonResult2
 
 #[allow(dead_code)]
 impl JsonRust::JsonRustTrait for JsonResult2 {
-    fn new() -> Self { Self{key: Vec::new(), value: Vec::new(), depth: 0} }
     fn depth(&mut self) -> &mut u32 { &mut self.depth }
     fn key(&mut self) -> &mut Vec<u8> { &mut self.key }
     fn value(&mut self) -> &mut Vec<u8> { &mut self.value }

@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-21 21:55:10 GMT
-// Generated using vProto(2026.05.21)        https://www.cgen.dev
+// Date: 2026-05-29 16:42:17 GMT
+// Generated using vProto(2026.05.29)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -13,9 +13,10 @@
 #[cfg(target_arch = "x86_64")]
 use std::arch::x86_64::*;
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone, Default)]
 #[allow(dead_code)]
 enum NodeT {
+#[default]
     Loop1_0, // line_1
         Range1_0,
         Range2_0, Func2_1, Notify2_2,
@@ -46,8 +47,13 @@ pub struct StateT {
     consumed: usize,
     node: NodeT
 }
+impl Default for StateT {
+    fn default() -> Self {
+        Self{ pos: 0, consumed: 0, node: NodeT::Loop1_0 }
+    }
+}
 impl StateT {
-    pub fn new() -> Self { Self{ pos: 0, consumed: 0, node: NodeT::Loop1_0 } }
+    pub fn new() -> Self { Self::default() }
 }
 impl std::fmt::Display for StateT {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -56,8 +62,7 @@ impl std::fmt::Display for StateT {
 }
 
 #[allow(unreachable_code)]
-pub trait JsonRustTrait {
-    fn new() -> Self;
+pub trait JsonRustTrait: Default {
 
     // field accessors:
     fn depth(&mut self) -> &mut u32;
@@ -79,6 +84,7 @@ pub trait JsonRustTrait {
     #[inline(always)] fn _func9_1(&mut self) -> bool {  *self.value() = std::mem::take(self.key());  return true; }
 }
 
+#[derive(Default)]
 pub struct JsonRustExample
 {
     key: Vec<u8>,
@@ -87,7 +93,6 @@ pub struct JsonRustExample
 }
 #[allow(dead_code)]
 impl JsonRustTrait for JsonRustExample {
-    fn new() -> Self { Self{key: Vec::new(), value: Vec::new(), depth: 0} }
     fn depth(&mut self) -> &mut u32 { &mut self.depth }
     fn key(&mut self) -> &mut Vec<u8> { &mut self.key }
     fn value(&mut self) -> &mut Vec<u8> { &mut self.value }
@@ -100,16 +105,12 @@ pub struct JsonRust <T> {
 #[allow(dead_code)]
 #[allow(unused_variables)]
 impl <T: JsonRustTrait> JsonRust<T> {
-    pub fn new() -> Self { Self{ output: T::new(), vstate: vec![StateT::new()] } }
+    pub fn new() -> Self { Self{ output: T::default(), vstate: vec![StateT::default()] } }
     pub fn empty(&self) -> bool { self.vstate.is_empty() }
     pub fn reset(&mut self) {
-        *self.output.depth() = 0;
-        *self.output.key() = Vec::new();
-        *self.output.value() = Vec::new();
-        for v in & mut self.vstate {
-            v.node = NodeT::NoState;
-        }
-        self.vstate.push(StateT::new());
+        self.output = T::default();
+        self.vstate.clear();
+        self.vstate.push(StateT::default());
     }
     pub fn parse(&mut self, data : &[u8]) -> bool {
         for v in & mut self.vstate {
@@ -238,7 +239,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 NodeT::Loop14_0 => { self.loop14_0(state, data); }
                 NodeT::Uint14_0 => { self.uint14_0(state, data); }
                 NodeT::Loop16_0 => { self.loop16_0(state, data); }
-                NodeT::NoState => { break; }
+                _ => { break; }
             }; // match
             if d == state.pos && n == state.node {
                 break;
@@ -1113,7 +1114,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
             *self.output.depth() = 0;
         }
         for x in data {
-            *self.output.depth() = *self.output.depth()*10 + u32::from(*x - b'0');
+            *self.output.depth() = self.output.depth().checked_mul(10).and_then(|v| v.checked_add(u32::from(*x - b'0'))).unwrap_or(u32::MAX);
         }
     }
     #[inline(always)] fn uint14_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
