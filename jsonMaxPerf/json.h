@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-29 16:42:16 GMT
-// Generated using vProto(2026.05.29)        https://www.cgen.dev
+// Date: 2026-06-09 20:00:03 GMT
+// Generated using vProto(2026.06.09)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -59,23 +59,23 @@ private:
     };
     struct StateT
     {
-        uint64_t consumed = 0;
+        size_t consumed = 0;
         NodeT node = NodeT::Loop1_0;
         const char * name() const;
     };
     StateT mstate;
 
-    void parse(StateT & state, const char *& data, const char * end);
+    const char * parse(StateT & state, const char * data, const char * end);
     bool func2_1();
     bool func3_1();
-    void strview4_1(const char * data, size_t len, uint64_t consumed);
-    void strview6_1(const char * data, size_t len, uint64_t consumed);
-    void strview7_0(const char * data, size_t len, uint64_t consumed);
+    void strview4_1(const char * data, size_t len, size_t consumed);
+    void strview6_1(const char * data, size_t len, size_t consumed);
+    void strview7_0(const char * data, size_t len, size_t consumed);
     bool func8_1();
     bool func9_1();
     bool func10_1();
     bool func11_0();
-    void strview12_0(const char * data, size_t len, uint64_t consumed);
-    void uint14_0(const char * data, size_t len, uint64_t consumed);
+    void strview12_0(const char * data, size_t len, size_t consumed);
+    void uint14_0(const char * data, size_t len, size_t consumed);
 };
 #endif

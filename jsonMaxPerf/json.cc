@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-29 16:42:16 GMT
-// Generated using vProto(2026.05.29)        https://www.cgen.dev
+// Date: 2026-06-09 20:00:03 GMT
+// Generated using vProto(2026.06.09)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
 // ==============================================================
@@ -15,21 +15,17 @@
 #if defined(__SSE2__)
 #include <emmintrin.h>
 #endif
-#if !defined(ALWAYS_INLINE)
-    #if defined(_MSC_VER)
-        #define ALWAYS_INLINE __forceinline
-    #elif defined(__clang__)
-        #define ALWAYS_INLINE [[clang::always_inline]]
-    #else
-        #define ALWAYS_INLINE inline
-    #endif
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+#include <arm_neon.h>
 #endif
 
 #if defined(_MSC_VER)
 #include <intrin.h>
-ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
+inline unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
+inline unsigned __ctz64(uint64_t x) { return _tzcnt_u64(x); }
 #else
-ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
+inline unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
+inline unsigned __ctz64(uint64_t x) { return __builtin_ctzll(x); }
 #endif
 
 #ifdef DEBUG_MODE
@@ -44,8 +40,10 @@ ALWAYS_INLINE unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
 #else
 #define PRINT_DEBUG(name)
 #endif
-void json::parse(StateT & state, const char *& data, const char * end)
+const char * json::parse(StateT & state, const char * data, const char * end)
 {
+    size_t consumed = state.consumed;
+    state.consumed = 0;
     PRINT_DEBUG(PARSE)
     goto Switch;
     Switch:
@@ -92,7 +90,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             case NodeT::Uint14_0: goto Uint14_0;
             case NodeT::Loop16_0: goto Loop16_0;
             case NodeT::NoState:
-            default: return;
+            default: return data;
         };
     }
 
@@ -102,17 +100,19 @@ void json::parse(StateT & state, const char *& data, const char * end)
         if (data == end)
         {
             state.node = NodeT::Loop1_0;
-            return;
+            return data;
         }
         if ((uint8_t(data[0]) >= uint8_t(0x09) && uint8_t(data[0]) <= uint8_t(0x0a)) || (uint8_t(data[0]) == uint8_t(0x0d)) || (uint8_t(data[0]) == uint8_t(0x20)) || (uint8_t(data[0]) == uint8_t(0x2c)))
         {
+            data++;
+            consumed = 1;
             goto Range1_0;
         }
-        if ((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))
+        if (((uint8_t(data[0]) ^ uint8_t(0x5b)) & 0xDF) == 0)
         {
             goto Range2_0;
         }
-        if ((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))
+        if (((uint8_t(data[0]) ^ uint8_t(0x5d)) & 0xDF) == 0)
         {
             goto Range3_0;
         }
@@ -182,17 +182,17 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            size_t total = state.consumed + size_t(data - datastart);
-            state.consumed = 0;
+            size_t total = consumed + size_t(data - datastart);
+            consumed = 0;
             if (total >= min)
             {
                 goto Loop1_0;
             }
             goto NoState;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range1_0;
-        return;
+        return data;
     }
 
     Range2_0:
@@ -202,10 +202,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
         const size_t min = 1;
         if(data < end)
         {
-            if (!((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))) [[unlikely]]
+            if (!(((uint8_t(data[0]) ^ uint8_t(0x5b)) & 0xDF) == 0)) [[unlikely]]
             {
-                size_t total = state.consumed + size_t(data - datastart);
-                state.consumed = 0;
+                size_t total = consumed + size_t(data - datastart);
+                consumed = 0;
                 if (total >= min)
                 {
                     goto Func2_1;
@@ -213,12 +213,12 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 goto NoState;
             }
             data++;
-            state.consumed = 0;
+            consumed = 0;
             goto Func2_1;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range2_0;
-        return;
+        return data;
     }
 
     Func2_1:
@@ -245,10 +245,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
         const size_t min = 1;
         if(data < end)
         {
-            if (!((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))) [[unlikely]]
+            if (!(((uint8_t(data[0]) ^ uint8_t(0x5d)) & 0xDF) == 0)) [[unlikely]]
             {
-                size_t total = state.consumed + size_t(data - datastart);
-                state.consumed = 0;
+                size_t total = consumed + size_t(data - datastart);
+                consumed = 0;
                 if (total >= min)
                 {
                     goto Func3_1;
@@ -256,12 +256,12 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 goto NoState;
             }
             data++;
-            state.consumed = 0;
+            consumed = 0;
             goto Func3_1;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range3_0;
-        return;
+        return data;
     }
 
     Func3_1:
@@ -295,7 +295,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             }
         }
         state.node = NodeT::Text4_0;
-        return;
+        return data;
     }
 
     StrView4_1:
@@ -311,8 +311,8 @@ void json::parse(StateT & state, const char *& data, const char * end)
             if(r) [[unlikely]]
             {
                 data += __ctz32(r);
-                strview4_1(datastart, size_t(data - datastart), state.consumed);
-                state.consumed = 0;
+                strview4_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
                 goto Text4_2;
             }
             else
@@ -328,8 +328,26 @@ void json::parse(StateT & state, const char *& data, const char * end)
             if(r) [[unlikely]]
             {
                 data += __ctz32(r);
-                strview4_1(datastart, size_t(data - datastart), state.consumed);
-                state.consumed = 0;
+                strview4_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
+                goto Text4_2;
+            }
+            else
+                data += 16;
+        }
+        #endif
+        #if defined(__ARM_NEON) || defined(__ARM_NEON__)
+        while(data + 16 <= end) [[likely]]
+        {
+            const uint8x16_t d = vld1q_u8((const uint8_t *)data);
+            uint8x16_t m = vceqq_u8(d, vdupq_n_u8(0x22));
+            if(vmaxvq_u8(m)) [[unlikely]]
+            {
+                uint64_t u64l = vgetq_lane_u64(vreinterpretq_u64_u8(m), 0);
+                uint64_t u64h = vgetq_lane_u64(vreinterpretq_u64_u8(m), 1);
+                data += (u64l ? __ctz64(u64l) : (64 + __ctz64(u64h))) >> 3;
+                strview4_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
                 goto Text4_2;
             }
             else
@@ -369,15 +387,15 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            strview4_1(datastart, size_t(data - datastart), state.consumed);
-            state.consumed = 0;
+            strview4_1(datastart, size_t(data - datastart), consumed);
+            consumed = 0;
             goto Text4_2;
         }
         if (datastart < data)
-            strview4_1(datastart, size_t(data - datastart), state.consumed);
-        state.consumed += size_t(data - datastart);
+            strview4_1(datastart, size_t(data - datastart), consumed);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::StrView4_1;
-        return;
+        return data;
     }
 
     Text4_2:
@@ -394,7 +412,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             }
         }
         state.node = NodeT::Text4_2;
-        return;
+        return data;
     }
 
     Range4_3:
@@ -451,12 +469,12 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            state.consumed = 0;
+            consumed = 0;
             goto Cases4_4;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range4_3;
-        return;
+        return data;
     }
 
     Cases4_4:
@@ -465,7 +483,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
         if (data == end)
         {
             state.node = NodeT::Cases4_4;
-            return;
+            return data;
         }
         if (uint8_t(data[0]) == uint8_t(0x3a))
         {
@@ -475,7 +493,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
         {
             goto Text9_0;
         }
-        if ((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))
+        if (((uint8_t(data[0]) ^ uint8_t(0x5d)) & 0xDF) == 0)
         {
             goto Range10_0;
         }
@@ -496,7 +514,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             }
         }
         state.node = NodeT::Text5_0;
-        return;
+        return data;
     }
 
     Range5_1:
@@ -553,12 +571,12 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            state.consumed = 0;
+            consumed = 0;
             goto Cases5_2;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range5_1;
-        return;
+        return data;
     }
 
     Cases5_2:
@@ -567,7 +585,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
         if (data == end)
         {
             state.node = NodeT::Cases5_2;
-            return;
+            return data;
         }
         if (uint8_t(data[0]) == uint8_t(0x22))
         {
@@ -577,7 +595,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
         {
             goto StrView7_0;
         }
-        if ((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))
+        if (((uint8_t(data[0]) ^ uint8_t(0x5b)) & 0xDF) == 0)
         {
             goto Range8_0;
         }
@@ -598,7 +616,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             }
         }
         state.node = NodeT::Text6_0;
-        return;
+        return data;
     }
 
     StrView6_1:
@@ -614,8 +632,8 @@ void json::parse(StateT & state, const char *& data, const char * end)
             if(r) [[unlikely]]
             {
                 data += __ctz32(r);
-                strview6_1(datastart, size_t(data - datastart), state.consumed);
-                state.consumed = 0;
+                strview6_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
                 goto Text6_2;
             }
             else
@@ -631,8 +649,26 @@ void json::parse(StateT & state, const char *& data, const char * end)
             if(r) [[unlikely]]
             {
                 data += __ctz32(r);
-                strview6_1(datastart, size_t(data - datastart), state.consumed);
-                state.consumed = 0;
+                strview6_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
+                goto Text6_2;
+            }
+            else
+                data += 16;
+        }
+        #endif
+        #if defined(__ARM_NEON) || defined(__ARM_NEON__)
+        while(data + 16 <= end) [[likely]]
+        {
+            const uint8x16_t d = vld1q_u8((const uint8_t *)data);
+            uint8x16_t m = vceqq_u8(d, vdupq_n_u8(0x22));
+            if(vmaxvq_u8(m)) [[unlikely]]
+            {
+                uint64_t u64l = vgetq_lane_u64(vreinterpretq_u64_u8(m), 0);
+                uint64_t u64h = vgetq_lane_u64(vreinterpretq_u64_u8(m), 1);
+                data += (u64l ? __ctz64(u64l) : (64 + __ctz64(u64h))) >> 3;
+                strview6_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
                 goto Text6_2;
             }
             else
@@ -672,15 +708,15 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            strview6_1(datastart, size_t(data - datastart), state.consumed);
-            state.consumed = 0;
+            strview6_1(datastart, size_t(data - datastart), consumed);
+            consumed = 0;
             goto Text6_2;
         }
         if (datastart < data)
-            strview6_1(datastart, size_t(data - datastart), state.consumed);
-        state.consumed += size_t(data - datastart);
+            strview6_1(datastart, size_t(data - datastart), consumed);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::StrView6_1;
-        return;
+        return data;
     }
 
     Text6_2:
@@ -697,7 +733,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             }
         }
         state.node = NodeT::Text6_2;
-        return;
+        return data;
     }
 
     Notify6_3:
@@ -762,9 +798,9 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            strview7_0(datastart, size_t(data - datastart), state.consumed);
-            size_t total = state.consumed + size_t(data - datastart);
-            state.consumed = 0;
+            strview7_0(datastart, size_t(data - datastart), consumed);
+            size_t total = consumed + size_t(data - datastart);
+            consumed = 0;
             if (total >= min)
             {
                 goto Notify7_1;
@@ -772,10 +808,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
             goto NoState;
         }
         if (datastart < data)
-            strview7_0(datastart, size_t(data - datastart), state.consumed);
-        state.consumed += size_t(data - datastart);
+            strview7_0(datastart, size_t(data - datastart), consumed);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::StrView7_0;
-        return;
+        return data;
     }
 
     Notify7_1:
@@ -792,10 +828,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
         const size_t min = 1;
         if(data < end)
         {
-            if (!((uint8_t(data[0]) == uint8_t(0x5b)) || (uint8_t(data[0]) == uint8_t(0x7b)))) [[unlikely]]
+            if (!(((uint8_t(data[0]) ^ uint8_t(0x5b)) & 0xDF) == 0)) [[unlikely]]
             {
-                size_t total = state.consumed + size_t(data - datastart);
-                state.consumed = 0;
+                size_t total = consumed + size_t(data - datastart);
+                consumed = 0;
                 if (total >= min)
                 {
                     goto Func8_1;
@@ -803,12 +839,12 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 goto NoState;
             }
             data++;
-            state.consumed = 0;
+            consumed = 0;
             goto Func8_1;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range8_0;
-        return;
+        return data;
     }
 
     Func8_1:
@@ -842,7 +878,7 @@ void json::parse(StateT & state, const char *& data, const char * end)
             }
         }
         state.node = NodeT::Text9_0;
-        return;
+        return data;
     }
 
     Func9_1:
@@ -869,10 +905,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
         const size_t min = 1;
         if(data < end)
         {
-            if (!((uint8_t(data[0]) == uint8_t(0x5d)) || (uint8_t(data[0]) == uint8_t(0x7d)))) [[unlikely]]
+            if (!(((uint8_t(data[0]) ^ uint8_t(0x5d)) & 0xDF) == 0)) [[unlikely]]
             {
-                size_t total = state.consumed + size_t(data - datastart);
-                state.consumed = 0;
+                size_t total = consumed + size_t(data - datastart);
+                consumed = 0;
                 if (total >= min)
                 {
                     goto Func10_1;
@@ -880,12 +916,12 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 goto NoState;
             }
             data++;
-            state.consumed = 0;
+            consumed = 0;
             goto Func10_1;
         }
-        state.consumed += size_t(data - datastart);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Range10_0;
-        return;
+        return data;
     }
 
     Func10_1:
@@ -983,9 +1019,9 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            strview12_0(datastart, size_t(data - datastart), state.consumed);
-            size_t total = state.consumed + size_t(data - datastart);
-            state.consumed = 0;
+            strview12_0(datastart, size_t(data - datastart), consumed);
+            size_t total = consumed + size_t(data - datastart);
+            consumed = 0;
             if (total >= min)
             {
                 goto Notify12_1;
@@ -993,10 +1029,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
             goto NoState;
         }
         if (datastart < data)
-            strview12_0(datastart, size_t(data - datastart), state.consumed);
-        state.consumed += size_t(data - datastart);
+            strview12_0(datastart, size_t(data - datastart), consumed);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::StrView12_0;
-        return;
+        return data;
     }
 
     Notify12_1:
@@ -1050,9 +1086,9 @@ void json::parse(StateT & state, const char *& data, const char * end)
                 data++;
                 continue;
             }
-            uint14_0(datastart, size_t(data - datastart), state.consumed);
-            size_t total = state.consumed + size_t(data - datastart);
-            state.consumed = 0;
+            uint14_0(datastart, size_t(data - datastart), consumed);
+            size_t total = consumed + size_t(data - datastart);
+            consumed = 0;
             if (total >= min)
             {
                 goto Loop14_0;
@@ -1060,10 +1096,10 @@ void json::parse(StateT & state, const char *& data, const char * end)
             goto NoState;
         }
         if (datastart < data)
-            uint14_0(datastart, size_t(data - datastart), state.consumed);
-        state.consumed += size_t(data - datastart);
+            uint14_0(datastart, size_t(data - datastart), consumed);
+        state.consumed = consumed + size_t(data - datastart);
         state.node = NodeT::Uint14_0;
-        return;
+        return data;
     }
 
     Loop16_0:
@@ -1075,23 +1111,23 @@ void json::parse(StateT & state, const char *& data, const char * end)
     NoState:
     {
         state.node = NodeT::NoState;
-        return;
+        return data;
     }
 }
 
-ALWAYS_INLINE bool json::func2_1()
+inline bool json::func2_1()
 {
      depth++; key = ""; 
     return true;
 }
 
-ALWAYS_INLINE bool json::func3_1()
+inline bool json::func3_1()
 {
      return depth--; 
     return true;
 }
 
-void json::strview4_1(const char * data, size_t len, uint64_t consumed)
+void json::strview4_1(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::key = std::string_view();
@@ -1099,7 +1135,7 @@ void json::strview4_1(const char * data, size_t len, uint64_t consumed)
 }
 
 
-void json::strview6_1(const char * data, size_t len, uint64_t consumed)
+void json::strview6_1(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::value = std::string_view();
@@ -1107,7 +1143,7 @@ void json::strview6_1(const char * data, size_t len, uint64_t consumed)
 }
 
 
-void json::strview7_0(const char * data, size_t len, uint64_t consumed)
+void json::strview7_0(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::value = std::string_view();
@@ -1115,31 +1151,31 @@ void json::strview7_0(const char * data, size_t len, uint64_t consumed)
 }
 
 
-ALWAYS_INLINE bool json::func8_1()
+inline bool json::func8_1()
 {
      depth++; 
     return true;
 }
 
-ALWAYS_INLINE bool json::func9_1()
+inline bool json::func9_1()
 {
      value.swap(key); 
     return true;
 }
 
-ALWAYS_INLINE bool json::func10_1()
+inline bool json::func10_1()
 {
      value.swap(key); 
     return true;
 }
 
-ALWAYS_INLINE bool json::func11_0()
+inline bool json::func11_0()
 {
      return depth--; 
     return true;
 }
 
-void json::strview12_0(const char * data, size_t len, uint64_t consumed)
+void json::strview12_0(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::value = std::string_view();
@@ -1147,7 +1183,7 @@ void json::strview12_0(const char * data, size_t len, uint64_t consumed)
 }
 
 
-void json::uint14_0(const char * data, size_t len, uint64_t consumed)
+void json::uint14_0(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::depth = 0;

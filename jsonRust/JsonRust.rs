@@ -1,6 +1,6 @@
 // ==============================================================
-// Date: 2026-05-29 16:42:17 GMT
-// Generated using vProto(2026.05.29)        https://www.cgen.dev
+// Date: 2026-06-09 20:00:04 GMT
+// Generated using vProto(2026.06.09)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
 // ==============================================================
 
@@ -12,6 +12,12 @@
 
 #[cfg(target_arch = "x86_64")]
 use std::arch::x86_64::*;
+#[cfg(target_arch = "x86")]
+use std::arch::x86::*;
+#[cfg(target_arch = "arm")]
+use std::arch::arm::*;
+#[cfg(target_arch = "aarch64")]
+use std::arch::aarch64::*;
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone, Default)]
 #[allow(dead_code)]
@@ -339,7 +345,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range2_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if !((data[state.pos] == 0x5b) || (data[state.pos] == 0x7b)) {
+            if !(((data[state.pos] ^ 0x5b) & 0xDF) == 0) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func2_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func2_1;
@@ -370,7 +376,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range3_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if !((data[state.pos] == 0x5d) || (data[state.pos] == 0x7d)) {
+            if !(((data[state.pos] ^ 0x5d) & 0xDF) == 0) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func3_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func3_1;
@@ -422,6 +428,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     }
     #[inline(always)] fn vector4_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         if is_x86_feature_detected!("avx2") {
             while (state.pos + 32) <= data.len() {
                 unsafe {
@@ -441,6 +448,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 }
             }
         }
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         if is_x86_feature_detected!("sse2") {
             while (state.pos + 16) <= data.len() {
                 unsafe {
@@ -449,6 +457,31 @@ impl <T: JsonRustTrait> JsonRust<T> {
                     let r: u16 = _mm_movemask_epi8(m) as u16;
                     if r > 0 {
                         state.pos += r.trailing_zeros() as usize;
+                        let pos = state.pos;
+                        self._vector4_1(state, &data[datastart .. pos]);
+                        state.consumed = 0;
+                        state.node = NodeT::Text4_2;
+                        return true;
+                    } else {
+                        state.pos += 16;
+                    }
+                }
+            }
+        }
+        #[cfg(any(target_arch = "aarch64", all(target_arch = "arm", target_feature = "neon")))]
+        {
+            while (state.pos + 16) <= data.len() {
+                unsafe {
+                    let d = vld1q_u8(data.as_ptr().add(state.pos));
+                    let m = vceqq_u8(vdupq_n_u8(0x22), d);
+                    if vmaxvq_u8(m) > 0 {
+                        let u64l = vgetq_lane_u64(vreinterpretq_u64_u8(m), 0);
+                        let u64h = vgetq_lane_u64(vreinterpretq_u64_u8(m), 1);
+                        if u64l > 0 {
+                            state.pos += (u64l.trailing_zeros() >> 3) as usize;
+                        } else {
+                            state.pos += ((64 + u64h.trailing_zeros()) >> 3) as usize;
+                        }
                         let pos = state.pos;
                         self._vector4_1(state, &data[datastart .. pos]);
                         state.consumed = 0;
@@ -720,6 +753,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     }
     #[inline(always)] fn vector6_1(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         if is_x86_feature_detected!("avx2") {
             while (state.pos + 32) <= data.len() {
                 unsafe {
@@ -739,6 +773,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
                 }
             }
         }
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
         if is_x86_feature_detected!("sse2") {
             while (state.pos + 16) <= data.len() {
                 unsafe {
@@ -747,6 +782,31 @@ impl <T: JsonRustTrait> JsonRust<T> {
                     let r: u16 = _mm_movemask_epi8(m) as u16;
                     if r > 0 {
                         state.pos += r.trailing_zeros() as usize;
+                        let pos = state.pos;
+                        self._vector6_1(state, &data[datastart .. pos]);
+                        state.consumed = 0;
+                        state.node = NodeT::Text6_2;
+                        return true;
+                    } else {
+                        state.pos += 16;
+                    }
+                }
+            }
+        }
+        #[cfg(any(target_arch = "aarch64", all(target_arch = "arm", target_feature = "neon")))]
+        {
+            while (state.pos + 16) <= data.len() {
+                unsafe {
+                    let d = vld1q_u8(data.as_ptr().add(state.pos));
+                    let m = vceqq_u8(vdupq_n_u8(0x22), d);
+                    if vmaxvq_u8(m) > 0 {
+                        let u64l = vgetq_lane_u64(vreinterpretq_u64_u8(m), 0);
+                        let u64h = vgetq_lane_u64(vreinterpretq_u64_u8(m), 1);
+                        if u64l > 0 {
+                            state.pos += (u64l.trailing_zeros() >> 3) as usize;
+                        } else {
+                            state.pos += ((64 + u64h.trailing_zeros()) >> 3) as usize;
+                        }
                         let pos = state.pos;
                         self._vector6_1(state, &data[datastart .. pos]);
                         state.consumed = 0;
@@ -917,7 +977,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range8_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if !((data[state.pos] == 0x5b) || (data[state.pos] == 0x7b)) {
+            if !(((data[state.pos] ^ 0x5b) & 0xDF) == 0) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func8_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func8_1;
@@ -975,7 +1035,7 @@ impl <T: JsonRustTrait> JsonRust<T> {
     #[inline(always)] fn range10_0(&mut self, state: &mut StateT, data: &[u8]) -> bool {
         let datastart = state.pos;
         while state.pos < data.len() {
-            if !((data[state.pos] == 0x5d) || (data[state.pos] == 0x7d)) {
+            if !(((data[state.pos] ^ 0x5d) & 0xDF) == 0) {
                 state.consumed += state.pos - datastart;
                 state.node = if state.consumed >= 1 { NodeT::Func10_1 } else { NodeT::NoState };
                 let ret = state.node == NodeT::Func10_1;
