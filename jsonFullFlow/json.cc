@@ -1,36 +1,44 @@
 // ==============================================================
-// Date: 2026-06-09 20:00:03 GMT
-// Generated using vProto(2026.06.09)        https://www.cgen.dev
+// Date: 2026-06-17 17:04:40 GMT
+// Generated using vProto(2026.06.17)        https://www.cgen.dev
 // Author: Sergey Shchekoldin        Email: shchekoldin@gmail.com
-// autoSSE: 1 cpp98: 0 (SSE4.2: 0 AVX2: 1 SSE2: 1)
+// autoSSE: 1 cpp98: 0 SIMD: 1
 // ==============================================================
 
 // To enable AVX2 use: -mavx2
 // To enable SSE2 use: -msse2
 // Or: -march=native (may break compatibility)
 #include "json.h"
-#if defined(__SSE4_2__) || defined(__AVX2__)
-#include <immintrin.h>
+#if defined(__AVX2__)
+    #include <immintrin.h>
 #endif
 #if defined(__SSE2__)
-#include <emmintrin.h>
-#endif
-#if defined(__ARM_NEON) || defined(__ARM_NEON__)
-#include <arm_neon.h>
+    #include <emmintrin.h>
+#elif defined(__ARM_NEON) || defined(__ARM_NEON__)
+    #include <arm_neon.h>
+#elif defined(__powerpc__) || defined(__wasm_simd128__) || defined(__riscv) || defined (__mips) || defined(__VEC__) || defined(__S390_VX__)
+    #if defined(__has_include) && __has_include(<simde/x86/sse2.h>)
+        #define SIMDE_ENABLE_NATIVE_ALIASES
+        #include <simde/x86/sse2.h>
+    #elif defined(_MSC_VER)
+        #pragma message("Notice: SIMDe library was not found. Add the path to the SIMDe include directory")
+    #elif defined(__GNUC__) || defined(__clang__)
+        #pragma message "Notice: SIMDe library was not found. Try installing them with: apt-get install libsimde-dev"
+    #endif
 #endif
 
 #if defined(_MSC_VER)
-#include <intrin.h>
-inline unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
-inline unsigned __ctz64(uint64_t x) { return _tzcnt_u64(x); }
+    #include <intrin.h>
+    inline unsigned __ctz32(uint32_t x) { return _tzcnt_u32(x); }
+    inline unsigned __ctz64(uint64_t x) { return _tzcnt_u64(x); }
 #else
-inline unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
-inline unsigned __ctz64(uint64_t x) { return __builtin_ctzll(x); }
+    inline unsigned __ctz32(uint32_t x) { return __builtin_ctz(x); }
+    inline unsigned __ctz64(uint64_t x) { return __builtin_ctzll(x); }
 #endif
 
 #ifdef DEBUG_MODE
-#define PRINT_DEBUG(name) \
-    printf("State%s: %s data: [%x, %x, %x, %x, %x]=%.*s\n", &state == &mstate ? "" : "*", #name, \
+    #define PRINT_DEBUG(name) \
+        printf("State%s: %s data: [%x, %x, %x, %x, %x]=%.*s\n", &state == &mstate ? "" : "*", #name, \
         uint8_t(&data[0] < end ? data[0] : 0), \
         uint8_t(&data[1] < end ? data[1] : 0), \
         uint8_t(&data[2] < end ? data[2] : 0), \
@@ -38,8 +46,9 @@ inline unsigned __ctz64(uint64_t x) { return __builtin_ctzll(x); }
         uint8_t(&data[4] < end ? data[4] : 0), \
         std::min(10, int(end - data)), data);
 #else
-#define PRINT_DEBUG(name)
+    #define PRINT_DEBUG(name)
 #endif
+
 const char * json::parse(StateT & state, const char * data, const char * end)
 {
     size_t consumed = state.consumed;
@@ -335,8 +344,7 @@ const char * json::parse(StateT & state, const char * data, const char * end)
             else
                 data += 16;
         }
-        #endif
-        #if defined(__ARM_NEON) || defined(__ARM_NEON__)
+        #elif defined(__ARM_NEON) || defined(__ARM_NEON__)
         while(data + 16 <= end) [[likely]]
         {
             const uint8x16_t d = vld1q_u8((const uint8_t *)data);
@@ -346,6 +354,22 @@ const char * json::parse(StateT & state, const char * data, const char * end)
                 uint64_t u64l = vgetq_lane_u64(vreinterpretq_u64_u8(m), 0);
                 uint64_t u64h = vgetq_lane_u64(vreinterpretq_u64_u8(m), 1);
                 data += (u64l ? __ctz64(u64l) : (64 + __ctz64(u64h))) >> 3;
+                string4_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
+                goto Text4_2;
+            }
+            else
+                data += 16;
+        }
+        #elif defined(SIMDE_ENABLE_NATIVE_ALIASES)
+        while(data + 16 <= end) [[likely]]
+        {
+            const simde__m128i d = simde_mm_loadu_si128((const simde__m128i *)data);
+            simde__m128i m = simde_mm_cmpeq_epi8(simde_mm_set1_epi8(char(0x22)), d);
+            uint16_t r = simde_mm_movemask_epi8(m);
+            if(r) [[unlikely]]
+            {
+                data += __ctz32(r);
                 string4_1(datastart, size_t(data - datastart), consumed);
                 consumed = 0;
                 goto Text4_2;
@@ -656,8 +680,7 @@ const char * json::parse(StateT & state, const char * data, const char * end)
             else
                 data += 16;
         }
-        #endif
-        #if defined(__ARM_NEON) || defined(__ARM_NEON__)
+        #elif defined(__ARM_NEON) || defined(__ARM_NEON__)
         while(data + 16 <= end) [[likely]]
         {
             const uint8x16_t d = vld1q_u8((const uint8_t *)data);
@@ -667,6 +690,22 @@ const char * json::parse(StateT & state, const char * data, const char * end)
                 uint64_t u64l = vgetq_lane_u64(vreinterpretq_u64_u8(m), 0);
                 uint64_t u64h = vgetq_lane_u64(vreinterpretq_u64_u8(m), 1);
                 data += (u64l ? __ctz64(u64l) : (64 + __ctz64(u64h))) >> 3;
+                string6_1(datastart, size_t(data - datastart), consumed);
+                consumed = 0;
+                goto Text6_2;
+            }
+            else
+                data += 16;
+        }
+        #elif defined(SIMDE_ENABLE_NATIVE_ALIASES)
+        while(data + 16 <= end) [[likely]]
+        {
+            const simde__m128i d = simde_mm_loadu_si128((const simde__m128i *)data);
+            simde__m128i m = simde_mm_cmpeq_epi8(simde_mm_set1_epi8(char(0x22)), d);
+            uint16_t r = simde_mm_movemask_epi8(m);
+            if(r) [[unlikely]]
+            {
+                data += __ctz32(r);
                 string6_1(datastart, size_t(data - datastart), consumed);
                 consumed = 0;
                 goto Text6_2;
@@ -1127,7 +1166,7 @@ inline bool json::func3_1()
     return true;
 }
 
-void json::string4_1(const char * data, size_t len, size_t consumed)
+inline void json::string4_1(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::key.clear();
@@ -1136,8 +1175,7 @@ void json::string4_1(const char * data, size_t len, size_t consumed)
     jsonResult::key.append(data, len);
 }
 
-
-void json::string6_1(const char * data, size_t len, size_t consumed)
+inline void json::string6_1(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -1146,8 +1184,7 @@ void json::string6_1(const char * data, size_t len, size_t consumed)
     jsonResult::value.append(data, len);
 }
 
-
-void json::string7_0(const char * data, size_t len, size_t consumed)
+inline void json::string7_0(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -1155,7 +1192,6 @@ void json::string7_0(const char * data, size_t len, size_t consumed)
         len = 256 - jsonResult::value.length();
     jsonResult::value.append(data, len);
 }
-
 
 inline bool json::func8_1()
 {
@@ -1181,7 +1217,7 @@ inline bool json::func11_0()
     return true;
 }
 
-void json::string12_0(const char * data, size_t len, size_t consumed)
+inline void json::string12_0(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::value.clear();
@@ -1190,15 +1226,13 @@ void json::string12_0(const char * data, size_t len, size_t consumed)
     jsonResult::value.append(data, len);
 }
 
-
-void json::uint14_0(const char * data, size_t len, size_t consumed)
+inline void json::uint14_0(const char * data, size_t len, size_t consumed)
 {
     if (!consumed)
         jsonResult::depth = 0;
     for(const char * end = &data[len]; data < end; data++)
         jsonResult::depth = jsonResult::depth*10 + *data - '0';
 }
-
 
 bool json::parse(const char * data, const char * end)
 {
